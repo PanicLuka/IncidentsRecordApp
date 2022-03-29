@@ -46,8 +46,8 @@ pipeline {
 			stage("Quality gate") {
 			  agent any
 			  steps {
-				waitForQualityGate abortPipeline: true
-				//echo "Sonar Analyst"
+				//waitForQualityGate abortPipeline: true
+				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
@@ -71,6 +71,163 @@ pipeline {
 			}
 		  }
 		}
+		
+		stage("Incident Service - backend") {
+		  stages {
+			stage("Build") {
+			  agent any
+			  steps {
+				// bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				// bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				// bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				echo "Build"
+			  }
+			}
+			stage("SonarQube analysis") {
+			  agent any
+			  steps {
+				withSonarQubeEnv('SonarQube') {
+					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
+					//bat "dotnet build backend/GatewayService/GatewayService.sln"
+					//bat "dotnet test WebApiXUTest/WebApiXUTest.csproj --collect:\"Code Coverage\" --results-directory:\"TestResults\""
+					//bat "dotnet-coverageconverter --CoverageFilesFolder \"TestResults\""					
+					//bat "dotnet sonarscanner end"					
+				}
+			  }
+			}
+			stage("Quality gate") {
+			  agent any
+			  steps {
+				//waitForQualityGate abortPipeline: true
+				echo "Sonar Analyst"
+			  }
+			}
+			stage("Unit tests") {
+			  agent any
+			  steps {
+				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
+				echo "Unit test"
+			  }
+			}
+			stage("Publish") {
+			  agent any
+			  steps {
+				//bat "dotnet publish ${workspace}\\WebApi\\WebApi.sln -c Release -o publish"
+				echo "Publish"
+			  }
+			}			
+		  }
+		  post {
+			always {
+				echo "DONE"
+			}
+		  }
+		}
+		
+		stage("Report Service - backend") {
+		  stages {
+			stage("Build") {
+			  agent any
+			  steps {
+				// bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				// bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				// bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				echo "Build"
+			  }
+			}
+			stage("SonarQube analysis") {
+			  agent any
+			  steps {
+				withSonarQubeEnv('SonarQube') {
+					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
+					//bat "dotnet build backend/GatewayService/GatewayService.sln"
+					//bat "dotnet test WebApiXUTest/WebApiXUTest.csproj --collect:\"Code Coverage\" --results-directory:\"TestResults\""
+					//bat "dotnet-coverageconverter --CoverageFilesFolder \"TestResults\""					
+					//bat "dotnet sonarscanner end"					
+				}
+			  }
+			}
+			stage("Quality gate") {
+			  agent any
+			  steps {
+				//waitForQualityGate abortPipeline: true
+				echo "Sonar Analyst"
+			  }
+			}
+			stage("Unit tests") {
+			  agent any
+			  steps {
+				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
+				echo "Unit test"
+			  }
+			}
+			stage("Publish") {
+			  agent any
+			  steps {
+				//bat "dotnet publish ${workspace}\\WebApi\\WebApi.sln -c Release -o publish"
+				echo "Publish"
+			  }
+			}			
+		  }
+		  post {
+			always {
+				echo "DONE"
+			}
+		  }
+		}
+		
+		stage("User Service - backend") {
+		  stages {
+			stage("Build") {
+			  agent any
+			  steps {
+				// bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				// bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				// bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				echo "Build"
+			  }
+			}
+			stage("SonarQube analysis") {
+			  agent any
+			  steps {
+				withSonarQubeEnv('SonarQube') {
+					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
+					//bat "dotnet build backend/GatewayService/GatewayService.sln"
+					//bat "dotnet test WebApiXUTest/WebApiXUTest.csproj --collect:\"Code Coverage\" --results-directory:\"TestResults\""
+					//bat "dotnet-coverageconverter --CoverageFilesFolder \"TestResults\""					
+					//bat "dotnet sonarscanner end"					
+				}
+			  }
+			}
+			stage("Quality gate") {
+			  agent any
+			  steps {
+				//waitForQualityGate abortPipeline: true
+				echo "Sonar Analyst"
+			  }
+			}
+			stage("Unit tests") {
+			  agent any
+			  steps {
+				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
+				echo "Unit test"
+			  }
+			}
+			stage("Publish") {
+			  agent any
+			  steps {
+				//bat "dotnet publish ${workspace}\\WebApi\\WebApi.sln -c Release -o publish"
+				echo "Publish"
+			  }
+			}			
+		  }
+		  post {
+			always {
+				echo "DONE"
+			}
+		  }
+		}
+		
 		stage("Frotend App") {
 		  stages {
 			stage("Install Node dependencies") {
