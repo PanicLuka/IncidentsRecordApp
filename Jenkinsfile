@@ -1,5 +1,5 @@
 pipeline {  
-  agent { label 'master' }
+  agent { label 'main' }
   stages {
   
 	stage('Prep') {
@@ -142,7 +142,7 @@ pipeline {
 	// }	
 	stage('Deploy to IIS') {
 		when {
-			branch 'master'
+			branch 'main'
 		}
 		parallel {
 			stage("Gateway Service") {
