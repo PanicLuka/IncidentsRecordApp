@@ -5,7 +5,7 @@ pipeline {
 	stage('Prep') {
 		  agent any		  
 		  steps {
-			//git branch: env.BRANCH_NAME, credentialsId: 'praksa2022-gitlab', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
+			git branch: env.BRANCH_NAME, credentialsId: 'praksa2022-gitlab', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
 			// dir("WebApi") {	
 			// 	bat "docker login"			
 			// 	bat "docker build . -t danijelpopovic/webappprivate:${BRANCH_NAME}-${env.BUILD_NUMBER}"
