@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace UserService.Enitites
 {
     
+    
     public class Role
     {
         #region

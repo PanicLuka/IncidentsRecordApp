@@ -19,7 +19,9 @@ namespace UserService.Enitites
 
         public string Password { get; set; }
 
-        public bool isAdmin { get; set; }
+        public int RoleId { get; set; }
+
+        public Role Role { get; set; }
 
         #endregion
     }
