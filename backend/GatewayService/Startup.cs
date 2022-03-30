@@ -7,10 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ocelot.Cache.CacheManager;
 
 namespace GatewayService
 {
@@ -28,24 +31,11 @@ namespace GatewayService
         {
 
             services.AddControllers();
-
-            services.AddSwaggerGen(setup =>
+            services.AddSwaggerGen(c =>
             {
-
-
-            setup.SwaggerDoc("v1",
-                new OpenApiInfo()
-                {
-                    Title = "Gateway Service",
-                    Version = "v1",
-                   
-                    
-                });
-           
-        
-            
-        });
-            
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GatewayService", Version = "v1" });
+            });
+            services.AddOcelot().AddCacheManager(settings => settings.WithDictionaryHandle());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +58,8 @@ namespace GatewayService
             {
                 endpoints.MapControllers();
             });
+
+            app.UseOcelot();
         }
     }
 }
