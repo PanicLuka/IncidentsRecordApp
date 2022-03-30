@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using IncidentService.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Data
 {
@@ -12,30 +14,36 @@ namespace IncidentService.Data
         {
             this.context = context;
         }
-        public void CreateIncident(Incident incident)
+        public async Task CreateIncidentAsync(Incident incident)
         {
-            context.Add(incident);
+            await context.AddAsync(incident);
         }
 
-        public void DeleteIncident(int id)
+        public async Task DeleteIncidentAsync(int id)
         {
-            var incident = GetIncidentById(id);
+            var incident = await GetIncidentByIdAsync(id);
             context.Remove(incident);
         }
 
-        public Incident GetIncidentById(int id)
+        public async Task<Incident> GetIncidentByIdAsync(int id)
         {
-            return context.Incidents.FirstOrDefault(e => e.IncidentId == id);
+            return await context.Incidents.FirstOrDefaultAsync(e => e.IncidentId == id);
         }
 
-        public List<Incident> GetIncidents()
+        public async Task<List<Incident>> GetIncidentsAsync()
         {
-            return context.Incidents.ToList();
+            return await context.Incidents.ToListAsync();
         }
 
-        public void UpdateIncident(Incident incident)
+        public async Task UpdateIncidentAsync(Incident incident)
         {
 
         }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await context.SaveChangesAsync() > 0;
+        }
+
     }
 }

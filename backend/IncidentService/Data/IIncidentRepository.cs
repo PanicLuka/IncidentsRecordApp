@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using IncidentService.Entities;
 
 namespace IncidentService.Data
 {
     public interface IIncidentRepository
     {
-        List<Incident> GetIncidents();
-        Incident GetIncidentById(int id);
-        void UpdateIncident(Incident incident);
-        void DeleteIncident(int id);
-        void CreateIncident(Incident incident);
-        
+        Task<List<Incident>> GetIncidentsAsync();
+        Task<Incident> GetIncidentByIdAsync(int id);
+        Task UpdateIncidentAsync(Incident incident);
+        Task DeleteIncidentAsync(int id);
+        Task CreateIncidentAsync(Incident incident);
+        Task<bool> SaveChangesAsync();
+
     }
 }

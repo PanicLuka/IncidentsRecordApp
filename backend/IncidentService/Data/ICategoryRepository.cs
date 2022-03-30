@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using IncidentService.Entities;
 
 namespace IncidentService.Data
 {
     public interface ICategoryRepository
     {
-        List<Category> GetCategories();
-        Category GetCategoryById(int id);
-        void UpdateCategory(Category category);
-        void DeleteCategory(int id);
-        void CreateCategory(Category category);
+        Task<List<Category>> GetCategoriesAsync();
+        Task<Category> GetCategoryByIdAsync(int id);
+        Task UpdateCategoryAsync(Category category);
+        Task DeleteCategoryAsync(int id);
+        Task CreateCategoryAsync(Category category);
+        Task<bool> SaveChangesAsync();
     }
 }

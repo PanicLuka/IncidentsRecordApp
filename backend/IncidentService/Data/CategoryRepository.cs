@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using IncidentService.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Data
 {
@@ -12,30 +14,36 @@ namespace IncidentService.Data
         {
             this.context = context;
         }
-        public void CreateCategory(Category category)
+        public async Task CreateCategoryAsync(Category category)
         {
-            context.Add(category);
+            await context.AddAsync(category);
         }
 
-        public void DeleteCategory(int id)
+        public async Task DeleteCategoryAsync(int id)
         {
-            var category = GetCategoryById(id);
+            var category = await GetCategoryByIdAsync(id);
             context.Remove(category);
         }
 
-        public Category GetCategoryById(int id)
+        public async Task<Category> GetCategoryByIdAsync(int id)
         {
-            return context.Categories.FirstOrDefault(e => e.CategoryId == id);
+            return await context.Categories.FirstOrDefaultAsync(e => e.CategoryId == id);
         }
 
-        public List<Category> GetCategories()
+        public async Task<List<Category>> GetCategoriesAsync()
         {
-            return context.Categories.ToList();
+            return await context.Categories.ToListAsync();
         }
 
-        public void UpdateCategory(Category category)
+        public async Task UpdateCategoryAsync(Category category)
         {
 
         }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await context.SaveChangesAsync() > 0;
+        }
+
     }
 }
