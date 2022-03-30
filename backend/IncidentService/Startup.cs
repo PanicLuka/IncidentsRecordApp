@@ -1,3 +1,4 @@
+using IncidentService.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -44,6 +45,9 @@ namespace IncidentService
 
 
             });
+
+            services.AddSingleton<IIncidentRepository, IncidentRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
