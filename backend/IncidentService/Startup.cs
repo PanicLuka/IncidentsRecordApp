@@ -51,6 +51,8 @@ namespace IncidentService
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddDbContext<IncidentContext>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
