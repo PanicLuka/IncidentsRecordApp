@@ -21,7 +21,7 @@ namespace UserService.Data
 
         public async Task CreateUserAsync(Register User)
         {
-            var entity = await context.AddAsync(User);
+            await context.AddAsync(User);
         }
 
         public async Task DeleteUserAsync(int UserId)
