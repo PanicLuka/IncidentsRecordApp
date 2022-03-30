@@ -47,8 +47,8 @@ namespace IncidentService
 
             });
 
-            services.AddSingleton<IIncidentRepository, IncidentRepository>();
-            services.AddSingleton<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IIncidentRepository, IncidentRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddDbContext<IncidentContext>();
         }

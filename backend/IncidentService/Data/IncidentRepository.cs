@@ -1,33 +1,41 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using IncidentService.Entities;
 
 namespace IncidentService.Data
 {
     public class IncidentRepository : IIncidentRepository
     {
+        private readonly IncidentContext context;
+
+        public IncidentRepository(IncidentContext context)
+        {
+            this.context = context;
+        }
         public void CreateIncident(Incident incident)
         {
-            throw new System.NotImplementedException();
+            context.Add(incident);
         }
 
         public void DeleteIncident(int id)
         {
-            throw new System.NotImplementedException();
+            var incident = GetIncidentById(id);
+            context.Remove(incident);
         }
 
         public Incident GetIncidentById(int id)
         {
-            throw new System.NotImplementedException();
+            return context.Incidents.FirstOrDefault(e => e.IncidentId == id);
         }
 
         public List<Incident> GetIncidents()
         {
-            throw new System.NotImplementedException();
+            return context.Incidents.ToList();
         }
 
         public void UpdateIncident(Incident incident)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }
