@@ -67,10 +67,10 @@ pipeline {
 		  }
 		  post {
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Gateway Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/main/${env.BUILD_NUMBER}/pipeline|Open>)")
+                slackSend(channel: 'jenkins', color: 'good', message:"Gateway Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Gateway Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/main/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message:"Gateway Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
