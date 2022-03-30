@@ -1,33 +1,41 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using IncidentService.Entities;
 
 namespace IncidentService.Data
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public void CreateIncident(Category category)
+        private readonly IncidentContext context;
+
+        public CategoryRepository(IncidentContext context)
         {
-            throw new System.NotImplementedException();
+            this.context = context;
+        }
+        public void CreateCategory(Category category)
+        {
+            context.Add(category);
         }
 
-        public void DeleteIncident(int id)
+        public void DeleteCategory(int id)
         {
-            throw new System.NotImplementedException();
+            var category = GetCategoryById(id);
+            context.Remove(category);
         }
 
-        public Incident GetIncidentById(int id)
+        public Category GetCategoryById(int id)
         {
-            throw new System.NotImplementedException();
+            return context.Categories.FirstOrDefault(e => e.CategoryId == id);
         }
 
-        public List<Category> GetIncidents()
+        public List<Category> GetCategories()
         {
-            throw new System.NotImplementedException();
+            return context.Categories.ToList();
         }
 
-        public void UpdateIncident(Category category)
+        public void UpdateCategory(Category category)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

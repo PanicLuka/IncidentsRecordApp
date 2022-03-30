@@ -5,10 +5,10 @@ namespace IncidentService.Data
 {
     public interface ICategoryRepository
     {
-        List<Category> GetIncidents();
-        Incident GetIncidentById(int id);
-        void UpdateIncident(Category category);
-        void DeleteIncident(int id);
-        void CreateIncident(Category category);
+        List<Category> GetCategories();
+        Category GetCategoryById(int id);
+        void UpdateCategory(Category category);
+        void DeleteCategory(int id);
+        void CreateCategory(Category category);
     }
 }
