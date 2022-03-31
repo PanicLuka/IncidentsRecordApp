@@ -1,6 +1,34 @@
 {
   "Routes": [
     {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44201
+        }
+      ],
+      "UpstreamPathTemplate": "/incident/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "SwaggerKey": "incident"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44202
+        }
+      ],
+      "UpstreamPathTemplate": "/report/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "SwaggerKey": "report"
+    },
+    {
       "DownstreamPathTemplate": "/weatherforecast",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -9,16 +37,43 @@
           "Port": 44200
         }
       ],
-      "UpstreamPathTemplate": "/api/weather",
+      "UpstreamPathTemplate": "/weather",
       "UpstreamHttpMethod": [ "Get" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      },
-      "FileCacheOptions": { "TtlSeconds": 30 }
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "SwaggerKey":  "weather"
+    }
+
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "incident",
+      "Config": [
+        {
+          "Name": "Incident API",
+          "Version": "v1",
+          "Url": "http://localhost:44201/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "report",
+      "Config": [
+        {
+          "Name": "Report API",
+          "Version": "v1",
+          "Url": "http://localhost:44202/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "weather",
+      "Config": [
+        {
+          "Name": "Weather API",
+          "Version": "v1",
+          "Url": "http://localhost:44200/swagger/v1/swagger.json"
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {
