@@ -96,11 +96,11 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Incident>> UpdateIncidentAsync(int incidentId, [FromBody] Incident incident)
+        public async Task<ActionResult<Incident>> UpdateIncidentAsync(int IncidentId, [FromBody] Incident incident)
         {
             try
             {
-                var oldIncident = await incidentRepository.GetIncidentByIdAsync(incidentId);
+                var oldIncident = await incidentRepository.GetIncidentByIdAsync(IncidentId);
 
                 if (oldIncident == null)
                 {

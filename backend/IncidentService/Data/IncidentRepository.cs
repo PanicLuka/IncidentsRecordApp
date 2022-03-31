@@ -37,7 +37,7 @@ namespace IncidentService.Data
 
         public async Task UpdateIncidentAsync(Incident incident)
         {
-
+            
         }
 
         public async Task<bool> SaveChangesAsync()
