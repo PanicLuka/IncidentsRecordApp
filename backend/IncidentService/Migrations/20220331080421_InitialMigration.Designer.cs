@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IncidentService.Migrations
 {
     [DbContext(typeof(IncidentContext))]
-    [Migration("20220330113705_initialMigration")]
-    partial class initialMigration
+    [Migration("20220331080421_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,10 +28,15 @@ namespace IncidentService.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CategoryId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("CategoryId1");
 
                     b.ToTable("Categories");
 
@@ -123,6 +128,18 @@ namespace IncidentService.Migrations
                             Verifies = "test",
                             Workspace = "test"
                         });
+                });
+
+            modelBuilder.Entity("IncidentService.Entities.Category", b =>
+                {
+                    b.HasOne("IncidentService.Entities.Category", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("CategoryId1");
+                });
+
+            modelBuilder.Entity("IncidentService.Entities.Category", b =>
+                {
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

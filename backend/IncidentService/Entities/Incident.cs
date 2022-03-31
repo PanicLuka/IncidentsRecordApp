@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IncidentService.Entities
 {
     public class Incident
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IncidentId { get; set; }
         public string Number { get; set; }
         public int Significance { get; set; }
@@ -19,7 +23,9 @@ namespace IncidentService.Entities
         public DateTime SolvingDate { get; set; }
         public string Remarks { get; set; }
         public string Verifies { get; set; }
+        //[ForeignKey("FK_UserId")]
         public int UserId { get; set; }
+        [ForeignKey("FK_CategoryId")]
         public int CategoryId { get; set; }
 
     }

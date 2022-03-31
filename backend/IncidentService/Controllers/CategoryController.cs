@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using IncidentService.Data;
+using IncidentService.Entities;
 using IncidentService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace IncidentService.Controllers
 {
@@ -46,6 +49,109 @@ namespace IncidentService.Controllers
             }
 
             return Ok(categoryDtos);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{CategoryId}")]
+        public async Task<ActionResult<CategoryDto>> GetCategoryByIdAsync(int CategoryId)
+        {
+            var category = await categoryRepository.GetCategoryByIdAsync(CategoryId);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            CategoryDto categoryDto = mapper.Map<CategoryDto>(category);
+
+            return Ok(categoryDto);
+
+        }
+
+        [HttpPost]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDto categoryDto)
+        {
+            try
+            {
+                Category category = mapper.Map<Category>(categoryDto);
+
+                await categoryRepository.CreateCategoryAsync(category);
+
+                await categoryRepository.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut("{CategoryId}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Category>> UpdateCategoryAsync(int categoryId, [FromBody] Category category)
+        {
+            try
+            {
+                var oldCategory = await categoryRepository.GetCategoryByIdAsync(categoryId);
+
+                if (oldCategory == null)
+                {
+                    return NotFound();
+                }
+
+                mapper.Map(category, oldCategory);
+
+                await categoryRepository.UpdateCategoryAsync(category);
+
+                return Ok(category);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpDelete("{CategoryId}")]
+        public async Task<IActionResult> DeleteCategoryAsync(int CategoryId)
+        {
+            try
+            {
+                var category = await categoryRepository.GetCategoryByIdAsync(CategoryId);
+
+                if (category == null)
+                {
+                    return NotFound();
+
+                }
+
+                await categoryRepository.DeleteCategoryAsync(CategoryId);
+                await categoryRepository.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpOptions]
+        public IActionResult GetCategoryOptions()
+        {
+            Response.Headers.Add("Allow", "GET, POST, PUT, DELETE");
+            return Ok();
         }
     }
 }
