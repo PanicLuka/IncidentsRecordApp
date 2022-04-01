@@ -27,6 +27,7 @@ namespace IncidentService.Entities
         public int UserId { get; set; }
         [ForeignKey("FK_CategoryId")]
         public int CategoryId { get; set; }
+        public Category Category { get; set; }
 
     }
 }

@@ -34,19 +34,12 @@ namespace IncidentService
             services.AddControllers();
             services.AddSwaggerGen(setup =>
             {
-
-
                 setup.SwaggerDoc("v1",
                     new OpenApiInfo()
                     {
                         Title = "Incident Service",
                         Version = "v1",
-
-
                     });
-
-
-
             });
 
             services.AddScoped<IIncidentRepository, IncidentRepository>();

@@ -1,4 +1,5 @@
 ﻿using System;
+using IncidentService.Entities;
 
 namespace IncidentService.Models
 {
@@ -20,5 +21,6 @@ namespace IncidentService.Models
         public string Verifies { get; set; }
         public int UserId { get; set; }
         public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }
