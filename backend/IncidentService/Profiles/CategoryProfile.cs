@@ -8,12 +8,10 @@ namespace IncidentService.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Category, CategoryDto>().ReverseMap();
-            CreateMap<Category, CategoryUpdateDto>().ReverseMap();
-            CreateMap<CategoryDto, CategoryUpdateDto>().ReverseMap();
-            CreateMap<Category, Category>();
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>().ForMember(x => x.CategoryId, y => y.Ignore());
+            CreateMap<Category, Category>().ForMember(x => x.CategoryId, y => y.Ignore());
             CreateMap<CategoryDto, CategoryDto>();
-            CreateMap<CategoryUpdateDto, CategoryUpdateDto>();
         }
     }
 }

@@ -9,7 +9,9 @@ namespace IncidentService.Profiles
         public IncidentProfile()
         {
             CreateMap<Incident, IncidentDto>();
-            CreateMap<IncidentDto, Incident>();
+            CreateMap<IncidentDto, Incident>().ForMember(x => x.IncidentId, y => y.Ignore());
+            CreateMap<Incident, Incident>().ForMember(x => x.IncidentId, y => y.Ignore()).ForMember(x => x.CategoryId, y => y.Ignore());
+            CreateMap<IncidentDto, IncidentDto>();
         }
     }
 }
