@@ -15,7 +15,7 @@ namespace UserService.Profiles
             CreateMap<Role, RoleDto>();
 
             CreateMap<RoleDto, Role>()
-                .ForMember(x => x.RoleId, y => y.Ignore());
+            .ForMember(x => x.RoleId, y => y.Ignore());
             CreateMap<Role, Role>()
                 .ForMember(x => x.RoleId, y => y.Ignore());
                 
