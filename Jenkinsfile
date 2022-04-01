@@ -270,12 +270,7 @@ pipeline {
 			}						
 		  }
 		  post {	
-			success{	
-				when {
-					not {	
-						branch 'dev'		
-					}
-				}
+			success{
 				slackSend(channel: 'jenkins', color: 'good', message:":tada: Build successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, Branch name: ${env.BRANCH_NAME}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}	  
 			failure {
