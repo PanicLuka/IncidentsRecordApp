@@ -68,10 +68,7 @@ pipeline {
 			  }
 			}			
 		  }
-		  post {
-			// success {
-            //     //slackSend(channel: 'jenkins', color: 'good', message:"Gateway Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
-            // }
+		  post {			
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message:"Gateway Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
@@ -127,10 +124,7 @@ pipeline {
 			  }
 			}			
 		  }
-		  post {
-			// success {
-            //     //slackSend(channel: 'jenkins', color: 'good', message:"Incident Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
-            // }
+		  post {			
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message:"Incident Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
@@ -186,10 +180,7 @@ pipeline {
 			  }
 			}			
 		  }
-		  post {
-			// success {
-            //     //slackSend(channel: 'jenkins', color: 'good', message:"Report Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
-            // }
+		  post {			
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message:"Report Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
@@ -245,10 +236,7 @@ pipeline {
 			  }
 			}			
 		  }
-		  post {
-			// success {
-            //     //slackSend(channel: 'jenkins', color: 'good', message:"User Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
-            // }
+		  post {			
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message:"User Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
@@ -263,7 +251,7 @@ pipeline {
 			stage("Install Node dependencies") {
 			  agent any
 			  steps {               
-				dir("WebFrontend") {
+				dir("frontend\\incidents-record-app") {
 					sh 'npm install' 
 				}				
 			  }
@@ -271,24 +259,21 @@ pipeline {
 			stage("Lint") {
 			  agent any
 			  steps {
-				dir("WebFrontend") {
-					//sh 'npm run lint' 
+				dir("frontend\\incidents-record-app") {
+					sh 'npm run lint' 
 				}
 			  }
 			}
 			stage("Build") {
 			  agent any
 			  steps {
-				dir("WebFrontend") {
-					//sh 'npm run buildProd' 
+				dir("frontend\\incidents-record-app") {
+					sh 'npm run buildJenkins' 
 				}
 			  }
 			}						
 		  }
-		  post {
-		  	// success {
-            //     //slackSend(channel: 'jenkins', color: 'good', message:"Frontend App - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
-            // }
+		  post {		  
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message:"Frontend App - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
@@ -371,16 +356,16 @@ pipeline {
 				agent any
 				steps {
 					echo "Deploy frontend"
-					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/WebFrontend/dist/angular-registration-login-example' -dest:iisapp='WebFrontend',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebFrontend',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='C:\\Users\\Administrator\\Desktop\\publishapps\\Frontend' -dest:iisapp='FrontendApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=FrontendApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 		}
 		post{
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Deploy successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>), Links: (http://192.168.1.90:55000/swagger/index.html | GatewayService), (http://192.168.1.90:55001/swagger/index.html | UserService), (http://192.168.1.90:55002/swagger/index.html | IncidentService), (http://192.168.1.90:55003/swagger/index.html | ReportService)")
+                slackSend(channel: 'jenkins', color: 'good', message:"Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>), Links: (http://192.168.1.90:55000/swagger/index.html | GatewayService), (http://192.168.1.90:55001/swagger/index.html | UserService), (http://192.168.1.90:55002/swagger/index.html | IncidentService), (http://192.168.1.90:55003/swagger/index.html | ReportService), (http://192.168.1.90:55004 | FrontendApp)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message: "Deploy failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message: "Deployed failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 		}
 	}
