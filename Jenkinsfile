@@ -6,7 +6,7 @@ pipeline {
 		  agent any		  
 		  steps {
 			git branch: env.BRANCH_NAME, credentialsId: 'gitlab-credentials-danijel.popovic', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
-			slackSend(channel: 'jenkins', color: 'good', message:"Run Build: ${env.BUILD_ID} Author: ${env.CHANGE_AUTHOR} - ${env.CHANGE_AUTHOR_DISPLAY_NAME} for commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| ${env.GIT_COMMIT}>)(<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			slackSend(channel: 'jenkins', color: 'good', message:"Run Build: ${env.BUILD_ID} Author: ${env.GIT_COMMITTER_NAME} - ${env.GIT_COMMITTER_EMAIL} for commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| ${env.GIT_COMMIT}>)(<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			// dir("WebApi") {	
 			// 	bat "docker login"			
 			// 	bat "docker build . -t danijelpopovic/webappprivate:${BRANCH_NAME}-${env.BUILD_NUMBER}"
