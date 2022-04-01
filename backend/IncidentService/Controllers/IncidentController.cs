@@ -93,10 +93,11 @@ namespace IncidentService.Controllers
         }
 
         [HttpPut("{IncidentId}")]
+        [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Incident>> UpdateIncidentAsync(int IncidentId, [FromBody] Incident incident)
+        public async Task<ActionResult> UpdateIncidentAsync(int IncidentId, [FromBody] IncidentDto incidentDto)
         {
             try
             {
@@ -107,11 +108,13 @@ namespace IncidentService.Controllers
                     return NotFound();
                 }
 
+                Incident incident = mapper.Map<Incident>(incidentDto);
+
                 mapper.Map(incident, oldIncident);
 
-                await incidentRepository.UpdateIncidentAsync(incident);
+                await incidentRepository.SaveChangesAsync();
 
-                return Ok(incident);
+                return Ok(mapper.Map<IncidentDto>(oldIncident));
             }
             catch (Exception e)
             {

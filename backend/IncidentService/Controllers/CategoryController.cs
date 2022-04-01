@@ -93,7 +93,36 @@ namespace IncidentService.Controllers
             }
         }
 
-        
+
+        [HttpPut("{CategoryId}")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateCategoryAsync(int CategoryId, [FromBody] CategoryDto categoryDto)
+        {
+            try
+            {
+                var oldCategory = await categoryRepository.GetCategoryByIdAsync(CategoryId);
+
+                if (oldCategory == null)
+                {
+                    return NotFound();
+                }
+
+                Category category = mapper.Map<Category>(categoryDto);
+
+                mapper.Map(category, oldCategory);
+
+                await categoryRepository.SaveChangesAsync();
+
+                return Ok(mapper.Map<CategoryDto>(oldCategory));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
 
 
         [HttpDelete("{CategoryId}")]
