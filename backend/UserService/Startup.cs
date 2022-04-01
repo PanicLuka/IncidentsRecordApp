@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,11 +27,17 @@ namespace UserService
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(s =>
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    s.DisableDataAnnotationsValidation = true;
+
+                });
+
             services.AddSwaggerGen(setup =>
             {
 
@@ -48,11 +55,15 @@ namespace UserService
 
             });
 
+
+
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserRegisterDB")));
             services.AddScoped<IRegisterRepository, RegisterRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            
 
 
 
