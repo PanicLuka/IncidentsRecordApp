@@ -25,10 +25,10 @@ pipeline {
 			stage("Build") {
 			  agent any
 			  steps {
-				// bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				echo "Build"
+				 bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				 bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				 bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
+				 //echo "Build"
 			  }
 			}
 			stage("SonarQube analysis") {
@@ -83,10 +83,9 @@ pipeline {
 			stage("Build") {
 			  agent any
 			  steps {
-				// bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				echo "Build"
+				bat "dotnet restore ${workspace}\\backend\\IncidentService\\IncidentService.sln"
+				bat "dotnet clean ${workspace}\\backend\\IncidentService\\IncidentService.sln"
+				bat "dotnet build ${workspace}\\backend\\IncidentService\\IncidentService.sln"
 			  }
 			}
 			stage("SonarQube analysis") {
@@ -141,10 +140,9 @@ pipeline {
 			stage("Build") {
 			  agent any
 			  steps {
-				// bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				echo "Build"
+				bat "dotnet restore ${workspace}\\backend\\ReportService\\ReportService.sln"
+				bat "dotnet clean ${workspace}\\backend\\ReportService\\ReportService.sln"
+				bat "dotnet build ${workspace}\\backend\\ReportService\\ReportService.sln"
 			  }
 			}
 			stage("SonarQube analysis") {
@@ -199,10 +197,9 @@ pipeline {
 			stage("Build") {
 			  agent any
 			  steps {
-				// bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				// bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				echo "Build"
+				bat "dotnet restore ${workspace}\\backend\\UserService\\UserService.sln"
+				bat "dotnet clean ${workspace}\\backend\\UserService\\UserService.sln"
+				bat "dotnet build ${workspace}\\backend\\UserService\\UserService.sln"
 			  }
 			}
 			stage("SonarQube analysis") {
