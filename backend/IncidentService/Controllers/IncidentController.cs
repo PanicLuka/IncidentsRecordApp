@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using IncidentService.Data;
 using IncidentService.Entities;
 using IncidentService.Models;
+using IncidentService.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -17,11 +19,13 @@ namespace IncidentService.Controllers
     {
         private readonly IIncidentRepository incidentRepository;
         private readonly IMapper mapper;
+        private readonly IncidentValidator incidentValidator;
 
-        public IncidentController(IIncidentRepository incidentRepository, IMapper mapper)
+        public IncidentController(IIncidentRepository incidentRepository, IMapper mapper, IncidentValidator incidentValidator)
         {
             this.incidentRepository = incidentRepository;
             this.mapper = mapper;
+            this.incidentValidator = incidentValidator;
         }
 
         [HttpGet]
@@ -51,9 +55,9 @@ namespace IncidentService.Controllers
             return Ok(incidentDtos);
         }
 
+        [HttpGet("{IncidentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{IncidentId}")]
         public async Task<ActionResult<IncidentDto>> GetIncidentByIdAsync(int IncidentId)
         {
             var incident = await incidentRepository.GetIncidentByIdAsync(IncidentId);
@@ -80,11 +84,17 @@ namespace IncidentService.Controllers
             {
                 Incident incident = mapper.Map<Incident>(incidentDto);
 
+                incidentValidator.ValidateAndThrow(incident);
+
                 await incidentRepository.CreateIncidentAsync(incident);
 
                 await incidentRepository.SaveChangesAsync();
 
                 return Ok();
+            }
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
             }
             catch (Exception e)
             {
@@ -112,9 +122,15 @@ namespace IncidentService.Controllers
 
                 mapper.Map(incident, oldIncident);
 
+                incidentValidator.ValidateAndThrow(incident);
+
                 await incidentRepository.SaveChangesAsync();
 
                 return Ok(mapper.Map<IncidentDto>(oldIncident));
+            }
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
             }
             catch (Exception e)
             {

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using IncidentService.Data;
 using IncidentService.Entities;
 using IncidentService.Models;
+using IncidentService.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -17,11 +19,13 @@ namespace IncidentService.Controllers
     {
         private readonly ICategoryRepository categoryRepository;
         private readonly IMapper mapper;
+        private readonly CategoryValidator categoryValidator;
 
-        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper, CategoryValidator categoryValidator)
         {
             this.categoryRepository = categoryRepository;
             this.mapper = mapper;
+            this.categoryValidator = categoryValidator;
         }
 
         [HttpGet]
@@ -51,10 +55,9 @@ namespace IncidentService.Controllers
             return Ok(categoryDtos);
         }
 
-
+        [HttpGet("{CategoryId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{CategoryId}")]
         public async Task<ActionResult<CategoryDto>> GetCategoryByIdAsync(int CategoryId)
         {
             var category = await categoryRepository.GetCategoryByIdAsync(CategoryId);
@@ -81,11 +84,17 @@ namespace IncidentService.Controllers
             {
                 Category category = mapper.Map<Category>(categoryDto);
 
+                categoryValidator.ValidateAndThrow(category);
+
                 await categoryRepository.CreateCategoryAsync(category);
 
                 await categoryRepository.SaveChangesAsync();
 
                 return Ok();
+            }
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
             }
             catch (Exception e)
             {
@@ -114,9 +123,15 @@ namespace IncidentService.Controllers
 
                 mapper.Map(category, oldCategory);
 
+                categoryValidator.ValidateAndThrow(category);
+
                 await categoryRepository.SaveChangesAsync();
 
                 return Ok(mapper.Map<CategoryDto>(oldCategory));
+            }
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
             }
             catch (Exception e)
             {
