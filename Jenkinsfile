@@ -60,8 +60,8 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				//bat "dotnet publish ${workspace}\\WebApi\\WebApi.sln -c Release -o publish"
-				echo "Publish"
+				bat "dotnet publish ${workspace}\\GatewayService\\GatewayService.sln -c Release -o publish"
+				//echo "Publish"
 			  }
 			}			
 		  }
@@ -117,7 +117,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				//bat "dotnet publish ${workspace}\\WebApi\\WebApi.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\IncidentService\\IncidentService.sln -c Release -o publish"
 				echo "Publish"
 			  }
 			}			
@@ -174,8 +174,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				//bat "dotnet publish ${workspace}\\WebApi\\WebApi.sln -c Release -o publish"
-				echo "Publish"
+				bat "dotnet publish ${workspace}\\ReportService\\ReportService.sln -c Release -o publish"
 			  }
 			}			
 		  }
@@ -231,8 +230,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				//bat "dotnet publish ${workspace}\\WebApi\\WebApi.sln -c Release -o publish"
-				echo "Publish"
+				bat "dotnet publish ${workspace}\\UserService\\UserService.sln -c Release -o publish"
 			  }
 			}			
 		  }
@@ -255,7 +253,7 @@ pipeline {
 			  agent any
 			  steps {               
 				dir("WebFrontend") {
-					//sh 'npm install' 
+					sh 'npm install' 
 				}				
 			  }
 			}
@@ -327,35 +325,35 @@ pipeline {
 	// }	
 	stage('Deploy to IIS') {
 		when {
-			branch 'main'
+			branch 'dev'
 		}
 		parallel {
 			stage("Gateway Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='WebApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='GatewayService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=GatewayService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Incident Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='WebApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='IncidentService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=IncidentService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Report Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='WebApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='ReportService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=ReportService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("User Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='WebApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='UserService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=UserService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Deploy WebFrontend") {
