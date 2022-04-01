@@ -60,7 +60,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\GatewayService\\GatewayService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o publish"
 				//echo "Publish"
 			  }
 			}			
@@ -117,7 +117,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\IncidentService\\IncidentService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o publish"
 				echo "Publish"
 			  }
 			}			
@@ -174,7 +174,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\ReportService\\ReportService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publish"
 			  }
 			}			
 		  }
@@ -230,7 +230,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\UserService\\UserService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publish"
 			  }
 			}			
 		  }
