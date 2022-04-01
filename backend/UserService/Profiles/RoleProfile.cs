@@ -13,7 +13,12 @@ namespace UserService.Profiles
         public RoleProfile()
         {
             CreateMap<Role, RoleDto>();
-            CreateMap<RoleDto, Role>();
+
+            CreateMap<RoleDto, Role>()
+                .ForMember(x => x.RoleId, y => y.Ignore());
+            CreateMap<Role, Role>()
+                .ForMember(x => x.RoleId, y => y.Ignore());
+                
 
         }
     }
