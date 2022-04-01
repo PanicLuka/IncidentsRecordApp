@@ -60,7 +60,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o publishGateway"
 				//echo "Publish"
 			  }
 			}			
@@ -117,7 +117,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o publishIncident"
 				echo "Publish"
 			  }
 			}			
@@ -174,7 +174,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publishReport"
 			  }
 			}			
 		  }
@@ -230,7 +230,7 @@ pipeline {
 			stage("Publish") {
 			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publish"
+				bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publishUser"
 			  }
 			}			
 		  }
@@ -332,28 +332,28 @@ pipeline {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='GatewayService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=GatewayService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishGateway' -dest:iisapp='GatewayService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=GatewayService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Incident Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='IncidentService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=IncidentService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishIncident' -dest:iisapp='IncidentService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=IncidentService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Report Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='ReportService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=ReportService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishReport' -dest:iisapp='ReportService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=ReportService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("User Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='UserService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=UserService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishUser' -dest:iisapp='UserService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=UserService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Deploy WebFrontend") {
