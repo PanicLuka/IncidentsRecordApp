@@ -19,7 +19,7 @@ namespace UserService.Data
             this.mapper = mapper;
         }
 
-        public async Task CreateUserAsync(Register User)
+        public async Task CreateUserAsync(User User)
         {
             await context.AddAsync(User);
         }
@@ -31,24 +31,24 @@ namespace UserService.Data
             context.Remove(user);
         }
 
-        public async Task<List<Register>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             return await context.register.ToListAsync();
         }
 
-        public async Task<Register> GetUserByIdAsync(int UserId)
+        public async Task<User> GetUserByIdAsync(int UserId)
         {
             return await context.register.FirstOrDefaultAsync(e => e.UserId == UserId);
         }
 
         public async Task<bool> SaveChangesAsync()
         {
-            return await context.SaveChangesAsync() > 0;
+           return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task UpdateUserAsync(Register User)
+        public async Task UpdateUserAsync(User User)
         {
-
+           
         }
     }
 }
