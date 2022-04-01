@@ -270,8 +270,13 @@ pipeline {
 			}						
 		  }
 		  post {	
-			success{				
-                slackSend(channel: 'jenkins', color: 'good', message:":tada: Build successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, Branch name: ${env.BRANCH_NAME}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			success{	
+				when {
+					not {	
+						branch: 'dev'		
+					}
+				}
+				slackSend(channel: 'jenkins', color: 'good', message:":tada: Build successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, Branch name: ${env.BRANCH_NAME}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}	  
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message:":warning:  Frontend App - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER}, Branch name: ${env.BRANCH_NAME}, (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
