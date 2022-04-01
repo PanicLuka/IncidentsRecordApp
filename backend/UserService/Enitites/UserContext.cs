@@ -16,7 +16,7 @@ namespace UserService.Enitites
             this.configuration = configuration;
         }
 
-        public DbSet<Register> register { get; set; }
+        public DbSet<User> register { get; set; }
 
         public DbSet<Role> roles { get; set; }
 
@@ -32,12 +32,25 @@ namespace UserService.Enitites
             modelBuilder.Entity<Role>()
                 .HasData(new
                 {
+                    RoleId = 2,
                     UserType = "User"
                 });
 
+            modelBuilder.Entity<Role>()
+                .HasData(new
+                {
+                    RoleId = 1,
+                    UserType = "Admin"
+                });
+
+            modelBuilder.Entity<User>()
+                .Property(b => b.RoleId)
+                .HasDefaultValue(2);
+
+            //modelBuilder.Entity<User>().HasKey(g => new { g.UserId });
 
 
-            modelBuilder.Entity<Register>()
+            modelBuilder.Entity<User>()
                 .HasData(new
                 {
                     UserId = 1,
@@ -46,9 +59,7 @@ namespace UserService.Enitites
                     Email = "marko@gmail.com",
                     Password = "123456",
                     RoleId = 2
-
-
-                });
+              });
         }
 
     }
