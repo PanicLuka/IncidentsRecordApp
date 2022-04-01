@@ -29,7 +29,6 @@ pipeline {
 				 bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
 				 bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
 				 bat "dotnet build ${workspace}\\backend\\GatewayService\\GatewayService.sln"
-				 //echo "Build"
 			  }
 			}
 			stage("SonarQube analysis") {
@@ -176,7 +175,6 @@ pipeline {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID}"){
 					bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID} /p:EnvironmentName=Development "
 				}
-				//bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publishReport"
 			  }
 			}			
 		  }
@@ -232,7 +230,6 @@ pipeline {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID}"){
 					bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID} /p:EnvironmentName=Development"
 				}
-				//bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publishUser"
 			  }
 			}			
 		  }
@@ -362,7 +359,7 @@ pipeline {
 		}
 		post{
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:":tada: Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>),\n Links: \n :white_check_mark: (http://192.168.1.90:55000/swagger/index.html | GatewayService), \n :white_check_mark: (http://192.168.1.90:55001/swagger/index.html | UserService), \n :white_check_mark: (http://192.168.1.90:55002/swagger/index.html | IncidentService), \n :white_check_mark: (http://192.168.1.90:55003/swagger/index.html | ReportService), \n :white_check_mark: (http://192.168.1.90:55004 | FrontendApp)")
+                slackSend(channel: 'jenkins', color: 'good', message:":tada: Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>),\n :link: Links: \n :white_check_mark: (http://192.168.1.90:55000/swagger/index.html | GatewayService), \n :white_check_mark: (http://192.168.1.90:55001/swagger/index.html | UserService), \n :white_check_mark: (http://192.168.1.90:55002/swagger/index.html | IncidentService), \n :white_check_mark: (http://192.168.1.90:55003/swagger/index.html | ReportService), \n :white_check_mark: (http://192.168.1.90:55004 | FrontendApp)")
             }
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message: ":warning:  Deployed failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
