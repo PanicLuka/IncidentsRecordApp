@@ -26,7 +26,6 @@ namespace IncidentService.Entities
         public string Verifies { get; set; }
         //[ForeignKey("FK_UserId")]
         public int UserId { get; set; }
-        public UserDto User { get; set; }
         [ForeignKey("FK_CategoryId")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
