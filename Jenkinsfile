@@ -5,7 +5,7 @@ pipeline {
 	stage('Prep') {
 		  agent any		  
 		  steps {
-			git branch: env.BRANCH_NAME, credentialsId: 'praksa2022-gitlab', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
+			git branch: env.BRANCH_NAME, credentialsId: 'gitlab-credentials-danijel.popovic', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
 			// dir("WebApi") {	
 			// 	bat "docker login"			
 			// 	bat "docker build . -t danijelpopovic/webappprivate:${BRANCH_NAME}-${env.BUILD_NUMBER}"
@@ -124,6 +124,12 @@ pipeline {
 			}			
 		  }
 		  post {
+			success {
+                slackSend(channel: 'jenkins', color: 'good', message:"Incident Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+            }
+			failure {
+				slackSend(channel: 'jenkins', color: 'red', message:"Incident Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			}
 			always {
 				echo "DONE"
 			}
@@ -176,6 +182,12 @@ pipeline {
 			}			
 		  }
 		  post {
+			success {
+                slackSend(channel: 'jenkins', color: 'good', message:"Report Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+            }
+			failure {
+				slackSend(channel: 'jenkins', color: 'red', message:"Report Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			}
 			always {
 				echo "DONE"
 			}
@@ -228,6 +240,12 @@ pipeline {
 			}			
 		  }
 		  post {
+			success {
+                slackSend(channel: 'jenkins', color: 'good', message:"User Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+            }
+			failure {
+				slackSend(channel: 'jenkins', color: 'red', message:"User Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			}
 			always {
 				echo "DONE"
 			}
@@ -262,6 +280,12 @@ pipeline {
 			}						
 		  }
 		  post {
+		  success {
+                slackSend(channel: 'jenkins', color: 'good', message:"Frontend App - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+            }
+			failure {
+				slackSend(channel: 'jenkins', color: 'red', message:"Frontend App - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			}
 			always {
 				echo "DONE"
 			}
@@ -310,6 +334,27 @@ pipeline {
 		}
 		parallel {
 			stage("Gateway Service") {
+				agent any
+				steps {
+					echo "Deploy Gateway Service"
+					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='WebApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+				}
+			}
+			stage("Incident Service") {
+				agent any
+				steps {
+					echo "Deploy Gateway Service"
+					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='WebApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+				}
+			}
+			stage("Report Service") {
+				agent any
+				steps {
+					echo "Deploy Gateway Service"
+					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publish' -dest:iisapp='WebApp',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebApp',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+				}
+			}
+			stage("User Service") {
 				agent any
 				steps {
 					echo "Deploy Gateway Service"
