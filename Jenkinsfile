@@ -24,9 +24,7 @@ pipeline {
 		stage("Gateway Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent {
-				  label "gateway"
-			  }
+			  agent any
 			  steps {
 				 bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
 				 bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
@@ -35,9 +33,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent {
-				  label "gateway"
-			  }
+			  agent any
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -49,29 +45,25 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent {
-				  label "gateway"
-			  }
+			  agent any
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent {
-				  label "gateway"
-			  }
+			  agent any
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent {
-				  label "gateway"
-			  }
+			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o publishGateway"
+				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID}"){
+					bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID}"
+				}
 				//echo "Publish"
 			  }
 			}			
@@ -92,9 +84,7 @@ pipeline {
 		stage("Incident Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent {
-					label "incident"
-				}
+			  agent any
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\IncidentService\\IncidentService.sln"
 				bat "dotnet clean ${workspace}\\backend\\IncidentService\\IncidentService.sln"
@@ -102,9 +92,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent {
-					label "incident"
-				}
+			  agent any
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -116,29 +104,25 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent {
-					label "incident"
-			  }
+			  agent any
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent {
-					label "incident"
-				}
+			  agent any
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent {
-					label "incident"
-				}
+			 agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o publishIncident"
+				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID}"){
+					bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID}"
+				}
 				echo "Publish"
 			  }
 			}			
@@ -159,9 +143,7 @@ pipeline {
 		stage("Report Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent {
-					label "report"
-				}
+			  agent any
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\ReportService\\ReportService.sln"
 				bat "dotnet clean ${workspace}\\backend\\ReportService\\ReportService.sln"
@@ -169,9 +151,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent {
-					label "report"
-				}
+			  agent any
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -183,29 +163,26 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent {
-					label "report"
-				}
+			  agent any
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent {
-					label "report"
-				}
+			  agent any
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent {
-					label "report"
-				}
+			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publishReport"
+				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID}"){
+					bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID}"
+				}
+				//bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publishReport"
 			  }
 			}			
 		  }
@@ -225,9 +202,7 @@ pipeline {
 		stage("User Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent {
-					label "user"
-				}
+			  agent any
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\UserService\\UserService.sln"
 				bat "dotnet clean ${workspace}\\backend\\UserService\\UserService.sln"
@@ -235,9 +210,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent {
-					label "user"
-				}
+			  agent any
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -249,29 +222,26 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent {
-					label "user"
-				}
+			  agent any
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent {
-					label "user"
-				}
+			  agent any
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent {
-					label "user"
-				}
+			  agent any
 			  steps {
-				bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publishUser"
+				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID}"){
+					bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID}"
+				}
+				//bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publishUser"
 			  }
 			}			
 		  }
@@ -291,9 +261,7 @@ pipeline {
 		stage("Frotend App") {
 		  stages {
 			stage("Install Node dependencies") {
-			  agent {
-					label "frontend"
-				}
+			  agent any
 			  steps {               
 				dir("WebFrontend") {
 					sh 'npm install' 
@@ -301,9 +269,7 @@ pipeline {
 			  }
 			}
 			stage("Lint") {
-			  agent {
-					label "frontend"
-				}
+			  agent any
 			  steps {
 				dir("WebFrontend") {
 					//sh 'npm run lint' 
@@ -311,9 +277,7 @@ pipeline {
 			  }
 			}
 			stage("Build") {
-			  agent {
-					label "frontend"
-				}
+			  agent any
 			  steps {
 				dir("WebFrontend") {
 					//sh 'npm run buildProd' 
@@ -376,45 +340,35 @@ pipeline {
 		}
 		parallel {
 			stage("Gateway Service") {
-				agent {
-				  label "gateway"
-				}
+				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishGateway' -dest:iisapp='GatewayService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=GatewayService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID}' -dest:iisapp='GatewayService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=GatewayService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Incident Service") {
-				agent {
-					label "incident"
-				}
+				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishIncident' -dest:iisapp='IncidentService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=IncidentService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID}' -dest:iisapp='IncidentService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=IncidentService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Report Service") {
-				agent {
-					label "report"
-				}
+				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishReport' -dest:iisapp='ReportService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=ReportService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID}' -dest:iisapp='ReportService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=ReportService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("User Service") {
-				agent {
-					label "user"
-				}
+				agent any
 				steps {
 					echo "Deploy Gateway Service"
-					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishUser' -dest:iisapp='UserService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=UserService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
+					bat "msdeploy.exe -verb:sync -source:IisApp='C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID}' -dest:iisapp='UserService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=UserService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Deploy WebFrontend") {
-				agent {
-					label "frontend"
-				}
+				agent any
 				steps {
 					echo "Deploy frontend"
 					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/WebFrontend/dist/angular-registration-login-example' -dest:iisapp='WebFrontend',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebFrontend',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
