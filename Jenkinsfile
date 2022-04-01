@@ -6,7 +6,7 @@ pipeline {
 		  agent any		  
 		  steps {
 			git branch: env.BRANCH_NAME, credentialsId: 'gitlab-credentials-danijel.popovic', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
-			slackSend(channel: 'jenkins', color: 'good', message:"Run Build: ${env.BUILD_ID} Author: ${env.GIT_COMMITTER_NAME} - ${env.GIT_COMMITTER_EMAIL} for commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| ${env.GIT_COMMIT}>)(<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			// slackSend(channel: 'jenkins', color: 'good', message:"Run Build: ${env.BUILD_ID} Author: ${env.GIT_COMMITTER_NAME} - ${env.GIT_COMMITTER_EMAIL} for commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| ${env.GIT_COMMIT}>)(<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			// dir("WebApi") {	
 			// 	bat "docker login"			
 			// 	bat "docker build . -t danijelpopovic/webappprivate:${BRANCH_NAME}-${env.BUILD_NUMBER}"
@@ -62,7 +62,7 @@ pipeline {
 			  agent any
 			  steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID}"){
-					bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID}"
+					bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID} /p:EnvironmentName=Development"
 				}
 				//echo "Publish"
 			  }
@@ -121,7 +121,7 @@ pipeline {
 			 agent any
 			  steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID}"){
-					bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID}"
+					bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID} /p:EnvironmentName=Development "
 				}
 				echo "Publish"
 			  }
@@ -180,7 +180,7 @@ pipeline {
 			  agent any
 			  steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID}"){
-					bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID}"
+					bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID} /p:EnvironmentName=Development "
 				}
 				//bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publishReport"
 			  }
@@ -239,7 +239,7 @@ pipeline {
 			  agent any
 			  steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID}"){
-					bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID}"
+					bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID} /p:EnvironmentName=Development"
 				}
 				//bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publishUser"
 			  }
@@ -375,6 +375,7 @@ pipeline {
 				}
 			}
 		}
+		
 	}
   }   
 }
