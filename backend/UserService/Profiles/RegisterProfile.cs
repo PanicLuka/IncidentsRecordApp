@@ -12,8 +12,14 @@ namespace UserService.Profiles
     {
         public RegisterProfile()
         {
-            CreateMap<Register, RegisterDto>();
-            CreateMap<RegisterDto, Register>();
+            CreateMap<User, UserDto>();
+              
+                
+            CreateMap<UserDto, User>()
+                .ForMember(x => x.UserId, y => y.Ignore());
+            CreateMap<User, User>()
+                .ForMember(x => x.UserId, y => y.Ignore())
+                .ForMember(x => x.RoleId, y => y.Ignore());
         }
     }
 }
