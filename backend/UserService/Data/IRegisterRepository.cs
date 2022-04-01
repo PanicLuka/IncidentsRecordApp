@@ -8,13 +8,13 @@ namespace UserService.Data
 {
     public interface IRegisterRepository
     {
-        Task CreateUserAsync(Register User);
+        Task CreateUserAsync(User User);
 
-        Task<List<Register>> GetAllUsersAsync();
+        Task<List<User>> GetAllUsersAsync();
 
-        Task<Register> GetUserByIdAsync(int UserId);
+        Task<User> GetUserByIdAsync(int UserId);
 
-        Task UpdateUserAsync(Register User);
+        Task UpdateUserAsync(User User);
 
         Task DeleteUserAsync(int UserId);
 
