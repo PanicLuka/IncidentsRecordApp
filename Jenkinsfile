@@ -24,7 +24,7 @@ pipeline {
 		stage("Gateway Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent any
+			  agent 'gateway'
 			  steps {
 				 bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
 				 bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
@@ -33,7 +33,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
+			  agent 'gateway'
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -45,21 +45,21 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
+			  agent 'gateway'
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
+			  agent 'gateway'
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent any
+			  agent 'gateway'
 			  steps {
 				bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o publishGateway"
 				//echo "Publish"
@@ -68,10 +68,10 @@ pipeline {
 		  }
 		  post {
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Gateway Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+                //slackSend(channel: 'jenkins', color: 'good', message:"Gateway Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Gateway Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				//slackSend(channel: 'jenkins', color: 'red', message:"Gateway Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -82,7 +82,7 @@ pipeline {
 		stage("Incident Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent any
+			  agent 'incident'
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\IncidentService\\IncidentService.sln"
 				bat "dotnet clean ${workspace}\\backend\\IncidentService\\IncidentService.sln"
@@ -90,7 +90,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
+			  agent 'incident'
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -102,21 +102,21 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
+			  agent 'incident'
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
+			  agent 'incident'
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent any
+			  agent 'incident'
 			  steps {
 				bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o publishIncident"
 				echo "Publish"
@@ -125,10 +125,10 @@ pipeline {
 		  }
 		  post {
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Incident Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+                //slackSend(channel: 'jenkins', color: 'good', message:"Incident Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Incident Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				//slackSend(channel: 'jenkins', color: 'red', message:"Incident Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -139,7 +139,7 @@ pipeline {
 		stage("Report Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent any
+			  agent 'report'
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\ReportService\\ReportService.sln"
 				bat "dotnet clean ${workspace}\\backend\\ReportService\\ReportService.sln"
@@ -147,7 +147,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
+			  agent 'report'
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -159,21 +159,21 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
+			  agent 'report'
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
+			  agent 'report'
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent any
+			  agent 'report'
 			  steps {
 				bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o publishReport"
 			  }
@@ -181,10 +181,10 @@ pipeline {
 		  }
 		  post {
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Report Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+                //slackSend(channel: 'jenkins', color: 'good', message:"Report Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Report Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				//slackSend(channel: 'jenkins', color: 'red', message:"Report Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -195,7 +195,7 @@ pipeline {
 		stage("User Service - backend") {
 		  stages {
 			stage("Build") {
-			  agent any
+			  agent 'user'
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\UserService\\UserService.sln"
 				bat "dotnet clean ${workspace}\\backend\\UserService\\UserService.sln"
@@ -203,7 +203,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
+			  agent 'user'
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -215,21 +215,21 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
+			  agent 'user'
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
+			  agent 'user'
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
 			  }
 			}
 			stage("Publish") {
-			  agent any
+			  agent 'user'
 			  steps {
 				bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o publishUser"
 			  }
@@ -237,10 +237,10 @@ pipeline {
 		  }
 		  post {
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"User Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+                //slackSend(channel: 'jenkins', color: 'good', message:"User Service - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"User Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				//slackSend(channel: 'jenkins', color: 'red', message:"User Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -251,7 +251,7 @@ pipeline {
 		stage("Frotend App") {
 		  stages {
 			stage("Install Node dependencies") {
-			  agent any
+			  agent 'frontend'
 			  steps {               
 				dir("WebFrontend") {
 					sh 'npm install' 
@@ -259,7 +259,7 @@ pipeline {
 			  }
 			}
 			stage("Lint") {
-			  agent any
+			  agent 'frontend'
 			  steps {
 				dir("WebFrontend") {
 					//sh 'npm run lint' 
@@ -267,7 +267,7 @@ pipeline {
 			  }
 			}
 			stage("Build") {
-			  agent any
+			  agent 'frontend'
 			  steps {
 				dir("WebFrontend") {
 					//sh 'npm run buildProd' 
@@ -277,10 +277,10 @@ pipeline {
 		  }
 		  post {
 		  success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Frontend App - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+                //slackSend(channel: 'jenkins', color: 'good', message:"Frontend App - Build deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Frontend App - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				//slackSend(channel: 'jenkins', color: 'red', message:"Frontend App - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -330,35 +330,35 @@ pipeline {
 		}
 		parallel {
 			stage("Gateway Service") {
-				agent any
+				agent 'gateway'
 				steps {
 					echo "Deploy Gateway Service"
 					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishGateway' -dest:iisapp='GatewayService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=GatewayService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Incident Service") {
-				agent any
+				agent 'incident'
 				steps {
 					echo "Deploy Gateway Service"
 					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishIncident' -dest:iisapp='IncidentService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=IncidentService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Report Service") {
-				agent any
+				agent 'report'
 				steps {
 					echo "Deploy Gateway Service"
 					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishReport' -dest:iisapp='ReportService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=ReportService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("User Service") {
-				agent any
+				agent 'user'
 				steps {
 					echo "Deploy Gateway Service"
 					bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/publishUser' -dest:iisapp='UserService',computerName='https://192.168.1.90:8172/msdeploy.axd?site=UserService',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
 				}
 			}
 			stage("Deploy WebFrontend") {
-				agent any
+				agent 'frontend'
 				steps {
 					echo "Deploy frontend"
 					//bat "msdeploy.exe -verb:sync -source:IisApp='${workspace}/WebFrontend/dist/angular-registration-login-example' -dest:iisapp='WebFrontend',computerName='https://192.168.1.90:8172/msdeploy.axd?site=WebFrontend',authType='basic',username='msdeploy',password='msdeploy' -enableRule:AppOffline -allowUntrusted"
