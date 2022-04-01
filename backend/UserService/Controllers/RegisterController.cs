@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using UserService.Data;
 using UserService.Enitites;
 using UserService.Models;
+using UserService.Validators;
 
 namespace UserService.Controllers
 {
@@ -19,13 +21,13 @@ namespace UserService.Controllers
     public class RegisterController : ControllerBase
     {
         private readonly IRegisterRepository repository;
-        private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
-        public RegisterController(IRegisterRepository repository, LinkGenerator linkGenerator, IMapper mapper)
+        private readonly UserValidator userValidator;
+        public RegisterController(IRegisterRepository repository, UserValidator userValidator, IMapper mapper)
         {
             this.repository = repository;
-            this.linkGenerator = linkGenerator;
             this.mapper = mapper;
+            this.userValidator = userValidator;
         }
 
         [HttpGet]
@@ -83,11 +85,17 @@ namespace UserService.Controllers
             {
                 User userEntity = mapper.Map<User>(user);
 
+                userValidator.ValidateAndThrow(userEntity);
+
                 await repository.CreateUserAsync(userEntity);
 
                 await repository.SaveChangesAsync();
 
                 return Ok();
+            }
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
             }
             catch (Exception e)
             {
@@ -106,10 +114,6 @@ namespace UserService.Controllers
         {
             try
             {
-                //User user2 = mapper.Map<User>(userDto);
-
-
-
 
                 var oldUser = await repository.GetUserByIdAsync(UserId);
 
@@ -119,6 +123,8 @@ namespace UserService.Controllers
                 }
 
                 User user = mapper.Map<User>(userDto);
+
+                userValidator.ValidateAndThrow(user);
 
                 mapper.Map(user, oldUser);
 
@@ -132,7 +138,11 @@ namespace UserService.Controllers
                 
 
             }
-            catch(Exception e)
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
+            }
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }

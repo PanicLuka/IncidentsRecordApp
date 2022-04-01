@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using UserService.Data;
 using UserService.Enitites;
 using UserService.Models;
+using UserService.Validators;
 
 namespace UserService.Controllers
 {
@@ -19,12 +21,13 @@ namespace UserService.Controllers
     {
         private readonly IMapper mapper;
         private readonly IRoleRepository repository;
-       
+        private readonly RoleValidator roleValidator;
 
-        public RoleController(IMapper mapper, IRoleRepository repository)
+        public RoleController(IMapper mapper, IRoleRepository repository, RoleValidator roleValidator)
         {
             this.mapper = mapper;
             this.repository = repository;
+            this.roleValidator = roleValidator;
         }
 
         [HttpGet]
@@ -80,11 +83,17 @@ namespace UserService.Controllers
             {
                 Role roleEntity = mapper.Map<Role>(roleDto);
 
+                roleValidator.ValidateAndThrow(roleEntity);
+
                 await repository.CreateRoleAysnc(roleEntity);
 
                 await repository.SaveChangesAsync();
 
                 return Ok();
+            }
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
             }
             catch (Exception e)
             {
@@ -111,8 +120,11 @@ namespace UserService.Controllers
 
                 Role role = mapper.Map<Role>(roleDto);
 
+                roleValidator.ValidateAndThrow(role);
+
                 mapper.Map(role, oldRole);
 
+                
 
                 await repository.SaveChangesAsync();
 
@@ -122,6 +134,10 @@ namespace UserService.Controllers
 
 
 
+            }
+            catch (ValidationException v)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, v.Errors);
             }
             catch (Exception e)
             {
@@ -146,6 +162,7 @@ namespace UserService.Controllers
                 }
 
                 await repository.DeleteRoleAsync(RoleId);
+
                 await repository.SaveChangesAsync();
                 return NoContent();
 
