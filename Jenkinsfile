@@ -6,7 +6,7 @@ pipeline {
 		  agent any		  
 		  steps {
 			git branch: env.BRANCH_NAME, credentialsId: 'gitlab-credentials-danijel.popovic', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
-			slackSend(channel: 'jenkins', color: 'good', message:":rocket: Run Build: ${env.BUILD_ID} Commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| #${env.GIT_COMMIT}>)(<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			slackSend(channel: 'jenkins', color: 'good', message:":rocket: Run Build: ${env.BUILD_ID} \n Commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| #${env.GIT_COMMIT}>), \n Jenkins pipeline: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			// dir("WebApi") {	
 			// 	bat "docker login"			
 			// 	bat "docker build . -t danijelpopovic/webappprivate:${BRANCH_NAME}-${env.BUILD_NUMBER}"
@@ -70,7 +70,7 @@ pipeline {
 		  }
 		  post {			
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Gateway Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message:":warning: Gateway Service - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -126,7 +126,7 @@ pipeline {
 		  }
 		  post {			
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Incident Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message:":warning: Incident Service - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -182,7 +182,7 @@ pipeline {
 		  }
 		  post {			
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Report Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message:":warning: Report Service - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -238,7 +238,7 @@ pipeline {
 		  }
 		  post {			
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"User Service - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message:":warning: User Service - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -275,7 +275,7 @@ pipeline {
 		  }
 		  post {		  
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:"Frontend App - Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message:":warning:  Frontend App - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -362,10 +362,10 @@ pipeline {
 		}
 		post{
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>), Links: :tada: (http://192.168.1.90:55000/swagger/index.html | GatewayService), :tada: (http://192.168.1.90:55001/swagger/index.html | UserService), :tada: (http://192.168.1.90:55002/swagger/index.html | IncidentService), :tada: (http://192.168.1.90:55003/swagger/index.html | ReportService), :tada: (http://192.168.1.90:55004 | FrontendApp)")
+                slackSend(channel: 'jenkins', color: 'good', message:":tada: Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>),\n Links: \n :white_check_mark: (http://192.168.1.90:55000/swagger/index.html | GatewayService), \n :white_check_mark: (http://192.168.1.90:55001/swagger/index.html | UserService), \n :white_check_mark: (http://192.168.1.90:55002/swagger/index.html | IncidentService), \n :white_check_mark: (http://192.168.1.90:55003/swagger/index.html | ReportService), \n :white_check_mark: (http://192.168.1.90:55004 | FrontendApp)")
             }
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message: "Deployed failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message: ":warning:  Deployed failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 		}
 	}
