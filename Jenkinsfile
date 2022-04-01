@@ -6,7 +6,7 @@ pipeline {
 		  agent any		  
 		  steps {
 			git branch: env.BRANCH_NAME, credentialsId: 'gitlab-credentials-danijel.popovic', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
-			slackSend(channel: 'jenkins', color: 'good', message:"Run Build: ${env.BUILD_ID} Commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| #${env.GIT_COMMIT}>)(<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			slackSend(channel: 'jenkins', color: 'good', message:":rocket: Run Build: ${env.BUILD_ID} Commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| #${env.GIT_COMMIT}>)(<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			// dir("WebApi") {	
 			// 	bat "docker login"			
 			// 	bat "docker build . -t danijelpopovic/webappprivate:${BRANCH_NAME}-${env.BUILD_NUMBER}"
@@ -362,7 +362,7 @@ pipeline {
 		}
 		post{
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:"Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>), Links: (http://192.168.1.90:55000/swagger/index.html | GatewayService), (http://192.168.1.90:55001/swagger/index.html | UserService), (http://192.168.1.90:55002/swagger/index.html | IncidentService), (http://192.168.1.90:55003/swagger/index.html | ReportService), (http://192.168.1.90:55004 | FrontendApp)")
+                slackSend(channel: 'jenkins', color: 'good', message:"Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>), Links: :tada: (http://192.168.1.90:55000/swagger/index.html | GatewayService), :tada: (http://192.168.1.90:55001/swagger/index.html | UserService), :tada: (http://192.168.1.90:55002/swagger/index.html | IncidentService), :tada: (http://192.168.1.90:55003/swagger/index.html | ReportService), :tada: (http://192.168.1.90:55004 | FrontendApp)")
             }
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message: "Deployed failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
