@@ -1,11 +1,9 @@
 pipeline {  
   agent { label 'master' }
-  stages {
-  
+  stages {  
 	stage('Prep') {
-		  agent any		  
 		  steps {
-			git branch: env.BRANCH_NAME, credentialsId: 'gitlab-credentials-danijel.popovic', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
+			//git branch: env.BRANCH_NAME, credentialsId: 'gitlab-credentials-danijel.popovic', url: 'http://tiaclab.com:9009/danijel.popovic/praksa2022_01.git'
 			slackSend(channel: 'jenkins', color: 'good', message:":rocket: Run Build: ${env.BUILD_ID} \n Branch Name: ${env.BRANCH_NAME}, Commit: (<http://tiaclab.com:9009/danijel.popovic/praksa2022_01/-/commit/${env.GIT_COMMIT}| #${env.GIT_COMMIT}>), \n Jenkins pipeline: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			// dir("WebApi") {	
 			// 	bat "docker login"			
@@ -22,9 +20,9 @@ pipeline {
 	stage('Build and Test') {
 	  parallel {
 		stage("Gateway Service - backend") {
+			agent any
 		  stages {
 			stage("Build") {
-			  agent any
 			  steps {
 				 bat "dotnet restore ${workspace}\\backend\\GatewayService\\GatewayService.sln"
 				 bat "dotnet clean ${workspace}\\backend\\GatewayService\\GatewayService.sln"
@@ -32,7 +30,6 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -44,14 +41,12 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
@@ -61,7 +56,6 @@ pipeline {
 				when {
 					branch 'dev'
 				}
-			  agent any
 			  steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID}"){
 					bat "dotnet publish ${workspace}\\backend\\GatewayService\\GatewayService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishGateway${env.BUILD_ID} /p:EnvironmentName=Development"
@@ -81,9 +75,9 @@ pipeline {
 		}
 		
 		stage("Incident Service - backend") {
+		  agent any
 		  stages {
 			stage("Build") {
-			  agent any
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\IncidentService\\IncidentService.sln"
 				bat "dotnet clean ${workspace}\\backend\\IncidentService\\IncidentService.sln"
@@ -91,7 +85,6 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -103,14 +96,12 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
@@ -120,7 +111,6 @@ pipeline {
 				when {
 					branch 'dev'
 				}
-			 agent any
 			  steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID}"){
 					bat "dotnet publish ${workspace}\\backend\\IncidentService\\IncidentService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishIncident${env.BUILD_ID} /p:EnvironmentName=Development "
@@ -140,9 +130,9 @@ pipeline {
 		}
 		
 		stage("Report Service - backend") {
+		  agent any
 		  stages {
 			stage("Build") {
-			  agent any
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\ReportService\\ReportService.sln"
 				bat "dotnet clean ${workspace}\\backend\\ReportService\\ReportService.sln"
@@ -150,7 +140,6 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -162,14 +151,12 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
@@ -179,7 +166,6 @@ pipeline {
 				when {
 					branch 'dev'
 				}
-			  agent any
 			  steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID}"){
 					bat "dotnet publish ${workspace}\\backend\\ReportService\\ReportService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishReport${env.BUILD_ID} /p:EnvironmentName=Development "
@@ -198,9 +184,9 @@ pipeline {
 		}
 		
 		stage("User Service - backend") {
+		  agent any
 		  stages {
 			stage("Build") {
-			  agent any
 			  steps {
 				bat "dotnet restore ${workspace}\\backend\\UserService\\UserService.sln"
 				bat "dotnet clean ${workspace}\\backend\\UserService\\UserService.sln"
@@ -208,7 +194,7 @@ pipeline {
 			  }
 			}
 			stage("SonarQube analysis") {
-			  agent any
+			  
 			  steps {
 				withSonarQubeEnv('SonarQube') {
 					//bat "dotnet sonarscanner begin /key:\"${BRANCH_NAME}-GatewayService\" /d:sonar.cs.xunit.reportsPaths=**/*.coveragexml /d:sonar.exclusions=\"WebApi/Entities/**, WebApi/Helpers/**, WebApi/Migrations/**, WebApi/Models/**\""
@@ -220,14 +206,14 @@ pipeline {
 			  }
 			}
 			stage("Quality gate") {
-			  agent any
+			  
 			  steps {
 				//waitForQualityGate abortPipeline: true
 				echo "Sonar Analyst"
 			  }
 			}
 			stage("Unit tests") {
-			  agent any
+			  
 			  steps {
 				//bat "dotnet test ${workspace}/WebApiXUTest/WebApiXUTest.csproj"
 				echo "Unit test"
@@ -237,7 +223,7 @@ pipeline {
 				when {
 					branch 'dev'
 				}
-			  	agent any
+			  	
 			  	steps {
 				dir("C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID}"){
 					bat "dotnet publish ${workspace}\\backend\\UserService\\UserService.sln -c Release -o C:\\Users\\Administrator\\Desktop\\publishapps\\publishUser${env.BUILD_ID} /p:EnvironmentName=Development"
@@ -256,9 +242,10 @@ pipeline {
 		}
 		
 		stage("Frotend App") {
+		  agent any
 		  stages {
 			stage("Install Node dependencies") {
-			  agent any
+			  
 			  steps {               
 				dir("frontend\\incidents-record-app") {
 					sh 'npm install' 
@@ -266,7 +253,7 @@ pipeline {
 			  }
 			}
 			stage("Lint") {
-			  agent any
+			 
 			  steps {
 				dir("frontend\\incidents-record-app") {
 					sh 'npm run lint' 
@@ -274,7 +261,7 @@ pipeline {
 			  }
 			}
 			stage("Build") {
-			  agent any
+			  
 			  steps {
 				dir("frontend\\incidents-record-app") {
 					sh 'npm run buildJenkins' 
@@ -282,9 +269,12 @@ pipeline {
 			  }
 			}						
 		  }
-		  post {		  
+		  post {	
+			success{
+				slackSend(channel: 'jenkins', color: 'good', message:":tada: Build successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, Branch name: ${env.BRANCH_NAME}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+			}	  
 			failure {
-				slackSend(channel: 'jenkins', color: 'red', message:":warning:  Frontend App - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
+				slackSend(channel: 'jenkins', color: 'red', message:":warning:  Frontend App - Build failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER}, Branch name: ${env.BRANCH_NAME}, (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
 			}
 			always {
 				echo "DONE"
@@ -371,7 +361,7 @@ pipeline {
 		}
 		post{
 			success {
-                slackSend(channel: 'jenkins', color: 'good', message:":tada: Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>),\n :link: Links: \n :white_check_mark: (http://192.168.1.90:55000/swagger/index.html | GatewayService), \n :white_check_mark: (http://192.168.1.90:55001/swagger/index.html | UserService), \n :white_check_mark: (http://192.168.1.90:55002/swagger/index.html | IncidentService), \n :white_check_mark: (http://192.168.1.90:55003/swagger/index.html | ReportService), \n :white_check_mark: (http://192.168.1.90:55004 | FrontendApp)")
+                slackSend(channel: 'jenkins', color: 'good', message:":tada: Build and Deployed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER}, Branch name: ${env.BRANCH_NAME}, More info: (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>),\n :link: Links: \n :white_check_mark: (http://192.168.1.90:55000/swagger/index.html | GatewayService), \n :white_check_mark: (http://192.168.1.90:55001/swagger/index.html | UserService), \n :white_check_mark: (http://192.168.1.90:55002/swagger/index.html | IncidentService), \n :white_check_mark: (http://192.168.1.90:55003/swagger/index.html | ReportService), \n :white_check_mark: (http://192.168.1.90:55004 | FrontendApp)")
             }
 			failure {
 				slackSend(channel: 'jenkins', color: 'red', message: ":warning:  Deployed failed :x: - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<http://192.168.1.90:8080/blue/organizations/jenkins/praksa/detail/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Open>)")
