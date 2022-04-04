@@ -1,9 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "incidents-record-app": {
+    "incidents-record-design": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/incidents-record-app",
+            "outputPath": "dist/incidents-record-design",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "incidents-record-app:build:production"
+              "browserTarget": "incidents-record-design:build:production"
             },
             "development": {
-              "browserTarget": "incidents-record-app:build:development"
+              "browserTarget": "incidents-record-design:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "incidents-record-app:build"
+            "browserTarget": "incidents-record-design:build"
           }
         },
         "test": {
@@ -100,7 +103,38 @@
           }
         }
       }
+    },
+    "incidents-record-design-lib": {
+      "projectType": "library",
+      "root": "projects/incidents-record-design-lib",
+      "sourceRoot": "projects/incidents-record-design-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/incidents-record-design-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/incidents-record-design-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/incidents-record-design-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/incidents-record-design-lib/src/test.ts",
+            "tsConfig": "projects/incidents-record-design-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/incidents-record-design-lib/karma.conf.js"
+          }
+        }
+      }
     }
   },
-  "defaultProject": "incidents-record-app"
+  "defaultProject": "incidents-record-design"
 }

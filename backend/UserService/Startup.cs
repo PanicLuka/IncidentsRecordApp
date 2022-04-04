@@ -60,7 +60,6 @@ namespace UserService
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "User Service v1");
-                options.RoutePrefix = string.Empty;
             });
 
             app.UseHttpsRedirection();
