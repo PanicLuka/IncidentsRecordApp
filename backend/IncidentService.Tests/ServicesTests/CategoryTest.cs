@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IncidentService.Controllers;
-using IncidentService.Data;
+using IncidentService.Services;
 using IncidentService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -14,7 +14,7 @@ namespace IncidentService.Tests
 {
     public class CategoryTest
     {
-        public Mock<ICategoryRepository> mock = new Mock<ICategoryRepository>();
+        public Mock<ICategoriesService> mock = new Mock<ICategoriesService>();
 
         [Fact]
         public async void GetCategoryByIdAsync()

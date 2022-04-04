@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using IncidentService.Entities;
 
-namespace IncidentService.Data
+namespace IncidentService.Services
 {
-    public interface IIncidentRepository
+    public interface IIncidentsService
     {
         Task<List<Incident>> GetIncidentsAsync();
         Task<Incident> GetIncidentByIdAsync(int id);

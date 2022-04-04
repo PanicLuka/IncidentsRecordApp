@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
-using IncidentService.Data;
+using IncidentService.Services;
 using IncidentService.Entities;
 using IncidentService.Models;
 using IncidentService.Validators;
@@ -17,20 +17,15 @@ namespace IncidentService.Controllers
     [Route("api/category")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryRepository categoryRepository;
+        private readonly ICategoriesService categoriesService;
         private readonly IMapper mapper;
         private readonly CategoryValidator categoryValidator;
 
-        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper, CategoryValidator categoryValidator)
+        public CategoryController(ICategoriesService categoriesService, IMapper mapper, CategoryValidator categoryValidator)
         {
-            this.categoryRepository = categoryRepository;
+            this.categoriesService = categoriesService;
             this.mapper = mapper;
             this.categoryValidator = categoryValidator;
-        }
-
-        public CategoryController(ICategoryRepository categoryRepository)
-        {
-            this.categoryRepository = categoryRepository;
         }
 
         [HttpGet]
@@ -39,7 +34,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task <ActionResult<List<CategoryDto>>> GetCategories()
         {
-            var categories = await categoryRepository.GetCategoriesAsync();
+            var categories = await categoriesService.GetCategoriesAsync();
 
 
             if (categories == null || categories.Count == 0)
@@ -65,7 +60,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CategoryDto>> GetCategoryByIdAsync(int CategoryId)
         {
-            var category = await categoryRepository.GetCategoryByIdAsync(CategoryId);
+            var category = await categoriesService.GetCategoryByIdAsync(CategoryId);
 
             if (category == null)
             {
@@ -91,9 +86,9 @@ namespace IncidentService.Controllers
 
                 categoryValidator.ValidateAndThrow(category);
 
-                await categoryRepository.CreateCategoryAsync(category);
+                await categoriesService.CreateCategoryAsync(category);
 
-                await categoryRepository.SaveChangesAsync();
+                await categoriesService.SaveChangesAsync();
 
                 return Ok();
             }
@@ -117,7 +112,7 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var oldCategory = await categoryRepository.GetCategoryByIdAsync(CategoryId);
+                var oldCategory = await categoriesService.GetCategoryByIdAsync(CategoryId);
 
                 if (oldCategory == null)
                 {
@@ -130,7 +125,7 @@ namespace IncidentService.Controllers
 
                 categoryValidator.ValidateAndThrow(category);
 
-                await categoryRepository.SaveChangesAsync();
+                await categoriesService.SaveChangesAsync();
 
                 return Ok(mapper.Map<CategoryDto>(oldCategory));
             }
@@ -153,7 +148,7 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var category = await categoryRepository.GetCategoryByIdAsync(CategoryId);
+                var category = await categoriesService.GetCategoryByIdAsync(CategoryId);
 
                 if (category == null)
                 {
@@ -161,8 +156,8 @@ namespace IncidentService.Controllers
 
                 }
 
-                await categoryRepository.DeleteCategoryAsync(CategoryId);
-                await categoryRepository.SaveChangesAsync();
+                await categoriesService.DeleteCategoryAsync(CategoryId);
+                await categoriesService.SaveChangesAsync();
                 return NoContent();
             }
             catch (Exception e)

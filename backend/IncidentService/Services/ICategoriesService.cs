@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using IncidentService.Entities;
 
-namespace IncidentService.Data
+namespace IncidentService.Services
 {
-    public interface ICategoryRepository
+    public interface ICategoriesService
     {
         Task<List<Category>> GetCategoriesAsync();
         Task<Category> GetCategoryByIdAsync(int id);

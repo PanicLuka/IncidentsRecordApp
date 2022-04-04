@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
-using IncidentService.Data;
+using IncidentService.Services;
 using IncidentService.Entities;
 using IncidentService.Models;
 using IncidentService.Validators;
@@ -17,13 +17,13 @@ namespace IncidentService.Controllers
     [Route("api/incident")]
     public class IncidentController : ControllerBase
     {
-        private readonly IIncidentRepository incidentRepository;
+        private readonly IIncidentsService incidentsService;
         private readonly IMapper mapper;
         private readonly IncidentValidator incidentValidator;
 
-        public IncidentController(IIncidentRepository incidentRepository, IMapper mapper, IncidentValidator incidentValidator)
+        public IncidentController(IIncidentsService incidentsService, IMapper mapper, IncidentValidator incidentValidator)
         {
-            this.incidentRepository = incidentRepository;
+            this.incidentsService = incidentsService;
             this.mapper = mapper;
             this.incidentValidator = incidentValidator;
         }
@@ -34,7 +34,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<List<IncidentDto>>> GetIncidents()
         {
-            var incidents = await incidentRepository.GetIncidentsAsync();
+            var incidents = await incidentsService.GetIncidentsAsync();
 
 
             if (incidents == null || incidents.Count == 0)
@@ -60,7 +60,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IncidentDto>> GetIncidentByIdAsync(int IncidentId)
         {
-            var incident = await incidentRepository.GetIncidentByIdAsync(IncidentId);
+            var incident = await incidentsService.GetIncidentByIdAsync(IncidentId);
 
             if (incident == null)
             {
@@ -86,9 +86,9 @@ namespace IncidentService.Controllers
 
                 incidentValidator.ValidateAndThrow(incident);
 
-                await incidentRepository.CreateIncidentAsync(incident);
+                await incidentsService.CreateIncidentAsync(incident);
 
-                await incidentRepository.SaveChangesAsync();
+                await incidentsService.SaveChangesAsync();
 
                 return Ok();
             }
@@ -111,7 +111,7 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var oldIncident = await incidentRepository.GetIncidentByIdAsync(IncidentId);
+                var oldIncident = await incidentsService.GetIncidentByIdAsync(IncidentId);
 
                 if (oldIncident == null)
                 {
@@ -124,7 +124,7 @@ namespace IncidentService.Controllers
 
                 incidentValidator.ValidateAndThrow(incident);
 
-                await incidentRepository.SaveChangesAsync();
+                await incidentsService.SaveChangesAsync();
 
                 return Ok(mapper.Map<IncidentDto>(oldIncident));
             }
@@ -146,7 +146,7 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var incident = await incidentRepository.GetIncidentByIdAsync(IncidentId);
+                var incident = await incidentsService.GetIncidentByIdAsync(IncidentId);
 
                 if (incident == null)
                 {
@@ -154,8 +154,8 @@ namespace IncidentService.Controllers
 
                 }
 
-                await incidentRepository.DeleteIncidentAsync(IncidentId);
-                await incidentRepository.SaveChangesAsync();
+                await incidentsService.DeleteIncidentAsync(IncidentId);
+                await incidentsService.SaveChangesAsync();
                 return NoContent();
             }
             catch (Exception e)

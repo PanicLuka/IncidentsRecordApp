@@ -1,5 +1,5 @@
 using FluentValidation.AspNetCore;
-using IncidentService.Data;
+using IncidentService.Services;
 using IncidentService.Entities;
 using IncidentService.Validators;
 using Microsoft.AspNetCore.Builder;
@@ -42,8 +42,8 @@ namespace IncidentService
                     });
             });
 
-            services.AddScoped<IIncidentRepository, IncidentRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IIncidentsService, IncidentsService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
 
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryValidator>());
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IncidentValidator>());

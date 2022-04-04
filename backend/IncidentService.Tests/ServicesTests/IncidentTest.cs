@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IncidentService.Data;
+using IncidentService.Services;
 using Moq;
 using Xunit;
 
@@ -11,7 +11,7 @@ namespace IncidentService.Tests
 {
     public class IncidentTest
     {
-        public Mock<IIncidentRepository> mock = new Mock<IIncidentRepository>();
+        public Mock<IIncidentsService> mock = new Mock<IIncidentsService>();
 
         [Fact]
         public async void GetIncidentByIdAsync()

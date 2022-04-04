@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using IncidentService.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace IncidentService.Data
+namespace IncidentService.Services
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoriesService : ICategoriesService
     {
         private readonly IncidentContext context;
 
-        public CategoryRepository(IncidentContext context)
+        public CategoriesService(IncidentContext context)
         {
             this.context = context;
         }
