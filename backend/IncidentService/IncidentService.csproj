@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ServiceCalls\" />
+    <Folder Include="Microservices\" />
   </ItemGroup>
 
 </Project>
