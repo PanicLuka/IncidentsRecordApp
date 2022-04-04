@@ -47,7 +47,6 @@ namespace UserService.Enitites
                 .Property(b => b.RoleId)
                 .HasDefaultValue(2);
 
-            //modelBuilder.Entity<User>().HasKey(g => new { g.UserId });
 
 
             modelBuilder.Entity<User>()
@@ -59,7 +58,18 @@ namespace UserService.Enitites
                     Email = "marko@gmail.com",
                     Password = "123456",
                     RoleId = 2
-              });
+                });
+
+            modelBuilder.Entity<User>()
+                .HasData(new
+                {
+                    UserId = 2,
+                    FirstName = "Nikola",
+                    LastName = "Milic",
+                    Email = "Nikola@gmail.com",
+                    Password = "123456",
+                    RoleId = 1
+                });
         }
 
     }

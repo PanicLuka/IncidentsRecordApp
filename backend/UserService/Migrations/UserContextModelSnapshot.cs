@@ -84,6 +84,15 @@ namespace UserService.Migrations
                             LastName = "Milic",
                             Password = "123456",
                             RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Email = "Nikola@gmail.com",
+                            FirstName = "Nikola",
+                            LastName = "Milic",
+                            Password = "123456",
+                            RoleId = 1
                         });
                 });
 
