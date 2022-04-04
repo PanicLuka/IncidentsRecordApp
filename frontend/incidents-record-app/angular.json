@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "incidents-record-design": {
+    "incidents-record-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/incidents-record-design",
+            "outputPath": "dist/incidents-record-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "incidents-record-design:build:production"
+              "browserTarget": "incidents-record-app:build:production"
             },
             "development": {
-              "browserTarget": "incidents-record-design:build:development"
+              "browserTarget": "incidents-record-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "incidents-record-design:build"
+            "browserTarget": "incidents-record-app:build"
           }
         },
         "test": {
@@ -98,9 +98,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "incidents-record-design"
+  "defaultProject": "incidents-record-app",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
