@@ -10,6 +10,7 @@ using IncidentService.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using IncidentService.Helpers;
 
 namespace IncidentService.Controllers
 {
@@ -18,13 +19,13 @@ namespace IncidentService.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoriesService categoriesService;
-        private readonly IMapper mapper;
+        //private readonly IMapper mapper;
         private readonly CategoryValidator categoryValidator;
 
-        public CategoryController(ICategoriesService categoriesService, IMapper mapper, CategoryValidator categoryValidator)
+        public CategoryController(ICategoriesService categoriesService, /*IMapper mapper,*/ CategoryValidator categoryValidator)
         {
             this.categoriesService = categoriesService;
-            this.mapper = mapper;
+            //this.mapper = mapper;
             this.categoryValidator = categoryValidator;
         }
 
@@ -47,7 +48,9 @@ namespace IncidentService.Controllers
 
             foreach (var category in categories)
             {
-                CategoryDto categoryDto = mapper.Map<CategoryDto>(category);
+                //CategoryDto categoryDto = mapper.Map<CategoryDto>(category);
+
+                CategoryDto categoryDto = category.CategoryToDto();
 
                 categoryDtos.Add(categoryDto);
             }
@@ -67,7 +70,9 @@ namespace IncidentService.Controllers
                 return NotFound();
             }
 
-            CategoryDto categoryDto = mapper.Map<CategoryDto>(category);
+            //CategoryDto categoryDto = mapper.Map<CategoryDto>(category);
+            
+            CategoryDto categoryDto = category.CategoryToDto();
 
             return Ok(categoryDto);
 
@@ -82,7 +87,9 @@ namespace IncidentService.Controllers
         {
             try
             {
-                Category category = mapper.Map<Category>(categoryDto);
+                //Category category = mapper.Map<Category>(categoryDto);
+
+                Category category = categoryDto.DtoToCategory();
 
                 categoryValidator.ValidateAndThrow(category);
 
@@ -119,15 +126,21 @@ namespace IncidentService.Controllers
                     return NotFound();
                 }
 
-                Category category = mapper.Map<Category>(categoryDto);
+                //Category category = mapper.Map<Category>(categoryDto);
 
-                mapper.Map(category, oldCategory);
+                Category category = categoryDto.DtoToCategory();
+
+                //mapper.Map(category, oldCategory);
+
+                CategoryDto oldCategoryNew = oldCategory.CategoryToDto();
 
                 categoryValidator.ValidateAndThrow(category);
 
                 await categoriesService.SaveChangesAsync();
 
-                return Ok(mapper.Map<CategoryDto>(oldCategory));
+                //return Ok(mapper.Map<CategoryDto>(oldCategory));
+
+                return Ok(oldCategoryNew.DtoToCategory());
             }
             catch (ValidationException v)
             {

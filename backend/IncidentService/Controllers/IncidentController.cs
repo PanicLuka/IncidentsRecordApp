@@ -10,6 +10,7 @@ using IncidentService.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using IncidentService.Helpers;
 
 namespace IncidentService.Controllers
 {
@@ -18,13 +19,13 @@ namespace IncidentService.Controllers
     public class IncidentController : ControllerBase
     {
         private readonly IIncidentsService incidentsService;
-        private readonly IMapper mapper;
+        //private readonly IMapper mapper;
         private readonly IncidentValidator incidentValidator;
 
-        public IncidentController(IIncidentsService incidentsService, IMapper mapper, IncidentValidator incidentValidator)
+        public IncidentController(IIncidentsService incidentsService, /*IMapper mapper,*/ IncidentValidator incidentValidator)
         {
             this.incidentsService = incidentsService;
-            this.mapper = mapper;
+            //this.mapper = mapper;
             this.incidentValidator = incidentValidator;
         }
 
@@ -47,7 +48,9 @@ namespace IncidentService.Controllers
 
             foreach (var incident in incidents)
             {
-                IncidentDto incidentDto = mapper.Map<IncidentDto>(incident);
+                //IncidentDto incidentDto = mapper.Map<IncidentDto>(incident);
+
+                IncidentDto incidentDto = incident.IncidentToDto();
 
                 incidentDtos.Add(incidentDto);
             }
@@ -67,7 +70,9 @@ namespace IncidentService.Controllers
                 return NotFound();
             }
 
-            IncidentDto incidentDto = mapper.Map<IncidentDto>(incident);
+            //IncidentDto incidentDto = mapper.Map<IncidentDto>(incident);
+
+            IncidentDto incidentDto = incident.IncidentToDto();
 
             return Ok(incidentDto);
 
@@ -82,7 +87,9 @@ namespace IncidentService.Controllers
         {
             try
             {
-                Incident incident = mapper.Map<Incident>(incidentDto);
+                //Incident incident = mapper.Map<Incident>(incidentDto);
+
+                Incident incident = incidentDto.DtoToIncident();
 
                 incidentValidator.ValidateAndThrow(incident);
 
@@ -118,15 +125,21 @@ namespace IncidentService.Controllers
                     return NotFound();
                 }
 
-                Incident incident = mapper.Map<Incident>(incidentDto);
+                //Incident incident = mapper.Map<Incident>(incidentDto);
 
-                mapper.Map(incident, oldIncident);
+                Incident incident = incidentDto.DtoToIncident();
+
+                //mapper.Map(incident, oldIncident);
+
+                IncidentDto oldIncidentNew = oldIncident.IncidentToDto();
 
                 incidentValidator.ValidateAndThrow(incident);
 
                 await incidentsService.SaveChangesAsync();
 
-                return Ok(mapper.Map<IncidentDto>(oldIncident));
+                //return Ok(mapper.Map<IncidentDto>(oldIncident));
+
+                return Ok(oldIncident.IncidentToDto());
             }
             catch (ValidationException v)
             {
