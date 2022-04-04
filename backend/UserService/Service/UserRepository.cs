@@ -21,6 +21,7 @@ namespace UserService.Data
 
         public async Task CreateUserAsync(User User)
         {
+            User.Password = BCrypt.Net.BCrypt.HashPassword(User.Password);
             await context.AddAsync(User);
         }
 

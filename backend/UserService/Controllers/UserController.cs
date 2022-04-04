@@ -12,6 +12,7 @@ using UserService.Data;
 using UserService.Enitites;
 using UserService.Helpers;
 using UserService.Models;
+using UserService.Service;
 using UserService.Validators;
 
 namespace UserService.Controllers
@@ -25,10 +26,13 @@ namespace UserService.Controllers
     {
         private readonly IUserRepository repository;
         private readonly UserValidator userValidator;
-        public UserController(IUserRepository repository, UserValidator userValidator)
+        private readonly IAuthenticate authenticate;
+
+        public UserController(IUserRepository repository, UserValidator userValidator, IAuthenticate authenticate)
         {
             this.repository = repository;
             this.userValidator = userValidator;
+            this.authenticate = authenticate;
         }
 
         [HttpGet]
@@ -106,9 +110,14 @@ namespace UserService.Controllers
             {
                 //User userEntity = mapper.Map<User>(user);
 
+                //authenticate.HashPassword(user.Password);
+
                 User userEntity = user.DtoToUser();
 
                 userValidator.ValidateAndThrow(userEntity);
+
+                
+                
 
                 await repository.CreateUserAsync(userEntity);
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.Data;
@@ -15,6 +16,7 @@ namespace UserService.Service
     {
         private readonly IUserRepository userRepository;
         private readonly IRoleRepository roleRepository;
+        private readonly static int iterations = 100;
         public Authenticate(IUserRepository userRepository, IRoleRepository roleRepository)
         {
             this.userRepository = userRepository;
@@ -46,6 +48,18 @@ namespace UserService.Service
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
             return tokenString;
+        }
+
+        
+        public bool VerifyPassword(string password, string savedHash, string savedSalt)
+        {
+            var saltBytes = Convert.FromBase64String(savedSalt);
+            var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, iterations);
+            if (Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(256)) == savedHash)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace UserService.Service
 {
     public interface IAuthenticate
     {
-        Task<string> GenerateToken(UserLogin user); 
+        Task<string> GenerateToken(UserLogin user);
+
     }
 }
