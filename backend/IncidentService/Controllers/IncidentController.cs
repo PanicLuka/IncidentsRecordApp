@@ -131,7 +131,23 @@ namespace IncidentService.Controllers
 
                 //mapper.Map(incident, oldIncident);
 
-                IncidentDto oldIncidentNew = oldIncident.IncidentToDto();
+                oldIncident.Number = incident.Number;
+                oldIncident.Significance = incident.Significance;
+                oldIncident.Workspace = incident.Workspace;
+                oldIncident.Date = incident.Date;
+                oldIncident.Time = incident.Time;
+                oldIncident.Description = incident.Description;
+                oldIncident.ThirdPartyHelp = incident.ThirdPartyHelp;
+                oldIncident.ProblemSolved = incident.ProblemSolved;
+                oldIncident.FurtherAction = incident.FurtherAction;
+                oldIncident.FurtherActionPerson = incident.FurtherActionPerson;
+                oldIncident.ActionDescription = incident.ActionDescription;
+                oldIncident.SolvingDate = incident.SolvingDate;
+                oldIncident.Remarks = incident.Remarks;
+                oldIncident.Verifies = incident.Verifies;
+                oldIncident.UserId = incident.UserId;
+                oldIncident.CategoryId = incident.CategoryId;
+                oldIncident.Category = incident.Category;
 
                 incidentValidator.ValidateAndThrow(incident);
 

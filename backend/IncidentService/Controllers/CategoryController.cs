@@ -132,15 +132,17 @@ namespace IncidentService.Controllers
 
                 //mapper.Map(category, oldCategory);
 
-                CategoryDto oldCategoryNew = oldCategory.CategoryToDto();
+                //oldCategory.CategoryName = category.CategoryName;
 
                 categoryValidator.ValidateAndThrow(category);
+
+                //await categoriesService.UpdateCategoryAsync(oldCategory);
 
                 await categoriesService.SaveChangesAsync();
 
                 //return Ok(mapper.Map<CategoryDto>(oldCategory));
 
-                return Ok(oldCategoryNew.DtoToCategory());
+                return Ok(oldCategory.CategoryToDto());
             }
             catch (ValidationException v)
             {
