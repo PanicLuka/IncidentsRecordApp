@@ -39,8 +39,12 @@
       ],
       "UpstreamPathTemplate": "/weather",
       "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "FileCacheOptions": { "TtlSeconds": 30 },
-      "SwaggerKey":  "weather"
+      "SwaggerKey": "weather"
     }
 
   ],
