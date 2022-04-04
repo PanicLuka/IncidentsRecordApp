@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UserService.Data;
 using UserService.Enitites;
+using UserService.Helpers;
 using UserService.Models;
 using UserService.Validators;
 
@@ -17,15 +19,15 @@ namespace UserService.Controllers
     [Route("api/role")]
     [Produces("application/json", "application/xml")]
     [Consumes("application/json")]
+    [Authorize(Roles = "Admin")]
     public class RoleController : ControllerBase
     {
-        private readonly IMapper mapper;
+        
         private readonly IRoleRepository repository;
         private readonly RoleValidator roleValidator;
 
-        public RoleController(IMapper mapper, IRoleRepository repository, RoleValidator roleValidator)
+        public RoleController(IRoleRepository repository, RoleValidator roleValidator)
         {
-            this.mapper = mapper;
             this.repository = repository;
             this.roleValidator = roleValidator;
         }
@@ -47,7 +49,7 @@ namespace UserService.Controllers
 
             foreach(var role in roles)
             {
-                RoleDto roleDto = mapper.Map<RoleDto>(role);
+                RoleDto roleDto = role.RoleToDto();
 
                 roleDtos.Add(roleDto);
             }
@@ -67,7 +69,7 @@ namespace UserService.Controllers
                 return NotFound();
             }
 
-            var roleDto = mapper.Map<RoleDto>(role);
+            var roleDto = role.RoleToDto();
 
             return Ok(roleDto);
         }
@@ -81,7 +83,7 @@ namespace UserService.Controllers
         {
             try
             {
-                Role roleEntity = mapper.Map<Role>(roleDto);
+                Role roleEntity = roleDto.DtoToRole();
 
                 roleValidator.ValidateAndThrow(roleEntity);
 
@@ -118,19 +120,20 @@ namespace UserService.Controllers
                     return NotFound();
                 }
 
-                Role role = mapper.Map<Role>(roleDto);
+                Role role = roleDto.DtoToRole();
 
                 roleValidator.ValidateAndThrow(role);
 
-                mapper.Map(role, oldRole);
+                //mapper.Map(role, oldRole);
 
-                
+                oldRole.UserType = role.UserType;
 
                 await repository.SaveChangesAsync();
 
 
 
-                return Ok(mapper.Map<RoleDto>(oldRole));
+                //return Ok(mapper.Map<RoleDto>(oldRole));
+                return Ok(oldRole.RoleToDto());
 
 
 
@@ -154,7 +157,7 @@ namespace UserService.Controllers
         {
             try
             {
-                var role = repository.GetRoleByIdAsync(RoleId);
+                var role = await repository.GetRoleByIdAsync(RoleId);
 
                 if (role == null)
                 {
