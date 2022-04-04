@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using IncidentService.Controllers;
 using IncidentService.Data;
+using IncidentService.Models;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
@@ -17,7 +19,7 @@ namespace IncidentService.Tests
         [Fact]
         public async void GetCategoryByIdAsync()
         {
-            
+
         }
     }
 }

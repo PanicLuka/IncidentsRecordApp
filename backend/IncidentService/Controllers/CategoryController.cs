@@ -28,6 +28,11 @@ namespace IncidentService.Controllers
             this.categoryValidator = categoryValidator;
         }
 
+        public CategoryController(ICategoryRepository categoryRepository)
+        {
+            this.categoryRepository = categoryRepository;
+        }
+
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
