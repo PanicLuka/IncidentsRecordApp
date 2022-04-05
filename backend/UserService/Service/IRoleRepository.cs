@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserService.Enitites;
+using UserService.Models;
 
 namespace UserService.Data
 {
     public interface IRoleRepository
     {
-        Task CreateRoleAysnc (Role Role);
+        void CreateRole (RoleDto Role);
 
-        Task<List<Role>> GetAllRolesAsync();
+        List<RoleDto> GetAllRoles();
 
-        Task<Role> GetRoleByIdAsync(int RoleId);
+        RoleDto GetRoleById(Guid RoleId);
 
-        Task<string> GetRoleByRoleIdAsync(int RoleId);
-        Task UpdateRoleAsync(Role Role);
+        Role GetRoleByIdHelper(Guid RoleId);
 
-        Task DeleteRoleAsync(int RoleId);
+        string GetRoleByRoleId(Guid RoleId);
+        RoleDto UpdateRole(Guid roleId, RoleDto Role);
 
-        Task<bool> SaveChangesAsync();
+        void DeleteRole(Guid RoleId);
+
+        bool SaveChanges();
 
     }
 }

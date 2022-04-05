@@ -1,69 +1,132 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UserService.Enitites;
+using UserService.Helpers;
+using UserService.Models;
+using UserService.Validators;
+using BC = BCrypt.Net.BCrypt;
 
 namespace UserService.Data
 {
     public class UserRepository : IUserRepository
     {
         private readonly UserContext context;
-        private readonly IMapper mapper;
+        private readonly UserValidator userValidator;
 
-        public UserRepository(UserContext context, IMapper mapper)
+        public UserRepository(UserContext context, UserValidator userValidator)
         {
             this.context = context;
-            this.mapper = mapper;
+            this.userValidator = userValidator;
         }
 
-        public async Task CreateUserAsync(User User)
+        public void CreateUser(UserDto UserDto)
         {
-            User.Password = BCrypt.Net.BCrypt.HashPassword(User.Password);
-            await context.AddAsync(User);
+
+            userValidator.ValidateAndThrow(UserDto);
+
+            User userEntity = UserDto.DtoToUser();
+
+            userEntity.Password = BC.HashPassword(userEntity.Password);
+
+            context.Add(userEntity);
+
+            SaveChanges();
         }
 
-        public async Task DeleteUserAsync(int UserId)
+        public void DeleteUser(Guid UserId)
         {
-            var user = await GetUserByIdAsync(UserId);
+            var user = GetUserByIdHelper(UserId);
 
             context.Remove(user);
+
+            SaveChanges();
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public List<UserDto> GetAllUsers()
         {
-            return await context.register.ToListAsync();
+            var users  = context.register.ToList();
+
+            List<UserDto> userDtos = new List<UserDto>();
+
+            foreach (var user in users)
+            {
+               
+                UserDto userDto = user.UserToDto();
+
+                userDtos.Add(userDto);
+            }
+
+            return userDtos;
         }
 
-        public async Task<int> GetRoleIdByUserEmail(string Email)
-        {
-           var user = await context.register.FirstOrDefaultAsync(u => u.Email == Email);
+        
 
-            int roleId = user.RoleId;
+        public Guid GetRoleIdByUserEmail(string Email)
+        {
+           var user = context.register.FirstOrDefault(u => u.Email == Email);
+
+            Guid roleId = user.RoleId;
 
             return roleId;
         }
 
-        public async Task<User> GetUserByEmailAsync(string Email)
+        public UserDto GetUserByEmail(string Email)
         {
-            return await context.register.FirstOrDefaultAsync(u => u.Email == Email);
+            var user = context.register.FirstOrDefault(e => e.Email == Email);
+
+            var userDto = user.UserToDto();
+
+            return userDto;
         }
 
-        public async Task<User> GetUserByIdAsync(int UserId)
+        public UserDto GetUserById(Guid UserId)
         {
-            return await context.register.FirstOrDefaultAsync(e => e.UserId == UserId);
+           var user = context.register.FirstOrDefault(e => e.UserId == UserId);
+
+            var userDto = user.UserToDto();
+
+            return userDto;
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public bool SaveChanges()
         {
-           return await context.SaveChangesAsync() > 0;
+           return context.SaveChanges() > 0;
         }
 
-        public async Task UpdateUserAsync(User User)
+        public User GetUserByIdHelper(Guid UserId)
         {
-           
+            var user = context.register.FirstOrDefault(e => e.UserId == UserId);
+
+            return user;
         }
+        public UserDto UpdateUser(Guid UserId, UserDto userDto)
+        {
+            var oldUserDto = GetUserByIdHelper(UserId);
+
+            if (oldUserDto == null)
+            {
+                CreateUser(userDto);
+                return oldUserDto.UserToDto();
+            }
+            else
+            {
+                User user = userDto.DtoToUser();
+
+                oldUserDto.FirstName = user.FirstName;
+                oldUserDto.LastName = user.LastName;
+                oldUserDto.Email = user.Email;
+                oldUserDto.Password = user.Password;
+
+
+                SaveChanges();
+                return oldUserDto.UserToDto();
+            }
+
+        }
+
+        
     }
 }

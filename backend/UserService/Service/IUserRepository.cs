@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UserService.Enitites;
+using UserService.Models;
 
 namespace UserService.Data
 {
     public interface IUserRepository
     {
-        Task CreateUserAsync(User User);
+        void CreateUser(UserDto User);
         
-        Task<List<User>> GetAllUsersAsync();
+        List<UserDto> GetAllUsers();
 
-        Task<User> GetUserByIdAsync(int UserId);
+        UserDto GetUserById(Guid UserId);
 
-        Task<User> GetUserByEmailAsync(string Email);
-        Task UpdateUserAsync(User User);
+        User GetUserByIdHelper(Guid UserId);
+        UserDto GetUserByEmail(string Email);
+        UserDto UpdateUser(Guid UserId, UserDto userDto);
 
-        Task DeleteUserAsync(int UserId);
+        void DeleteUser(Guid UserId);
 
-        Task<int> GetRoleIdByUserEmail(string Email);
+        Guid GetRoleIdByUserEmail(string Email);
 
-        Task<bool> SaveChangesAsync();
+        bool SaveChanges();
 
     }
 }
