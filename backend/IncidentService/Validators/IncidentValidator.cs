@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentValidation;
-using IncidentService.Entities;
+using IncidentService.Models;
 
 namespace IncidentService.Validators
 {
-    public class IncidentValidator : AbstractValidator<Incident>
+    public class IncidentValidator : AbstractValidator<IncidentDto>
     {
         public IncidentValidator()
         {
