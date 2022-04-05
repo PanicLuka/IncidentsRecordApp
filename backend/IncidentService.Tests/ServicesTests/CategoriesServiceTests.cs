@@ -12,7 +12,7 @@ using Xunit;
 
 namespace IncidentService.Tests
 {
-    public class CategoryTest
+    public class CategoriesServiceTests
     {
         public Mock<ICategoriesService> mock = new Mock<ICategoriesService>();
 

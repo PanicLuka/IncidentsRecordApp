@@ -9,7 +9,7 @@ using Xunit;
 
 namespace IncidentService.Tests
 {
-    public class IncidentTest
+    public class IncidentsServiceTests
     {
         public Mock<IIncidentsService> mock = new Mock<IIncidentsService>();
 
