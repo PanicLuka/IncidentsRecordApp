@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using UserService.Data;
 using UserService.Models;
+using BC = BCrypt.Net.BCrypt;
 
 namespace UserService.Service
 {
@@ -16,18 +14,17 @@ namespace UserService.Service
     {
         private readonly IUserRepository userRepository;
         private readonly IRoleRepository roleRepository;
-        private readonly static int iterations = 100;
         public Authenticate(IUserRepository userRepository, IRoleRepository roleRepository)
         {
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
         }
-        public async Task<string> GenerateToken(UserLogin user)
+        public string GenerateToken(UserLogin user)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey@123"));
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            int roleId = await userRepository.GetRoleIdByUserEmail(user.Email);
-            string roleType = await roleRepository.GetRoleByRoleIdAsync(roleId);
+            Guid roleId =  userRepository.GetRoleIdByUserEmail(user.Email);
+            string roleType =  roleRepository.GetRoleByRoleId(roleId);
 
 
             List<Claim> claims = new List<Claim>
@@ -50,16 +47,21 @@ namespace UserService.Service
             return tokenString;
         }
 
+
         
-        public bool VerifyPassword(string password, string savedHash, string savedSalt)
+
+        public bool VerifyPassword(UserLogin user)
         {
-            var saltBytes = Convert.FromBase64String(savedSalt);
-            var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, iterations);
-            if (Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(256)) == savedHash)
+            var account = userRepository.GetUserByEmail(user.Email);
+            
+            if (!BC.Verify(user.Password, account.Password))
+            {
+                return false;
+            }
+            else
             {
                 return true;
             }
-            return false;
         }
     }
 }
