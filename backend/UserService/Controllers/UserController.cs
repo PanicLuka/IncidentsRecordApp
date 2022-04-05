@@ -1,18 +1,11 @@
-﻿using AutoMapper;
-using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UserService.Data;
-using UserService.Enitites;
-using UserService.Helpers;
 using UserService.Models;
-using UserService.Service;
 using UserService.Validators;
 
 namespace UserService.Controllers
@@ -21,18 +14,13 @@ namespace UserService.Controllers
     [Route("api/register")]
     [Produces("application/json", "application/xml")]
     [Consumes("application/json")]
-    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository repository;
-        private readonly UserValidator userValidator;
-        private readonly IAuthenticate authenticate;
 
-        public UserController(IUserRepository repository, UserValidator userValidator, IAuthenticate authenticate)
+        public UserController(IUserRepository repository)
         {
             this.repository = repository;
-            this.userValidator = userValidator;
-            this.authenticate = authenticate;
         }
 
         [HttpGet]
@@ -40,24 +28,13 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
-        public async Task<ActionResult<List<UserDto>>> GetUsersAsync()
+        public ActionResult<List<UserDto>> GetUsers()
         {
-            var users = await repository.GetAllUsersAsync();
+            var userDtos =  repository.GetAllUsers();
 
-            if (users == null || users.Count == 0)
+            if (userDtos == null || userDtos.Count == 0)
             {
                 return NoContent();
-            }
-
-            List<UserDto> userDtos = new List<UserDto>();
-
-            foreach (var user in users)
-            {
-                // UserDto registerDto = mapper.Map<UserDto>(user);
-
-                UserDto userDto = user.UserToDto();
-
-                userDtos.Add(userDto);
             }
 
             return Ok(userDtos);
@@ -67,36 +44,32 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{UserId}")]
-        public async Task<ActionResult<UserDto>> GetUserByIdAsync(int UserId)
+        public  ActionResult<UserDto> GetUserById(Guid UserId)
         {
-            var user = await repository.GetUserByIdAsync(UserId);
+            var userDto =  repository.GetUserById(UserId);
 
-            if (user == null)
+            if (userDto == null)
             {
                 return NotFound();
             }
 
-            var userDto = user.UserToDto();
-
             return Ok(userDto);
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[HttpGet("{Email}")]
-        //public async Task<ActionResult<UserDto>> GetUserByEmailAsync(string Email)
-        //{
-        //    var user = await repository.GetUserByEmailAsync(Email);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("user/{Email}")]
+        public ActionResult<UserDto> GetUserByEmail(string Email)
+        {
+            var userDto = repository.GetUserByEmail(Email);
 
-        //    if(user == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (userDto == null)
+            {
+                return NotFound();
+            }
 
-        //    var userDto = user.UserToDto(); 
-
-        //    return Ok(userDto);
-        //}
+            return Ok(userDto);
+        }
 
 
         [HttpPost]
@@ -104,24 +77,12 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateUserAsync([FromBody] UserDto user)
+        public ActionResult CreateUser([FromBody] UserDto userDto)
         {
             try
             {
-                //User userEntity = mapper.Map<User>(user);
-
-                //authenticate.HashPassword(user.Password);
-
-                User userEntity = user.DtoToUser();
-
-                userValidator.ValidateAndThrow(userEntity);
-
                 
-                
-
-                await repository.CreateUserAsync(userEntity);
-
-                await repository.SaveChangesAsync();
+                repository.CreateUser(userDto);
 
                 return Ok();
             }
@@ -142,38 +103,19 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateUserAsync(int UserId,[FromBody] UserDto userDto)
+        public ActionResult UpdateUser(Guid UserId,[FromBody] UserDto userDto)
         {
             try
             {
 
-                var oldUser = await repository.GetUserByIdAsync(UserId);
+                var newUser =  repository.UpdateUser(UserId, userDto);
 
-                if(oldUser == null)
+                if(newUser == null)
                 {
                     return NotFound();
                 }
 
-                User user = userDto.DtoToUser();
-
-                oldUser.FirstName = user.FirstName;
-                oldUser.LastName = user.LastName;
-                oldUser.Email = user.Email;
-                oldUser.Password = user.Password;
-
-
-                userValidator.ValidateAndThrow(user);
-
-                //mapper.Map(user, oldUser);
-
-                
-                await repository.SaveChangesAsync();
-
-
-
-                //return Ok(mapper.Map<UserDto>(oldUser));
-
-                return Ok(oldUser.UserToDto());
+                return Ok(newUser);
                 
 
             }
@@ -192,19 +134,17 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{UserId}")]
-        public async Task<IActionResult> DeleteUserAsync(int UserId)
+        public IActionResult DeleteUser(Guid UserId)
         {
             try
             {
-                var user =  await repository.GetUserByIdAsync(UserId);
 
-                if(user == null)
+                if (repository.GetUserById(UserId) == null)
                 {
                     return NotFound();
                 }
 
-                await repository.DeleteUserAsync(UserId);
-                await repository.SaveChangesAsync();
+                repository.DeleteUser(UserId);
                 return NoContent();
 
             }
