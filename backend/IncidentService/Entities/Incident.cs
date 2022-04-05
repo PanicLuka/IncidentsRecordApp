@@ -1,15 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using IncidentService.Models;
 
 namespace IncidentService.Entities
 {
     public class Incident
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IncidentId { get; set; }
+        public Guid IncidentId { get; set; }
         public string Number { get; set; }
         public int Significance { get; set; }
         public string Workspace { get; set; }
@@ -25,9 +23,9 @@ namespace IncidentService.Entities
         public string Remarks { get; set; }
         public string Verifies { get; set; }
         //[ForeignKey("FK_UserId")]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         [ForeignKey("FK_CategoryId")]
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public Category Category { get; set; }
 
     }
