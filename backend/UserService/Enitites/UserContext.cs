@@ -32,43 +32,43 @@ namespace UserService.Enitites
             modelBuilder.Entity<Role>()
                 .HasData(new
                 {
-                    RoleId = 2,
+                    RoleId = Guid.Parse("66c72bcd-43ac-4914-a2e9-856fac56b891"),
                     UserType = "User"
                 });
 
             modelBuilder.Entity<Role>()
                 .HasData(new
                 {
-                    RoleId = 1,
+                    RoleId = Guid.Parse("e4711e98-5cb3-4ebc-8c2e-1f90c54f9255"),
                     UserType = "Admin"
                 });
 
             modelBuilder.Entity<User>()
                 .Property(b => b.RoleId)
-                .HasDefaultValue(2);
+                .HasDefaultValue(Guid.Parse("66c72bcd-43ac-4914-a2e9-856fac56b891"));
 
 
 
             modelBuilder.Entity<User>()
                 .HasData(new
                 {
-                    UserId = 1,
+                    UserId = Guid.Parse("f0077164-4446-45d6-9185-aa2d60aee928"),
                     FirstName = "Marko",
                     LastName = "Milic",
                     Email = "marko@gmail.com",
                     Password = "123456",
-                    RoleId = 2
+                    RoleId = Guid.Parse("66c72bcd-43ac-4914-a2e9-856fac56b891")
                 });
 
             modelBuilder.Entity<User>()
                 .HasData(new
                 {
-                    UserId = 2,
+                    UserId = Guid.Parse("089c377b-6464-4692-987e-483d556753dc"),
                     FirstName = "Nikola",
                     LastName = "Milic",
                     Email = "Nikola@gmail.com",
                     Password = "123456",
-                    RoleId = 1
+                    RoleId = Guid.Parse("e4711e98-5cb3-4ebc-8c2e-1f90c54f9255")
                 });
         }
 

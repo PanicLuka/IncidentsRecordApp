@@ -13,8 +13,7 @@ namespace UserService.Enitites
         #region
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         
         public string FirstName { get; set; }
 
@@ -24,7 +23,7 @@ namespace UserService.Enitites
         
         public string Password { get; set; }
 
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
 
         public Role Role { get; set; }
 
