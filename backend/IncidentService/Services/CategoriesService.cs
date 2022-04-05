@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using FluentValidation;
 using IncidentService.Entities;
+using IncidentService.Helpers;
+using IncidentService.Models;
+using IncidentService.Validators;
 using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Services
@@ -9,40 +13,87 @@ namespace IncidentService.Services
     public class CategoriesService : ICategoriesService
     {
         private readonly IncidentContext context;
+        private readonly CategoryValidator categoryValidator = new CategoryValidator();
 
         public CategoriesService(IncidentContext context)
         {
             this.context = context;
         }
-        public async Task CreateCategoryAsync(Category category)
+        public void CreateCategory(CategoryDto categoryDto)
         {
-            await context.AddAsync(category);
+            Category category = categoryDto.DtoToCategory();
+
+            categoryValidator.ValidateAndThrow(categoryDto);
+
+            context.Add(category);
+
+            SaveChanges();
         }
 
-        public async Task DeleteCategoryAsync(int id)
+        public void DeleteCategory(Guid id)
         {
-            var category = await GetCategoryByIdAsync(id);
+            var category = GetCategoryForUpdateById(id);
             context.Remove(category);
+            SaveChanges();
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int id)
+        public CategoryWithIdDto GetCategoryById(Guid id)
         {
-            return await context.Categories.FirstOrDefaultAsync(e => e.CategoryId == id);
+            Category category = context.Categories.FirstOrDefault(e => e.CategoryId == id);
+
+            CategoryWithIdDto categoryWithIdDto = category.CategoryToCategoryWithIdDto();
+
+            return categoryWithIdDto;
         }
 
-        public async Task<List<Category>> GetCategoriesAsync()
+        public List<CategoryDto> GetCategories()
         {
-            return await context.Categories.ToListAsync();
+            List<Category> categories = context.Categories.ToList();
+
+            List<CategoryDto> categoryDtos = new List<CategoryDto>();
+
+            foreach (var category in categories)
+            {
+                CategoryDto categoryDto = category.CategoryToDto();
+
+                categoryDtos.Add(categoryDto);
+            }
+            return categoryDtos;
         }
 
-        public async Task UpdateCategoryAsync(Category category)
+        public Category GetCategoryForUpdateById (Guid id)
         {
+            Category category = context.Categories.FirstOrDefault(e => e.CategoryId == id);
 
+            return category;
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public CategoryDto UpdateCategory(Guid CategoryId, CategoryDto categoryDto)
         {
-            return await context.SaveChangesAsync() > 0;
+            var oldCategory = GetCategoryForUpdateById(CategoryId);
+
+            if (oldCategory == null)
+            {
+                CreateCategory(categoryDto);
+                return categoryDto;
+            }
+            else
+            {
+                Category category = categoryDto.DtoToCategory();
+
+                oldCategory.CategoryName = category.CategoryName;
+
+                categoryValidator.ValidateAndThrow(categoryDto);
+
+                SaveChanges();
+
+                return oldCategory.CategoryToDto();
+            }
+        }
+
+        public bool SaveChanges()
+        {
+            return context.SaveChanges() > 0;
         }
 
     }

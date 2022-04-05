@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using IncidentService.Services;
-using IncidentService.Entities;
 using IncidentService.Models;
-using IncidentService.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using IncidentService.Helpers;
 
 namespace IncidentService.Controllers
 {
@@ -19,40 +14,23 @@ namespace IncidentService.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoriesService categoriesService;
-        //private readonly IMapper mapper;
-        private readonly CategoryValidator categoryValidator;
 
-        public CategoryController(ICategoriesService categoriesService, /*IMapper mapper,*/ CategoryValidator categoryValidator)
+        public CategoryController(ICategoriesService categoriesService)
         {
             this.categoriesService = categoriesService;
-            //this.mapper = mapper;
-            this.categoryValidator = categoryValidator;
         }
 
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task <ActionResult<List<CategoryDto>>> GetCategories()
+        public ActionResult<List<CategoryDto>> GetCategories()
         {
-            var categories = await categoriesService.GetCategoriesAsync();
+            var categoryDtos = categoriesService.GetCategories();
 
-
-            if (categories == null || categories.Count == 0)
+            if (categoryDtos == null || categoryDtos.Count == 0)
             {
                 return NoContent();
-            }
-
-
-            List<CategoryDto> categoryDtos = new List<CategoryDto>();
-
-            foreach (var category in categories)
-            {
-                //CategoryDto categoryDto = mapper.Map<CategoryDto>(category);
-
-                CategoryDto categoryDto = category.CategoryToDto();
-
-                categoryDtos.Add(categoryDto);
             }
 
             return Ok(categoryDtos);
@@ -61,18 +39,14 @@ namespace IncidentService.Controllers
         [HttpGet("{CategoryId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CategoryDto>> GetCategoryByIdAsync(int CategoryId)
+        public ActionResult<CategoryWithIdDto> GetCategoryById(Guid CategoryId)
         {
-            var category = await categoriesService.GetCategoryByIdAsync(CategoryId);
+            var categoryDto = categoriesService.GetCategoryById(CategoryId);
 
-            if (category == null)
+            if (categoryDto == null)
             {
                 return NotFound();
             }
-
-            //CategoryDto categoryDto = mapper.Map<CategoryDto>(category);
-            
-            CategoryDto categoryDto = category.CategoryToDto();
 
             return Ok(categoryDto);
 
@@ -83,19 +57,11 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDto categoryDto)
+        public ActionResult CreateCategory([FromBody] CategoryDto categoryDto)
         {
             try
-            {
-                //Category category = mapper.Map<Category>(categoryDto);
-
-                Category category = categoryDto.DtoToCategory();
-
-                categoryValidator.ValidateAndThrow(category);
-
-                await categoriesService.CreateCategoryAsync(category);
-
-                await categoriesService.SaveChangesAsync();
+            { 
+                categoriesService.CreateCategory(categoryDto);
 
                 return Ok();
             }
@@ -115,34 +81,18 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateCategoryAsync(int CategoryId, [FromBody] CategoryDto categoryDto)
+        public ActionResult UpdateCategory(Guid CategoryId, [FromBody] CategoryDto categoryDto)
         {
             try
             {
-                var oldCategory = await categoriesService.GetCategoryByIdAsync(CategoryId);
+                var newCategory = categoriesService.UpdateCategory(CategoryId, categoryDto);
 
-                if (oldCategory == null)
+                if (newCategory == null)
                 {
                     return NotFound();
                 }
 
-                //Category category = mapper.Map<Category>(categoryDto);
-
-                Category category = categoryDto.DtoToCategory();
-
-                //mapper.Map(category, oldCategory);
-
-                //oldCategory.CategoryName = category.CategoryName;
-
-                categoryValidator.ValidateAndThrow(category);
-
-                //await categoriesService.UpdateCategoryAsync(oldCategory);
-
-                await categoriesService.SaveChangesAsync();
-
-                //return Ok(mapper.Map<CategoryDto>(oldCategory));
-
-                return Ok(oldCategory.CategoryToDto());
+                return Ok(newCategory);
             }
             catch (ValidationException v)
             {
@@ -159,20 +109,18 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteCategoryAsync(int CategoryId)
+        public IActionResult DeleteCategory(Guid CategoryId)
         {
             try
             {
-                var category = await categoriesService.GetCategoryByIdAsync(CategoryId);
+                var category = categoriesService.GetCategoryById(CategoryId);
 
                 if (category == null)
                 {
                     return NotFound();
-
                 }
 
-                await categoriesService.DeleteCategoryAsync(CategoryId);
-                await categoriesService.SaveChangesAsync();
+                categoriesService.DeleteCategory(CategoryId);
                 return NoContent();
             }
             catch (Exception e)

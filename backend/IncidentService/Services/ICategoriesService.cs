@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using IncidentService.Entities;
+using IncidentService.Models;
 
 namespace IncidentService.Services
 {
     public interface ICategoriesService
     {
-        Task<List<Category>> GetCategoriesAsync();
-        Task<Category> GetCategoryByIdAsync(int id);
-        Task UpdateCategoryAsync(Category category);
-        Task DeleteCategoryAsync(int id);
-        Task CreateCategoryAsync(Category category);
-        Task<bool> SaveChangesAsync();
+        List<CategoryDto> GetCategories();
+        CategoryWithIdDto GetCategoryById(Guid id);
+        Category GetCategoryForUpdateById(Guid id);
+        CategoryDto UpdateCategory(Guid CategoryId, CategoryDto categoryDto);
+        void DeleteCategory(Guid id);
+        void CreateCategory(CategoryDto categoryDto);
+        bool SaveChanges();
     }
 }
