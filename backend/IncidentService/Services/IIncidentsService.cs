@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using IncidentService.Entities;
+using IncidentService.Models;
 
 namespace IncidentService.Services
 {
     public interface IIncidentsService
     {
-        Task<List<Incident>> GetIncidentsAsync();
-        Task<Incident> GetIncidentByIdAsync(int id);
-        Task UpdateIncidentAsync(Incident incident);
-        Task DeleteIncidentAsync(int id);
-        Task CreateIncidentAsync(Incident incident);
-        Task<bool> SaveChangesAsync();
+        List<IncidentDto> GetIncidents();
+        IncidentWithIdDto GetIncidentById(Guid id);
+        Incident GetIncidentForUpdateById(Guid id);
+        IncidentDto UpdateIncident(Guid id, IncidentDto incidentDto);
+        void DeleteIncident(Guid id);
+        void CreateIncident(IncidentDto incidentDto);
+        bool SaveChanges();
 
     }
 }

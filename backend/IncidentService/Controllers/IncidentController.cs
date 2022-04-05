@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using IncidentService.Services;
 using IncidentService.Entities;
@@ -19,40 +17,23 @@ namespace IncidentService.Controllers
     public class IncidentController : ControllerBase
     {
         private readonly IIncidentsService incidentsService;
-        //private readonly IMapper mapper;
-        private readonly IncidentValidator incidentValidator;
 
-        public IncidentController(IIncidentsService incidentsService, /*IMapper mapper,*/ IncidentValidator incidentValidator)
+        public IncidentController(IIncidentsService incidentsService)
         {
             this.incidentsService = incidentsService;
-            //this.mapper = mapper;
-            this.incidentValidator = incidentValidator;
         }
 
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<IncidentDto>>> GetIncidents()
+        public ActionResult<List<IncidentDto>> GetIncidents()
         {
-            var incidents = await incidentsService.GetIncidentsAsync();
+            var incidentDtos = incidentsService.GetIncidents();
 
-
-            if (incidents == null || incidents.Count == 0)
+            if (incidentDtos == null || incidentDtos.Count == 0)
             {
                 return NoContent();
-            }
-
-
-            List<IncidentDto> incidentDtos = new List<IncidentDto>();
-
-            foreach (var incident in incidents)
-            {
-                //IncidentDto incidentDto = mapper.Map<IncidentDto>(incident);
-
-                IncidentDto incidentDto = incident.IncidentToDto();
-
-                incidentDtos.Add(incidentDto);
             }
 
             return Ok(incidentDtos);
@@ -61,18 +42,14 @@ namespace IncidentService.Controllers
         [HttpGet("{IncidentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IncidentDto>> GetIncidentByIdAsync(int IncidentId)
+        public ActionResult<IncidentDto> GetIncidentById(Guid IncidentId)
         {
-            var incident = await incidentsService.GetIncidentByIdAsync(IncidentId);
+            var incidentDto = incidentsService.GetIncidentById(IncidentId);
 
-            if (incident == null)
+            if (incidentDto == null)
             {
                 return NotFound();
             }
-
-            //IncidentDto incidentDto = mapper.Map<IncidentDto>(incident);
-
-            IncidentDto incidentDto = incident.IncidentToDto();
 
             return Ok(incidentDto);
 
@@ -83,19 +60,11 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateIncidentAsync([FromBody] IncidentDto incidentDto)
+        public ActionResult CreateIncident([FromBody] IncidentDto incidentDto)
         {
             try
             {
-                //Incident incident = mapper.Map<Incident>(incidentDto);
-
-                Incident incident = incidentDto.DtoToIncident();
-
-                incidentValidator.ValidateAndThrow(incident);
-
-                await incidentsService.CreateIncidentAsync(incident);
-
-                await incidentsService.SaveChangesAsync();
+                incidentsService.CreateIncident(incidentDto);
 
                 return Ok();
             }
@@ -114,48 +83,18 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateIncidentAsync(int IncidentId, [FromBody] IncidentDto incidentDto)
+        public ActionResult UpdateIncident(Guid IncidentId, [FromBody] IncidentDto incidentDto)
         {
             try
             {
-                var oldIncident = await incidentsService.GetIncidentByIdAsync(IncidentId);
+                var newIncident = incidentsService.UpdateIncident(IncidentId, incidentDto);
 
-                if (oldIncident == null)
+                if (newIncident == null)
                 {
                     return NotFound();
                 }
 
-                //Incident incident = mapper.Map<Incident>(incidentDto);
-
-                Incident incident = incidentDto.DtoToIncident();
-
-                //mapper.Map(incident, oldIncident);
-
-                oldIncident.Number = incident.Number;
-                oldIncident.Significance = incident.Significance;
-                oldIncident.Workspace = incident.Workspace;
-                oldIncident.Date = incident.Date;
-                oldIncident.Time = incident.Time;
-                oldIncident.Description = incident.Description;
-                oldIncident.ThirdPartyHelp = incident.ThirdPartyHelp;
-                oldIncident.ProblemSolved = incident.ProblemSolved;
-                oldIncident.FurtherAction = incident.FurtherAction;
-                oldIncident.FurtherActionPerson = incident.FurtherActionPerson;
-                oldIncident.ActionDescription = incident.ActionDescription;
-                oldIncident.SolvingDate = incident.SolvingDate;
-                oldIncident.Remarks = incident.Remarks;
-                oldIncident.Verifies = incident.Verifies;
-                oldIncident.UserId = incident.UserId;
-                oldIncident.CategoryId = incident.CategoryId;
-                oldIncident.Category = incident.Category;
-
-                incidentValidator.ValidateAndThrow(incident);
-
-                await incidentsService.SaveChangesAsync();
-
-                //return Ok(mapper.Map<IncidentDto>(oldIncident));
-
-                return Ok(oldIncident.IncidentToDto());
+                return Ok(newIncident);
             }
             catch (ValidationException v)
             {
@@ -171,20 +110,19 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{IncidentId}")]
-        public async Task<IActionResult> DeleteIncidentAsync(int IncidentId)
+        public IActionResult DeleteIncident(Guid IncidentId)
         {
             try
             {
-                var incident = await incidentsService.GetIncidentByIdAsync(IncidentId);
+                var incident = incidentsService.GetIncidentById(IncidentId);
 
                 if (incident == null)
                 {
                     return NotFound();
-
                 }
 
-                await incidentsService.DeleteIncidentAsync(IncidentId);
-                await incidentsService.SaveChangesAsync();
+                incidentsService.DeleteIncident(IncidentId);
+
                 return NoContent();
             }
             catch (Exception e)
