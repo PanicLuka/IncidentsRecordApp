@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using IncidentService.Controllers;
 using IncidentService.Entities;
+using IncidentService.Helpers;
 using IncidentService.Models;
 using IncidentService.Services;
 using IncidentService.Validators;
@@ -22,93 +23,97 @@ namespace IncidentService.Tests.ControllersTests
     public class CategoryControllerTests
     {
 
-        /*private readonly CategoryController _categoryController;
-        private readonly Mock<ICategoriesService> service = new Mock<ICategoriesService>();
+        private readonly CategoryController _categoryController;
+        private readonly Mock<ICategoriesService> mockCategoriesService = new Mock<ICategoriesService>();
 
         public CategoryControllerTests()
         {
-            _categoryController = new CategoryController(service.Object);
-        }*/
-        
-        /*[Fact]
-        public async Task DeleteCategories_ReturnsNoContent()
-        {
+            _categoryController = new CategoryController(mockCategoriesService.Object);
+        }
 
-            service.SetupGet(mock => mock.DeleteCategoryAsync(It.IsAny<int>())).Returns(Task.FromResult(0));
-            // arrange
-            CategoryController categoryController = new CategoryController(service.Object, validator.Object);
-            
-            //act
-            var actionResult = await categoryController.DeleteCategoryAsync(7);
-            var statusCodeResult = (IStatusCodeActionResult)actionResult;
-            
-            //assert
-            Assert.Equal(StatusCodes.Status204NoContent, statusCodeResult.StatusCode);
-        }*/
-
-        /*[Fact]
-        public async Task GetCategoriesByIdAsync_ReturnsCategoryDto_CategoryWithSpecificeIdExistsAsync()
+        [Fact]
+        public void GetCategories_ReturnsListOfCategories_CategoriesExist()
         {
             // Arrange
+            var categoriesDto = GetSampleCategoryDto();
+            mockCategoriesService.Setup(x => x.GetCategories()).Returns(GetSampleCategoryDto);
 
             // Act
+            var actionResult = _categoryController.GetCategories();
+            var result = actionResult.Result as OkObjectResult;
+            var actual = result.Value as IEnumerable<CategoryDto>;
 
             // Assert
-        }*/
+            Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(GetSampleCategoryDto().Count(), actual.Count());
+        }
 
-        /*[Fact]
-        public void Put_Test()
+        [Fact]
+        public void GetCategoryById_ReturnsCategoryWithIdDto_CategoryWithSpecifiedIdExists()
         {
-            CategoryDto r = new CategoryDto()
-            {
-                CategoryName = "new name",
-            };
-            var mockRepo = new Mock<ICategoriesService>();
-            mockRepo.Setup(repo => repo.UpdateCategoryAsync(It.IsAny<Category>()));
-            var controller = new CategoryController(mockRepo.Object, validator.Object);
-
-            // Act
-            var result = controller.UpdateCategoryAsync(7, r);
-
-            // Assert
-            var category = Assert.IsType<CategoryDto>(result);
-            Assert.Equal("new name", category.CategoryName);
-        }*/
-
-        /*[Fact]
-        public async Task GetCategoryByIdAsync_CategoryDto_CategoryWithSpecificeIdExistsAsync()
-        {
-            //arrange
-            var categories = await GetSampleCategory();
+            // Arrange
+            var categories = GetSampleCategory();
             var firstCategory = categories[0];
-            service.Setup(x => x.GetCategoryByIdAsync(1)).Returns(firstCategory);
-            var controller = new CategoryController(service.Object, validator.Object);
+            mockCategoriesService.Setup(x => x.GetCategoryById(Guid.Parse("f17d3536-bb13-47ce-bffd-828ed875d254"))).Returns(firstCategory.CategoryToCategoryWithIdDto());
 
-            //act
-            var actionResult = controller.GetCategoryByIdAsync(1);
+            // Act
+            var actionResult = _categoryController.GetCategoryById(Guid.Parse("f17d3536-bb13-47ce-bffd-828ed875d254"));
             var result = actionResult.Result as OkObjectResult;
 
-            //Assert
+            // Assert
             Assert.IsType<OkObjectResult>(result);
 
             result.Value.Should().BeEquivalentTo(firstCategory);
-        }*/
-        /*private async Task<List<Category>> GetSampleCategory()
+        }
+
+        [Fact]
+        public void GetCategoryById_ReturnsCategoryWithIdDto_CategoryWithSpecifiedIdDoesNotExists()
+        {
+            // Arrange
+            var categories = GetSampleCategory();
+            var firstCategory = categories[0];
+            mockCategoriesService.Setup(x => x.GetCategoryById(Guid.Parse("f17d3536-bb13-47ce-bffd-828ed875d254"))).Returns(firstCategory.CategoryToCategoryWithIdDto());
+
+            // Act
+            var actionResult = _categoryController.GetCategoryById(Guid.Parse("f55d3536-bb13-47ce-bffd-828ed875d254"));
+            var result = actionResult.Result;
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        private List<Category> GetSampleCategory()
         {
             List<Category> output = new List<Category>
             {
                 new Category
                 {
-                    CategoryId = 1,
+                    CategoryId = Guid.Parse("f17d3536-bb13-47ce-bffd-828ed875d254"),
                     CategoryName = "sample1"
                 },
                 new Category
                 {
-                    CategoryId = 2,
+                    CategoryId = Guid.Parse("1514856c-cf11-4941-87f8-3400e0b304a9"),
                     CategoryName = "sample2"
                 }
             };
             return output;
-        }*/
+        }
+
+        private List<CategoryDto> GetSampleCategoryDto()
+        {
+            List<CategoryDto> output = new List<CategoryDto>
+            {
+                new CategoryDto
+                {
+                    CategoryName = "sample1"
+                },
+                new CategoryDto
+                {
+                    CategoryName = "sample2"
+                }
+            };
+            return output;
+        }
     }
 }
