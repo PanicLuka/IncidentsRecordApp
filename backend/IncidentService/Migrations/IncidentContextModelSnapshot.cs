@@ -21,10 +21,9 @@ namespace IncidentService.Migrations
 
             modelBuilder.Entity("IncidentService.Entities.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
@@ -36,23 +35,22 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = 1,
+                            CategoryId = new Guid("df2a59f1-e711-4a91-bccd-08188b54440b"),
                             CategoryName = "testName"
                         });
                 });
 
             modelBuilder.Entity("IncidentService.Entities.Incident", b =>
                 {
-                    b.Property<int>("IncidentId")
+                    b.Property<Guid>("IncidentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ActionDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -87,8 +85,8 @@ namespace IncidentService.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Verifies")
                         .HasColumnType("nvarchar(max)");
@@ -98,14 +96,16 @@ namespace IncidentService.Migrations
 
                     b.HasKey("IncidentId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Incidents");
 
                     b.HasData(
                         new
                         {
-                            IncidentId = 1,
+                            IncidentId = new Guid("89fe62bb-18ed-4eba-8fcd-1b7dbfd20c38"),
                             ActionDescription = "test",
-                            CategoryId = 1,
+                            CategoryId = new Guid("df2a59f1-e711-4a91-bccd-08188b54440b"),
                             Date = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "test",
                             FurtherAction = true,
@@ -117,10 +117,21 @@ namespace IncidentService.Migrations
                             SolvingDate = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ThirdPartyHelp = true,
                             Time = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1,
+                            UserId = new Guid("8edc8128-dc5e-4202-ba18-0a623f954729"),
                             Verifies = "test",
                             Workspace = "test"
                         });
+                });
+
+            modelBuilder.Entity("IncidentService.Entities.Incident", b =>
+                {
+                    b.HasOne("IncidentService.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
