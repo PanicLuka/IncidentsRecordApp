@@ -26,7 +26,7 @@ namespace IncidentService.Entities
             modelBuilder.Entity<Category>()
                 .HasData(new
                 {
-                    CategoryId = 1,
+                    CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b"),
                     CategoryName = "testName"
                 });
 
@@ -34,7 +34,7 @@ namespace IncidentService.Entities
             modelBuilder.Entity<Incident>()
                 .HasData(new
                 {
-                    IncidentId = 1,
+                    IncidentId = Guid.Parse("89fe62bb-18ed-4eba-8fcd-1b7dbfd20c38"),
                     Number = "test01",
                     Significance = 1,
                     Workspace = "test",
@@ -49,8 +49,8 @@ namespace IncidentService.Entities
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "test",
                     Verifies = "test",
-                    UserId = 1,
-                    CategoryId = 1
+                    UserId = Guid.Parse("8edc8128-dc5e-4202-ba18-0a623f954729"),
+                    CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 });
         }
     }
