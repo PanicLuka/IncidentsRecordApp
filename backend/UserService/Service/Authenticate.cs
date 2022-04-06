@@ -12,9 +12,9 @@ namespace UserService.Service
 {
     public class Authenticate : IAuthenticate
     {
-        private readonly IUserRepository userRepository;
-        private readonly IRoleRepository roleRepository;
-        public Authenticate(IUserRepository userRepository, IRoleRepository roleRepository)
+        private readonly IUsersService userRepository;
+        private readonly IRoleService roleRepository;
+        public Authenticate(Data.UsersService userRepository, IRoleService roleRepository)
         {
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
@@ -30,7 +30,7 @@ namespace UserService.Service
             List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Email),
-                    new Claim(ClaimTypes.Role, roleType)
+                    new Claim(ClaimTypes.Role, roleType),
 
                 };
 
@@ -46,9 +46,6 @@ namespace UserService.Service
 
             return tokenString;
         }
-
-
-        
 
         public bool VerifyPassword(UserLogin user)
         {

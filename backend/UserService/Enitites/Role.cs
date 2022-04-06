@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace UserService.Enitites
 {
@@ -16,6 +13,10 @@ namespace UserService.Enitites
         public Guid RoleId { get; set; }
 
         public string UserType { get; set; }
+
+        public Guid PermissionId { get; set; }
+
+        public Permission permission { get; set; }
 
         #endregion
     }
