@@ -22,9 +22,7 @@ namespace UserService
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -38,19 +36,13 @@ namespace UserService
 
             services.AddSwaggerGen(setup =>
             {
-
-
                 setup.SwaggerDoc("v1",
                     new OpenApiInfo()
                     {
                         Title = "User Service",
                         Version = "v1",
 
-
                     });
-
-
-
             });
 
             services.AddAuthentication(opt =>
@@ -70,27 +62,17 @@ namespace UserService
 
                      ValidIssuer = "http://localhost:5002",
                      ValidAudience = "http://localhost:5002",
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey@123"))
-
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:JWTkey"].ToString()))
 
                  };
              });
 
-
-
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserRegisterDB")));
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserRegisterDB")));
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IAuthenticate, Authenticate>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            
-
-
-
         }
-
-       
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -98,7 +80,6 @@ namespace UserService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-
 
             }
 
