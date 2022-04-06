@@ -9,7 +9,7 @@ namespace IncidentService.Tests
         public Mock<IIncidentsService> mock = new Mock<IIncidentsService>();
 
         [Fact]
-        public void GetIncidentByIdAsync()
+        public void GetIncidentById()
         {
 
         }
