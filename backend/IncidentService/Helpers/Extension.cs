@@ -103,7 +103,7 @@ namespace IncidentService
                     SolvingDate = incident.SolvingDate,
                     Remarks = incident.Remarks,
                     Verifies = incident.Verifies,
-                    UserId = incident.UserId,
+                    UserEmail = incident.UserEmail,
                     CategoryId = incident.CategoryId,
                     Category = incident.Category
                 };
@@ -130,7 +130,7 @@ namespace IncidentService
                     SolvingDate = incidentDto.SolvingDate,
                     Remarks = incidentDto.Remarks,
                     Verifies = incidentDto.Verifies,
-                    UserId = incidentDto.UserId,
+                    UserEmail = incidentDto.UserEmail,
                     CategoryId = incidentDto.CategoryId,
                     Category = incidentDto.Category
                 };
@@ -158,7 +158,7 @@ namespace IncidentService
                     SolvingDate = incidentWithIdDto.SolvingDate,
                     Remarks = incidentWithIdDto.Remarks,
                     Verifies = incidentWithIdDto.Verifies,
-                    UserId = incidentWithIdDto.UserId,
+                    UserEmail = incidentWithIdDto.UserEmail,
                     CategoryId = incidentWithIdDto.CategoryId,
                     Category = incidentWithIdDto.Category
                 };
@@ -186,7 +186,7 @@ namespace IncidentService
                     SolvingDate = incidentDto.SolvingDate,
                     Remarks = incidentDto.Remarks,
                     Verifies = incidentDto.Verifies,
-                    UserId = incidentDto.UserId,
+                    UserEmail = incidentDto.UserEmail,
                     CategoryId = incidentDto.CategoryId,
                     Category = incidentDto.Category
                 };
@@ -215,7 +215,7 @@ namespace IncidentService
                     SolvingDate = incident.SolvingDate,
                     Remarks = incident.Remarks,
                     Verifies = incident.Verifies,
-                    UserId = incident.UserId,
+                    UserEmail = incident.UserEmail,
                     CategoryId = incident.CategoryId,
                     Category = incident.Category
                 };
@@ -244,7 +244,7 @@ namespace IncidentService
                     SolvingDate = incidentWithIdDto.SolvingDate,
                     Remarks = incidentWithIdDto.Remarks,
                     Verifies = incidentWithIdDto.Verifies,
-                    UserId = incidentWithIdDto.UserId,
+                    UserEmail = incidentWithIdDto.UserEmail,
                     CategoryId = incidentWithIdDto.CategoryId,
                     Category = incidentWithIdDto.Category
                 };
