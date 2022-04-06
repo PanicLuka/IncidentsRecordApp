@@ -97,7 +97,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample1",
                     Verifies = "sample1",
-                    UserEmail = "sample1@gmail.com",
+                    UserId = Guid.Parse("df2a60f1-e711-4a91-bccd-08188b54440b"),
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 },
                 new Incident
@@ -117,7 +117,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample2",
                     Verifies = "sample2",
-                    UserEmail = "sample2@gmail.com",
+                    UserId = Guid.Parse("df2a60f1-e711-4a91-bccd-08188b54440b"),
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 }
             };
@@ -144,7 +144,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample1",
                     Verifies = "sample1",
-                    UserEmail = "sample1@gmail.com",
+                    UserId = Guid.Parse("df2a60f1-e711-4a91-bccd-08188b54440b"),
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 },
                 new IncidentDto
@@ -163,7 +163,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample2",
                     Verifies = "sample2",
-                    UserEmail = "sample2@gmail.com",
+                    UserId = Guid.Parse("df2a60f1-e711-4a91-bccd-08188b54440b"),
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 }
             };

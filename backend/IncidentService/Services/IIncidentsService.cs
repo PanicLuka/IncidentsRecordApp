@@ -11,7 +11,7 @@ namespace IncidentService.Services
         IncidentWithIdDto GetIncidentById(Guid id);
         IncidentDto UpdateIncident(Guid id, IncidentDto incidentDto);
         void DeleteIncident(Guid id);
-        void CreateIncident(IncidentDto incidentDto, string email);
+        void CreateIncident(IncidentDto incidentDto, Guid userId);
         bool SaveChanges();
 
     }

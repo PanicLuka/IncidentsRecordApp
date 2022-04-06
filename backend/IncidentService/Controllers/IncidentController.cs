@@ -77,7 +77,12 @@ namespace IncidentService.Controllers
                     return BadRequest();
                 }
 
-                incidentsService.CreateIncident(incidentDto, userEmailClaim.Value.ToString());
+
+                //Must add getUserIdByEmail when implemented in User service
+
+                Guid userId = Guid.NewGuid();
+
+                incidentsService.CreateIncident(incidentDto, userId);
 
                 return Ok();
             }

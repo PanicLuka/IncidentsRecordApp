@@ -23,7 +23,7 @@ namespace IncidentService.Entities
         public string Remarks { get; set; }
         public string Verifies { get; set; }
         //[ForeignKey("FK_UserId")]
-        public string UserEmail { get; set; }
+        public Guid UserId { get; set; }
         [ForeignKey("FK_CategoryId")]
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }

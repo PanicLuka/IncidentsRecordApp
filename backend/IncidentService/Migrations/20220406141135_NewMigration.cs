@@ -55,12 +55,12 @@ namespace IncidentService.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { new Guid("df2a59f1-e711-4a91-bccd-08188b54440b"), "testName" });
+                values: new object[] { new Guid("33fd5821-8a8b-421a-b529-1fcfe57195cb"), "testName" });
 
             migrationBuilder.InsertData(
                 table: "Incidents",
                 columns: new[] { "IncidentId", "ActionDescription", "CategoryId", "Date", "Description", "FurtherAction", "FurtherActionPerson", "Number", "ProblemSolved", "Remarks", "Significance", "SolvingDate", "ThirdPartyHelp", "Time", "UserId", "Verifies", "Workspace" },
-                values: new object[] { new Guid("89fe62bb-18ed-4eba-8fcd-1b7dbfd20c38"), "test", new Guid("df2a59f1-e711-4a91-bccd-08188b54440b"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", true, "test", "test01", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("8edc8128-dc5e-4202-ba18-0a623f954729"), "test", "test" });
+                values: new object[] { new Guid("64724124-721c-449a-b9e6-cc2217b36052"), "test", new Guid("33fd5821-8a8b-421a-b529-1fcfe57195cb"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", true, "test", "test01", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("95342baa-73c9-4202-b558-ded5ffe060f7"), "test", "test" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Incidents_CategoryId",

@@ -18,11 +18,11 @@ namespace IncidentService.Services
         {
             this.context = context;
         }
-        public void CreateIncident(IncidentDto incidentDto, String email)
+        public void CreateIncident(IncidentDto incidentDto, Guid userId)
         {
             Incident incident = incidentDto.DtoToIncident();
 
-            incident.UserEmail = email;
+            incident.UserId = userId;
 
             incidentValidator.ValidateAndThrow(incidentDto);
 
@@ -75,7 +75,7 @@ namespace IncidentService.Services
 
             if (oldIncident == null)
             {
-                CreateIncident(incidentDto, oldIncident.UserEmail);
+                CreateIncident(incidentDto, oldIncident.UserId);
                 return incidentDto;
             }
             else
@@ -96,7 +96,7 @@ namespace IncidentService.Services
                 oldIncident.SolvingDate = incidentDto.SolvingDate;
                 oldIncident.Remarks = incidentDto.Remarks;
                 oldIncident.Verifies = incidentDto.Verifies;
-                oldIncident.UserEmail = incidentDto.UserEmail;
+                oldIncident.UserId = incidentDto.UserId;
                 oldIncident.CategoryId = incidentDto.CategoryId;
                 oldIncident.Category = incidentDto.Category;
 

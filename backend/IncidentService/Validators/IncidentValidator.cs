@@ -17,7 +17,7 @@ namespace IncidentService.Validators
             RuleFor(x => x.Date).NotEmpty().WithMessage("Date when incident happened must be entered!");
             RuleFor(x => x.Time).NotEmpty().WithMessage("Time when incident happened must be entered!");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Description of incident must be entered!");
-            RuleFor(x => x.UserEmail).NotEmpty().WithMessage("Email must be entered!");
+            RuleFor(x => x.UserId).NotEmpty().WithMessage("Email must be entered!");
         }
     }
 }

@@ -10,6 +10,7 @@ namespace IncidentService.Entities
 
         private Guid defaultIncidentId = Guid.NewGuid();
         private Guid defaultCategoryId = Guid.NewGuid();
+        private Guid defaultUserId = Guid.NewGuid();
 
         public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
         {
@@ -52,7 +53,7 @@ namespace IncidentService.Entities
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "test",
                     Verifies = "test",
-                    UserEmail = "borko@gmail.com",
+                    UserId = defaultUserId,
                     CategoryId = defaultCategoryId
                 });
         }
