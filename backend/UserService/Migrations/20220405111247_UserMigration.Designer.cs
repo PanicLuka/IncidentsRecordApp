@@ -9,7 +9,7 @@ using UserService.Enitites;
 
 namespace UserService.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20220405111247_UserMigration")]
     partial class UserMigration
     {
