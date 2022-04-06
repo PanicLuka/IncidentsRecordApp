@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IncidentService.Migrations
 {
-    [DbContext(typeof(IncidentContext))]
+    [DbContext(typeof(DataContext))]
     partial class IncidentContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

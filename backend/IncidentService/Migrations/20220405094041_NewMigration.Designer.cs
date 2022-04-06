@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IncidentService.Migrations
 {
-    [DbContext(typeof(IncidentContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20220405094041_NewMigration")]
     partial class NewMigration
     {
