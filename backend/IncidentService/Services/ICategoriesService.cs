@@ -9,7 +9,6 @@ namespace IncidentService.Services
     {
         List<CategoryDto> GetCategories();
         CategoryWithIdDto GetCategoryById(Guid id);
-        Category GetCategoryForUpdateById(Guid id);
         CategoryDto UpdateCategory(Guid CategoryId, CategoryDto categoryDto);
         void DeleteCategory(Guid id);
         void CreateCategory(CategoryDto categoryDto);

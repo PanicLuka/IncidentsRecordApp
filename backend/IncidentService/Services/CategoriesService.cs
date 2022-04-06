@@ -6,16 +6,15 @@ using IncidentService.Entities;
 using IncidentService.Helpers;
 using IncidentService.Models;
 using IncidentService.Validators;
-using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Services
 {
     public class CategoriesService : ICategoriesService
     {
-        private readonly IncidentContext context;
+        private readonly DataContext context;
         private readonly CategoryValidator categoryValidator = new CategoryValidator();
 
-        public CategoriesService(IncidentContext context)
+        public CategoriesService(DataContext context)
         {
             this.context = context;
         }
@@ -61,7 +60,7 @@ namespace IncidentService.Services
             return categoryDtos;
         }
 
-        public Category GetCategoryForUpdateById (Guid id)
+        private Category GetCategoryForUpdateById (Guid id)
         {
             Category category = context.Categories.FirstOrDefault(e => e.CategoryId == id);
 
