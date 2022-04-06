@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using UserService.Data;
 using UserService.Models;
-using UserService.Validators;
 
 namespace UserService.Controllers
 {
@@ -16,9 +15,8 @@ namespace UserService.Controllers
     [Consumes("application/json")]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository repository;
-
-        public UserController(IUserRepository repository)
+        private readonly IUsersService repository;
+        public UserController(IUsersService repository)
         {
             this.repository = repository;
         }

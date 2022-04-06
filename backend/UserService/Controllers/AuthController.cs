@@ -11,10 +11,10 @@ namespace UserService.Controllers
 
     public class AuthController : ControllerBase
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUsersService userRepository;
         private readonly IAuthenticate authenticate;
 
-        public AuthController(IUserRepository userRepository, IAuthenticate authenticate)
+        public AuthController(IUsersService userRepository, IAuthenticate authenticate)
         {
             this.userRepository = userRepository;
             this.authenticate = authenticate;
@@ -39,10 +39,7 @@ namespace UserService.Controllers
             if (user.Email == entity.Email && verify == true)
             {
 
-
                 var tokenString =  authenticate.GenerateToken(user);
-
-
                 return Ok(tokenString);
             }
 

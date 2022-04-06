@@ -17,15 +17,11 @@ namespace UserService.Controllers
     [Consumes("application/json")]
     
     public class RoleController : ControllerBase
-    {
-        
-        private readonly IRoleRepository repository;
-        private readonly RoleValidator roleValidator;
-
-        public RoleController(IRoleRepository repository, RoleValidator roleValidator)
+    {   
+        private readonly IRoleService repository;
+        public RoleController(IRoleService repository)
         {
             this.repository = repository;
-            this.roleValidator = roleValidator;
         }
 
         [HttpGet]
@@ -59,7 +55,6 @@ namespace UserService.Controllers
 
             return Ok(roleDto);
 
-         
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -73,7 +68,6 @@ namespace UserService.Controllers
             {
              
                 repository.CreateRole(roleDto);
-
                 return Ok();
             }
             catch (ValidationException v)
@@ -106,8 +100,6 @@ namespace UserService.Controllers
 
                 return Ok(newRole);
 
-
-
             }
             catch (ValidationException v)
             {
@@ -119,7 +111,7 @@ namespace UserService.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
