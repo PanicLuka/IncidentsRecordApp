@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using IncidentService.Controllers;
 using IncidentService.Entities;
@@ -99,7 +97,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample1",
                     Verifies = "sample1",
-                    UserId = Guid.Parse("8edc8128-dc5e-4202-ba18-0a623f954729"),
+                    UserEmail = "sample1@gmail.com",
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 },
                 new Incident
@@ -119,7 +117,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample2",
                     Verifies = "sample2",
-                    UserId = Guid.Parse("8edc8128-dc5e-4202-ba18-0a623f954729"),
+                    UserEmail = "sample2@gmail.com",
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 }
             };
@@ -146,7 +144,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample1",
                     Verifies = "sample1",
-                    UserId = Guid.Parse("8edc8128-dc5e-4202-ba18-0a623f954729"),
+                    UserEmail = "sample1@gmail.com",
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 },
                 new IncidentDto
@@ -165,7 +163,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample2",
                     Verifies = "sample2",
-                    UserId = Guid.Parse("8edc8128-dc5e-4202-ba18-0a623f954729"),
+                    UserEmail = "sample2@gmail.com",
                     CategoryId = Guid.Parse("df2a59f1-e711-4a91-bccd-08188b54440b")
                 }
             };

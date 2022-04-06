@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using IncidentService.Controllers;
 using IncidentService.Entities;
 using IncidentService.Helpers;
 using IncidentService.Models;
 using IncidentService.Services;
-using IncidentService.Validators;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace IncidentService.Tests.ControllersTests
