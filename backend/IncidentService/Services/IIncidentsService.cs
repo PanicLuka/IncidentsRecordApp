@@ -9,10 +9,9 @@ namespace IncidentService.Services
     {
         List<IncidentDto> GetIncidents();
         IncidentWithIdDto GetIncidentById(Guid id);
-        Incident GetIncidentForUpdateById(Guid id);
         IncidentDto UpdateIncident(Guid id, IncidentDto incidentDto);
         void DeleteIncident(Guid id);
-        void CreateIncident(IncidentDto incidentDto);
+        void CreateIncident(IncidentDto incidentDto, string email);
         bool SaveChanges();
 
     }

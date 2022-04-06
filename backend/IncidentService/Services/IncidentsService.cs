@@ -6,22 +6,23 @@ using IncidentService.Entities;
 using IncidentService.Helpers;
 using IncidentService.Models;
 using IncidentService.Validators;
-using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Services
 {
     public class IncidentsService : IIncidentsService
     {
-        private readonly IncidentContext context;
+        private readonly DataContext context;
         private readonly IncidentValidator incidentValidator = new IncidentValidator();
 
-        public IncidentsService(IncidentContext context)
+        public IncidentsService(DataContext context)
         {
             this.context = context;
         }
-        public void CreateIncident(IncidentDto incidentDto)
+        public void CreateIncident(IncidentDto incidentDto, String email)
         {
             Incident incident = incidentDto.DtoToIncident();
+
+            incident.UserEmail = email;
 
             incidentValidator.ValidateAndThrow(incidentDto);
 
@@ -32,7 +33,7 @@ namespace IncidentService.Services
 
         public void DeleteIncident(Guid id)
         {
-            var incident = GetIncidentById(id);
+            var incident = GetIncidentForUpdateById(id);
             context.Remove(incident);
             SaveChanges();
         }
@@ -61,7 +62,7 @@ namespace IncidentService.Services
             return incidentDtos;
         }
 
-        public Incident GetIncidentForUpdateById(Guid id)
+        private Incident GetIncidentForUpdateById(Guid id)
         {
             Incident incident = context.Incidents.FirstOrDefault(e => e.IncidentId == id);
 
@@ -74,7 +75,7 @@ namespace IncidentService.Services
 
             if (oldIncident == null)
             {
-                CreateIncident(incidentDto);
+                CreateIncident(incidentDto, oldIncident.UserEmail);
                 return incidentDto;
             }
             else
@@ -95,7 +96,7 @@ namespace IncidentService.Services
                 oldIncident.SolvingDate = incidentDto.SolvingDate;
                 oldIncident.Remarks = incidentDto.Remarks;
                 oldIncident.Verifies = incidentDto.Verifies;
-                oldIncident.UserId = incidentDto.UserId;
+                oldIncident.UserEmail = incidentDto.UserEmail;
                 oldIncident.CategoryId = incidentDto.CategoryId;
                 oldIncident.Category = incidentDto.Category;
 

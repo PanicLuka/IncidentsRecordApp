@@ -6,9 +6,11 @@ using IncidentService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IncidentService.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/category")]
     public class CategoryController : ControllerBase

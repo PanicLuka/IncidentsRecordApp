@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using FluentValidation;
 using IncidentService.Services;
-using IncidentService.Entities;
 using IncidentService.Models;
-using IncidentService.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using IncidentService.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Linq;
 
 namespace IncidentService.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/incident")]
     public class IncidentController : ControllerBase
@@ -64,7 +65,19 @@ namespace IncidentService.Controllers
         {
             try
             {
-                incidentsService.CreateIncident(incidentDto);
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+                IEnumerable<Claim> claim = identity.Claims;
+
+                var userEmailClaim = claim.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault();
+
+
+                if (userEmailClaim == null)
+                {
+                    return BadRequest();
+                }
+
+                incidentsService.CreateIncident(incidentDto, userEmailClaim.Value.ToString());
 
                 return Ok();
             }
