@@ -82,6 +82,8 @@ namespace IncidentService.Tests.ControllersTests
             Assert.IsType<NotFoundResult>(result);
         }
 
+
+
         private List<Category> GetSampleCategory()
         {
             List<Category> output = new List<Category>
