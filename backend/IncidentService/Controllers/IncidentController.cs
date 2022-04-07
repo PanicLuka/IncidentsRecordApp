@@ -31,6 +31,15 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentParameters incidentParameters)
         {
+            if (!incidentParameters.ValidDateRange)
+            {
+                return BadRequest("Second date can not be before first date");
+            }
+            else if (!incidentParameters.ValidSolvingDateRange)
+            {
+                return BadRequest("Second solving date can not be before first solving date");
+            }
+
             var incidentDtos = incidentsService.GetIncidents(incidentParameters);
 
             var metdata = new
@@ -84,10 +93,10 @@ namespace IncidentService.Controllers
                 var userEmailClaim = claim.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault();
 
 
-                if (userEmailClaim == null)
+                /*if (userEmailClaim == null)
                 {
                     return BadRequest();
-                }
+                }*/
 
 
                 //Must add getUserIdByEmail when implemented in User service

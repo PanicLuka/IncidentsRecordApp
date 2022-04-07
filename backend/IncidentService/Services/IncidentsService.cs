@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using FluentValidation;
 using IncidentService.Entities;
 using IncidentService.Helpers;
 using IncidentService.Models;
 using IncidentService.Validators;
+using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Services
 {
@@ -49,7 +51,10 @@ namespace IncidentService.Services
 
         public PagedList<IncidentDto> GetIncidents(IncidentParameters incidentParameters)
         {
-            List<Incident> incidents = context.Incidents.ToList();
+            
+            //List<Incident> incidents = context.Incidents.ToList();
+
+            var incidents = GetIncidentsByCondition(o => o.Date >= incidentParameters.FirstDate && o.Date <= incidentParameters.SecondDate);
 
             List<IncidentDto> incidentDtos = new List<IncidentDto>();
 
@@ -62,6 +67,11 @@ namespace IncidentService.Services
             IQueryable<IncidentDto> queryable = incidentDtos.AsQueryable();
 
             return PagedList<IncidentDto>.ToPagedList(queryable, incidentParameters.PageNumber, incidentParameters.PageSize);
+        }
+
+        private IQueryable<Incident> GetIncidentsByCondition(Expression<Func<Incident, bool>> expression)
+        {
+            return context.Set<Incident>().Where(expression).AsNoTracking();
         }
 
         private Incident GetIncidentForUpdateById(Guid id)
