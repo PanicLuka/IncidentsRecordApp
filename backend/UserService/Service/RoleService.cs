@@ -7,7 +7,7 @@ using UserService.Helpers;
 using UserService.Models;
 using UserService.Validators;
 
-namespace UserService.Data
+namespace UserService.Service
 {
     public class RoleService : IRoleService
     {

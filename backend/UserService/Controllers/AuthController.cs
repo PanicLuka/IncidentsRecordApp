@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Data;
 using UserService.Models;
 using UserService.Service;
 

@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
-using UserService.Data;
 using UserService.Models;
+using UserService.Service;
 
 namespace UserService.Controllers
 {

@@ -8,7 +8,7 @@ using UserService.Models;
 using UserService.Validators;
 using BC = BCrypt.Net.BCrypt;
 
-namespace UserService.Data
+namespace UserService.Service
 {
     public class UsersService : IUsersService
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UserService.Models;
 
-namespace UserService.Data
+namespace UserService.Service
 {
     public interface IRoleService
     {
