@@ -43,13 +43,10 @@ namespace UserService.Data
         public List<RoleDto> GetAllRoles()
         {
             var roles = context.Role.ToList();
-
-
             List<RoleDto> roleDtos = new List<RoleDto>();
 
             foreach (var role in roles)
             {
-                
                 RoleDto roleDto = role.RoleToDto();
 
                 roleDtos.Add(roleDto);
@@ -67,8 +64,6 @@ namespace UserService.Data
             return roleDto;
         }
 
-        
-
         public string GetRoleByRoleId(Guid RoleId)
         {
             var role = GetRoleById(RoleId);
@@ -77,8 +72,6 @@ namespace UserService.Data
 
             return roleType;
         }
-
-
 
         public bool SaveChanges()
         {
@@ -100,23 +93,18 @@ namespace UserService.Data
 
                 oldRoleDto.UserType = role.UserType;
 
-
                 SaveChanges();
                 return oldRoleDto.RoleToDto();
             }
 
         }
 
-
         private Role GetRoleByIdHelper(Guid RoleId)
         {
             var role = context.Role.FirstOrDefault(e => e.RoleId == RoleId);
 
-
-
             return role;
         }
-
 
     }
 }

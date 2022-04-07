@@ -13,9 +13,7 @@ namespace UserService.Validators
             RuleFor(p => p.Password).NotEmpty().Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$").WithMessage("Password wrong");
             
         }
-        
-
+      
     }
-
    
 }

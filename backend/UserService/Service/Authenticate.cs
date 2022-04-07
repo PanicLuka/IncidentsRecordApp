@@ -14,7 +14,7 @@ namespace UserService.Service
     {
         private readonly IUsersService userRepository;
         private readonly IRoleService roleRepository;
-        public Authenticate(Data.UsersService userRepository, IRoleService roleRepository)
+        public Authenticate(IUsersService userRepository, IRoleService roleRepository)
         {
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;

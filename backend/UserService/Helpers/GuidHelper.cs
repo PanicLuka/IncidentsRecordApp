@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace UserService.Helpers
 {
     public class GuidHelper
     {
-           
         public static List<Guid> GetGuids()
         {
             List<Guid> guids = new List<Guid>();
@@ -36,11 +33,6 @@ namespace UserService.Helpers
 
             return guids;
         }
-
-        
-
-
-
 
     }
 }

@@ -79,9 +79,7 @@ namespace UserService.Controllers
         {
             try
             {
-                
                 repository.CreateUser(userDto);
-
                 return Ok();
             }
             catch (ValidationException v)
@@ -105,7 +103,6 @@ namespace UserService.Controllers
         {
             try
             {
-
                 var newUser =  repository.UpdateUser(UserId, userDto);
 
                 if(newUser == null)
@@ -114,8 +111,7 @@ namespace UserService.Controllers
                 }
 
                 return Ok(newUser);
-                
-
+              
             }
             catch (ValidationException v)
             {
@@ -136,7 +132,6 @@ namespace UserService.Controllers
         {
             try
             {
-
                 if (repository.GetUserById(UserId) == null)
                 {
                     return NotFound();

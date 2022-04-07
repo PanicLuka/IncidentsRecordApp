@@ -8,7 +8,6 @@ namespace UserService.Controllers
 {
     [ApiController]
     [Route("api/login")]
-
     public class AuthController : ControllerBase
     {
         private readonly IUsersService userRepository;

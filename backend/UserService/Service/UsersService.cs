@@ -1,5 +1,4 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +23,6 @@ namespace UserService.Data
 
         public void CreateUser(UserDto UserDto)
         {
-
             userValidator.ValidateAndThrow(UserDto);
 
             User userEntity = UserDto.DtoToUser();
@@ -52,8 +50,7 @@ namespace UserService.Data
             List<UserDto> userDtos = new List<UserDto>();
 
             foreach (var user in users)
-            {
-               
+            {     
                 UserDto userDto = user.UserToDto();
 
                 userDtos.Add(userDto);
@@ -80,7 +77,6 @@ namespace UserService.Data
 
             return userDto;
         }
-
         public bool SaveChanges()
         {
            return context.SaveChanges() > 0;
@@ -126,7 +122,6 @@ namespace UserService.Data
 
             return user;
         }
-
 
     }
 }

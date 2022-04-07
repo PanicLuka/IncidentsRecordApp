@@ -1,5 +1,4 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using UserService.Data;
 using UserService.Models;
-using UserService.Validators;
 
 namespace UserService.Controllers
 {
@@ -15,7 +13,6 @@ namespace UserService.Controllers
     [Route("api/role")]
     [Produces("application/json", "application/xml")]
     [Consumes("application/json")]
-    
     public class RoleController : ControllerBase
     {   
         private readonly IRoleService repository;
@@ -90,7 +87,6 @@ namespace UserService.Controllers
         {
             try
             {
-
                 var newRole = repository.UpdateRole(RoleId, roleDto);
 
                 if (newRole == null)

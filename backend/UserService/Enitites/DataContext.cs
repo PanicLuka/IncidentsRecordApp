@@ -11,7 +11,6 @@ namespace UserService.Enitites
     {
         private readonly IConfiguration configuration;
 
-
         public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
         {
             this.configuration = configuration;
@@ -26,15 +25,19 @@ namespace UserService.Enitites
         public DbSet<UserPermission> UserPermissions { get; set; }
 
         public DbSet<RolePermission> rolePermissions { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("UserRegisterDB"));
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<RolePermission>()
+                .HasKey(a => new { a.RoleId, a.PermissionId });
+
+            modelBuilder.Entity<UserPermission>()
+                .HasKey(a => new { a.UserId, a.PermissionId });
+
             Guid defaultGuidUser = Guid.NewGuid();
             Guid defaultGuidAdmin = Guid.NewGuid();
 
@@ -51,8 +54,6 @@ namespace UserService.Enitites
             {
                 permissionNames.Add(i);
             }
-
-            
 
             #region
 
@@ -136,8 +137,6 @@ namespace UserService.Enitites
             #endregion
 
 
-            
-
             #region
 
             modelBuilder.Entity<Role>()
@@ -157,6 +156,7 @@ namespace UserService.Enitites
             #endregion
 
             #region
+
             modelBuilder.Entity<RolePermission>()
                 .HasData(new
                 {

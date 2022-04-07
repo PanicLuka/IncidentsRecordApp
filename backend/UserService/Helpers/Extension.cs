@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using UserService.Enitites;
+﻿using UserService.Enitites;
 using UserService.Models;
 
 namespace UserService.Helpers
@@ -37,8 +33,6 @@ namespace UserService.Helpers
             }
             return null;
         }
-
-
 
         public static RoleDto RoleToDto(this Role role)
         {
