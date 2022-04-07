@@ -47,7 +47,7 @@ namespace IncidentService.Services
             return incidentWithIdDto;
         }
 
-        public List<IncidentDto> GetIncidents()
+        public PagedList<IncidentDto> GetIncidents(IncidentParameters incidentParameters)
         {
             List<Incident> incidents = context.Incidents.ToList();
 
@@ -59,7 +59,9 @@ namespace IncidentService.Services
 
                 incidentDtos.Add(incidentDto);
             }
-            return incidentDtos;
+            IQueryable<IncidentDto> queryable = incidentDtos.AsQueryable();
+
+            return PagedList<IncidentDto>.ToPagedList(queryable, incidentParameters.PageNumber, incidentParameters.PageSize);
         }
 
         private Incident GetIncidentForUpdateById(Guid id)

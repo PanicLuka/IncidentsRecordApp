@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using IncidentService.Entities;
+using IncidentService.Helpers;
 using IncidentService.Models;
 
 namespace IncidentService.Services
 {
     public interface IIncidentsService
     {
-        List<IncidentDto> GetIncidents();
+        PagedList<IncidentDto> GetIncidents(IncidentParameters incidentParameters);
         IncidentWithIdDto GetIncidentById(Guid id);
         IncidentDto UpdateIncident(Guid id, IncidentDto incidentDto);
         void DeleteIncident(Guid id);
