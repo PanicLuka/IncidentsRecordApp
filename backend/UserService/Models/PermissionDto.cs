@@ -5,7 +5,7 @@ namespace UserService.Models
     {
         #region
 
-
+        public string AccessPermissions { get; set; }
 
         #endregion
     }
