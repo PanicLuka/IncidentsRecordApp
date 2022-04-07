@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace IncidentService.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/incident")]
     public class IncidentController : ControllerBase
@@ -28,9 +29,20 @@ namespace IncidentService.Controllers
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<List<IncidentDto>> GetIncidents()
+        public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentParameters incidentParameters)
         {
-            var incidentDtos = incidentsService.GetIncidents();
+            var incidentDtos = incidentsService.GetIncidents(incidentParameters);
+
+            var metdata = new
+            {
+                incidentDtos.TotalCount,
+                incidentDtos.PageSize,
+                incidentDtos.CurrentPage,
+                incidentDtos.HasNext,
+                incidentDtos.HasPrevious
+            };
+
+            Response.Headers.Add("XPagination", JsonConvert.SerializeObject(metdata));
 
             if (incidentDtos == null || incidentDtos.Count == 0)
             {
