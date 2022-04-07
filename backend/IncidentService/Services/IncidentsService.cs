@@ -52,9 +52,19 @@ namespace IncidentService.Services
         public PagedList<IncidentDto> GetIncidents(IncidentParameters incidentParameters)
         {
             
-            //List<Incident> incidents = context.Incidents.ToList();
+            List<Incident> incidents = context.Incidents.ToList();
 
-            var incidents = GetIncidentsByCondition(o => o.Date >= incidentParameters.FirstDate && o.Date <= incidentParameters.SecondDate);
+
+            var filteredIncidents = FilterIncidents(incidents, incidentParameters);
+
+            incidents = filteredIncidents.ToList();
+            /*var incidents = GetIncidentsByCondition(o => o.Date >= incidentParameters.FirstDate 
+                                                    && o.Date <= incidentParameters.SecondDate
+                                                    && o.Significance == incidentParameters.Significance
+                                                    && o.ThirdPartyHelp == incidentParameters.ThirdPartyHelp
+                                                    && o.FurtherAction == incidentParameters.FurtherAction
+                                                    && o.SolvingDate >= incidentParameters.FirstSolvingDate
+                                                    && o.SolvingDate <= incidentParameters.SecondSolvingDate);*/
 
             List<IncidentDto> incidentDtos = new List<IncidentDto>();
 
@@ -67,6 +77,39 @@ namespace IncidentService.Services
             IQueryable<IncidentDto> queryable = incidentDtos.AsQueryable();
 
             return PagedList<IncidentDto>.ToPagedList(queryable, incidentParameters.PageNumber, incidentParameters.PageSize);
+        }
+
+        private IEnumerable<Incident> FilterIncidents(IEnumerable<Incident> incidentList, IncidentParameters incidentParameters)
+        {
+            if (incidentParameters.FirstDate.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.Date >= incidentParameters.FirstDate);
+            }
+            if (incidentParameters.SecondDate.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.Date <= incidentParameters.SecondDate);
+            }
+            if (incidentParameters.FirstSolvingDate.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.SolvingDate >= incidentParameters.FirstSolvingDate);
+            }
+            if (incidentParameters.SecondSolvingDate.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.SolvingDate <= incidentParameters.SecondSolvingDate);
+            }
+            if (incidentParameters.Significance.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.Significance == incidentParameters.Significance);
+            }
+            if (incidentParameters.FurtherAction.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.FurtherAction == incidentParameters.FurtherAction);
+            }
+            if (incidentParameters.ThirdPartyHelp.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.FurtherAction == incidentParameters.ThirdPartyHelp);
+            }
+            return incidentList;
         }
 
         private IQueryable<Incident> GetIncidentsByCondition(Expression<Func<Incident, bool>> expression)
