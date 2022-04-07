@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
-using UserService.Data;
 using UserService.Enitites;
 using UserService.Service;
 
@@ -71,6 +70,7 @@ namespace UserService
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IAuthenticate, Authenticate>();
+            services.AddScoped<IPermissionService, PermissionService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
