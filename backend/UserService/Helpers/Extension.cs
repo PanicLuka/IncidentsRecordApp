@@ -57,5 +57,29 @@ namespace UserService.Helpers
             }
             return null;
         }
+
+        public static PermissionDto PermissionToDto(this Permission permission)
+        {
+            if (permission != null)
+            {
+                return new PermissionDto
+                {
+                    AccessPermissions = permission.AccessPermissions
+
+                };
+            }
+            return null;
+        }
+        public static Permission DtoToPermission(this PermissionDto permissionDto)
+        {
+            if (permissionDto != null)
+            {
+                return new Permission
+                {
+                    AccessPermissions = permissionDto.AccessPermissions
+                };
+            }
+            return null;
+        }
     }
 }
