@@ -45,7 +45,7 @@ namespace IncidentService.Services
             return categoryWithIdDto;
         }
 
-        public List<CategoryDto> GetCategories()
+        public PagedList<CategoryDto> GetCategories(CategoryParameters categoryParameters)
         {
             List<Category> categories = context.Categories.ToList();
 
@@ -57,7 +57,10 @@ namespace IncidentService.Services
 
                 categoryDtos.Add(categoryDto);
             }
-            return categoryDtos;
+
+            IQueryable<CategoryDto> queryable = categoryDtos.AsQueryable();
+
+            return PagedList<CategoryDto>.ToPagedList(queryable, categoryParameters.PageNumber, categoryParameters.PageSize);
         }
 
         private Category GetCategoryForUpdateById (Guid id)

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using IncidentService.Entities;
+using IncidentService.Helpers;
 using IncidentService.Models;
 
 namespace IncidentService.Services
 {
     public interface ICategoriesService
     {
-        List<CategoryDto> GetCategories();
+        PagedList<CategoryDto> GetCategories(CategoryParameters categoryParameters);
         CategoryWithIdDto GetCategoryById(Guid id);
         CategoryDto UpdateCategory(Guid CategoryId, CategoryDto categoryDto);
         void DeleteCategory(Guid id);

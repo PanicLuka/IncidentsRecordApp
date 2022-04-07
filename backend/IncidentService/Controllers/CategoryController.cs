@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace IncidentService.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/category")]
     public class CategoryController : ControllerBase
@@ -26,9 +27,20 @@ namespace IncidentService.Controllers
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<List<CategoryDto>> GetCategories()
+        public ActionResult<List<CategoryDto>> GetCategories([FromQuery] CategoryParameters categoryParameters)
         {
-            var categoryDtos = categoriesService.GetCategories();
+            var categoryDtos = categoriesService.GetCategories(categoryParameters);
+
+            var metdata = new
+            {
+                categoryDtos.TotalCount,
+                categoryDtos.PageSize,
+                categoryDtos.CurrentPage,
+                categoryDtos.HasNext,
+                categoryDtos.HasPrevious
+            };
+
+            Response.Headers.Add("XPagination", JsonConvert.SerializeObject(metdata));
 
             if (categoryDtos == null || categoryDtos.Count == 0)
             {
