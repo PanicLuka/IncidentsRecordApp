@@ -58,13 +58,6 @@ namespace IncidentService.Services
             var filteredIncidents = FilterIncidents(incidents, incidentParameters);
 
             incidents = filteredIncidents.ToList();
-            /*var incidents = GetIncidentsByCondition(o => o.Date >= incidentParameters.FirstDate 
-                                                    && o.Date <= incidentParameters.SecondDate
-                                                    && o.Significance == incidentParameters.Significance
-                                                    && o.ThirdPartyHelp == incidentParameters.ThirdPartyHelp
-                                                    && o.FurtherAction == incidentParameters.FurtherAction
-                                                    && o.SolvingDate >= incidentParameters.FirstSolvingDate
-                                                    && o.SolvingDate <= incidentParameters.SecondSolvingDate);*/
 
             List<IncidentDto> incidentDtos = new List<IncidentDto>();
 
