@@ -28,7 +28,7 @@ namespace GatewayService
             services.AddControllers();
             services.AddSwaggerForOcelot(Configuration);
 
-            var secret = Configuration["ApplicationSettings:JWT_Secret"].ToString();
+            /*var secret = Configuration["ApplicationSettings:JWT_Secret"].ToString();
             var key = Encoding.ASCII.GetBytes(secret);
 
             services.AddAuthentication(option =>
@@ -46,8 +46,7 @@ namespace GatewayService
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
-            });
-
+            });*/
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GatewayService", Version = "v1" });
@@ -71,7 +70,7 @@ namespace GatewayService
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseAuthorization();
 
