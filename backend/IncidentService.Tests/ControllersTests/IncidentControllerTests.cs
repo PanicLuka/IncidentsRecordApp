@@ -144,6 +144,22 @@ namespace IncidentService.Tests.ControllersTests
         }
 
         [Fact]
+        public void CreateIncident_ReturnsOk_DatabaseExists()
+        {
+            // Arrange
+            var incidentParameters = new IncidentParameters();
+            var incidentsDto = GetSampleIncidentDto(incidentParameters);
+            var firstIncident = incidentsDto[0];
+            mockIncidentsService.Setup(x => x.CreateIncident(firstIncident, TestGuid));
+
+            // Act
+            var actionResult = _incidentController.CreateIncident(firstIncident);
+
+            // Assert
+            Assert.IsType<ObjectResult>(actionResult);
+        }
+
+        [Fact]
         public void DeleteIncident_ReturnsNotFound_IncidentWithSpecifiedIdDoesNotExists()
         {
             // Arrange

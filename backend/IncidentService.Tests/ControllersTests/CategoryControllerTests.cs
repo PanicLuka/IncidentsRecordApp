@@ -110,6 +110,22 @@ namespace IncidentService.Tests.ControllersTests
         }
 
         [Fact]
+        public void CreateCategory_ReturnsOk_DatabaseExists()
+        {
+            // Arrange
+            var categoryParameters = new CategoryParameters();
+            var categoriesDto = GetSampleCategoryDto(categoryParameters);
+            var firstCategory = categoriesDto[0];
+            mockCategoriesService.Setup(x => x.CreateCategory(firstCategory));
+
+            // Act
+            var actionResult = _categoryController.CreateCategory(firstCategory);
+
+            // Assert
+            Assert.IsType<OkResult>(actionResult);
+        }
+
+        [Fact]
         public void DeleteCategory_ReturnsNotFound_CategoryWithSpecifiedIdDoesNotExists()
         {
             // Arrange
