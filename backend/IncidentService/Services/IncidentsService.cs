@@ -102,6 +102,14 @@ namespace IncidentService.Services
             {
                 incidentList = incidentList.Where(o => o.FurtherAction == incidentParameters.ThirdPartyHelp);
             }
+            if (incidentParameters.ExactDate.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.Date == incidentParameters.ExactDate);
+            }
+            if (incidentParameters.ExactSolvingDate.HasValue)
+            {
+                incidentList = incidentList.Where(o => o.SolvingDate == incidentParameters.ExactSolvingDate);
+            }
             return incidentList;
         }
 
