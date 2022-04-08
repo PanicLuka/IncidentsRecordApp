@@ -17,6 +17,7 @@ namespace UserService.Tests.ControllersTests
     {
         private readonly PermissionController _permissionController;
         private readonly Mock<IPermissionService> mockPermissionService = new Mock<IPermissionService>();
+        private Guid testGuid = Guid.NewGuid();
 
         public PermissionControllerTests()
         {
@@ -46,10 +47,11 @@ namespace UserService.Tests.ControllersTests
             // Arrange
             var permissions = GetSamplePermission();
             var firstPermission = permissions[0];
-            mockPermissionService.Setup(x => x.GetPermissionById(Guid.Parse("adcd6be0-76b5-4a38-8877-f1e1764cd591"))).Returns(firstPermission.PermissionToDto());
+            
+            mockPermissionService.Setup(x => x.GetPermissionById(testGuid)).Returns(firstPermission.PermissionToDto());
 
             // Act
-            var actionResult = _permissionController.GetPermissionById(Guid.Parse("adcd6be0-76b5-4a38-8877-f1e1764cd591"));
+            var actionResult = _permissionController.GetPermissionById(testGuid);
             var result = actionResult.Result as OkObjectResult;
             var secondPermission = firstPermission.PermissionToDto();
             // Assert
@@ -64,10 +66,10 @@ namespace UserService.Tests.ControllersTests
             // Arrange
             var permissions = GetSamplePermission();
             var firstPermission = permissions[0];
-            mockPermissionService.Setup(x => x.GetPermissionById(Guid.Parse("adcd6be0-76b5-4a38-8877-f1e1764cd591"))).Returns(firstPermission.PermissionToDto());
+            mockPermissionService.Setup(x => x.GetPermissionById(testGuid)).Returns(firstPermission.PermissionToDto());
 
             // Act
-            var actionResult = _permissionController.GetPermissionById(Guid.Parse("8781d187-0951-4978-a258-b3871323c381"));
+            var actionResult = _permissionController.GetPermissionById(Guid.NewGuid());
             var result = actionResult.Result;
 
             // Assert
@@ -82,13 +84,13 @@ namespace UserService.Tests.ControllersTests
             {
                 new Permission
                 {
-                   PermissionId = Guid.Parse("adcd6be0-76b5-4a38-8877-f1e1764cd591"),
-                    AccessPermissions = "CanAccessGetByIdUser"
+                   PermissionId = testGuid,
+                    AccessPermissions = "UserGetById"
                 },
                 new Permission
                 {
-                   PermissionId = Guid.Parse("0a3bd2ce-b980-4591-8ff2-db5bf7633294"),
-                    AccessPermissions = "CanAccessGetAllUsers"
+                   PermissionId = Guid.NewGuid(),
+                    AccessPermissions = "UsersGetAll"
                 }
             };
             return output;
@@ -100,11 +102,11 @@ namespace UserService.Tests.ControllersTests
             {
                 new PermissionDto
                 {
-                  AccessPermissions = "CanAccessGetByIdUser"
+                  AccessPermissions = "UserGetById"
                 },
                 new PermissionDto
                 {
-                    AccessPermissions = "CanAccessGetAllUsers"
+                    AccessPermissions = "UserGetAll"
                 }
             };
             return output;

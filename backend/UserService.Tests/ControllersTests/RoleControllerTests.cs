@@ -17,7 +17,7 @@ namespace UserService.Tests.ControllersTests
     {
         private readonly RoleController _roleController;
         private readonly Mock<IRoleService> mockRoleService = new Mock<IRoleService>();
-
+        private Guid testGuid = Guid.NewGuid();
         public RoleControllerTests()
         {
             _roleController = new RoleController(mockRoleService.Object);
@@ -46,10 +46,10 @@ namespace UserService.Tests.ControllersTests
             // Arrange
             var roles = GetSampleRole();
             var firstRole = roles[0];
-            mockRoleService.Setup(x => x.GetRoleById(Guid.Parse("e17ba131-8407-4db5-a34a-a630c58718b3"))).Returns(firstRole.RoleToDto());
+            mockRoleService.Setup(x => x.GetRoleById(testGuid)).Returns(firstRole.RoleToDto());
 
             // Act
-            var actionResult = _roleController.GetRoleById(Guid.Parse("e17ba131-8407-4db5-a34a-a630c58718b3"));
+            var actionResult = _roleController.GetRoleById(testGuid);
             var result = actionResult.Result as OkObjectResult;
             var secondRole = firstRole.RoleToDto();
             // Assert
@@ -64,10 +64,10 @@ namespace UserService.Tests.ControllersTests
             // Arrange
             var roles = GetSampleRole();
             var firstRole = roles[0];
-            mockRoleService.Setup(x => x.GetRoleById(Guid.Parse("e17ba131-8407-4db5-a34a-a630c58718b3"))).Returns(firstRole.RoleToDto());
+            mockRoleService.Setup(x => x.GetRoleById(testGuid)).Returns(firstRole.RoleToDto());
 
             // Act
-            var actionResult = _roleController.GetRoleById(Guid.Parse("8781d187-0951-4978-a258-b3871323c381"));
+            var actionResult = _roleController.GetRoleById(Guid.NewGuid());
             var result = actionResult.Result;
 
             // Assert
@@ -82,12 +82,12 @@ namespace UserService.Tests.ControllersTests
             {
                 new Role
                 {
-                    RoleId = Guid.Parse("e17ba131-8407-4db5-a34a-a630c58718b3"),
+                    RoleId = testGuid,
                     UserType = "User"
                 },
                 new Role
                 {
-                   RoleId = Guid.Parse("7b4f91b1-c264-4654-a860-4c16e4dd259c"),
+                   RoleId = Guid.NewGuid(),
                     UserType = "Admin"
                 }
             };

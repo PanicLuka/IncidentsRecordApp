@@ -17,6 +17,7 @@ namespace UserService.Tests.ControllersTests
     {
         private readonly UserController _userController;
         private readonly Mock<IUsersService> mockUsersService = new Mock<IUsersService>();
+        private Guid testGuid = Guid.NewGuid();
 
         public UserControllerTests()
         {
@@ -46,10 +47,10 @@ namespace UserService.Tests.ControllersTests
             // Arrange
             var users = GetSampleUser();
             var firstUser = users[0];
-            mockUsersService.Setup(x => x.GetUserById(Guid.Parse("2d678968-325e-49e8-83f3-cf5ba21efdd6"))).Returns(firstUser.UserToDto());
+            mockUsersService.Setup(x => x.GetUserById(testGuid)).Returns(firstUser.UserToDto());
 
             // Act
-            var actionResult = _userController.GetUserById(Guid.Parse("2d678968-325e-49e8-83f3-cf5ba21efdd6"));
+            var actionResult = _userController.GetUserById(testGuid);
             var result = actionResult.Result as OkObjectResult;
             var secondUser = firstUser.UserToDto();
             // Assert
@@ -64,10 +65,10 @@ namespace UserService.Tests.ControllersTests
             // Arrange
             var users = GetSampleUser();
             var firstUser = users[0];
-            mockUsersService.Setup(x => x.GetUserById(Guid.Parse("2d678968-325e-49e8-83f3-cf5ba21efdd6"))).Returns(firstUser.UserToDto());
+            mockUsersService.Setup(x => x.GetUserById(testGuid)).Returns(firstUser.UserToDto());
 
             // Act
-            var actionResult = _userController.GetUserById(Guid.Parse("8781d187-0951-4978-a258-b3871323c382"));
+            var actionResult = _userController.GetUserById(Guid.NewGuid());
             var result = actionResult.Result;
 
             // Assert
@@ -82,12 +83,12 @@ namespace UserService.Tests.ControllersTests
             {
                 new User
                 {
-                    UserId = Guid.Parse("2d678968-325e-49e8-83f3-cf5ba21efdd6"),
+                    UserId = testGuid,
                     FirstName = "Marko",
                     LastName = "Milic",
                     Email = "marko@gmail.com",
                     Password = "123456",
-                    RoleId = Guid.Parse("12ff9586-1ae4-46ca-be4d-6633bc60ca14"),
+                    RoleId = Guid.NewGuid(),
                 },
                 new User
                 {
@@ -96,7 +97,7 @@ namespace UserService.Tests.ControllersTests
                     LastName = "Peric",
                     Email = "petar@gmail.com",
                     Password = "123456",
-                    RoleId = Guid.Parse("12ff9586-1ae4-46ca-be4d-6633bc60ca14")
+                    RoleId = Guid.NewGuid()
                 }
             };
             return output;
