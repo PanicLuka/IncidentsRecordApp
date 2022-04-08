@@ -4,7 +4,7 @@
   padding: 0 30px;
 }
 
-.login {
+.register {
   max-width: 500px;
   margin: auto;
   padding: 30px;
@@ -13,18 +13,18 @@
   background-color: white;
 }
 
-.login h1 {
+.register h1 {
   text-align: center;
 }
 
-.login label {
+.register label {
   display: block;
   margin-bottom: 10px;
 }
 
-.login input[type="text"],
-.login input[type="email"],
-.login input[type="password"] {
+.register input[type="text"],
+.register input[type="email"],
+.register input[type="password"] {
   display: block;
   width: 97%;
   height: 40px;
@@ -32,12 +32,12 @@
   font-size: 18px;
 }
 
-.login input[type="submit"] {
+.register input[type="submit"] {
   margin-top: 20px;
   width: 100%;
   font-size: 17px;
 }
 
-.login div {
+.register div {
   margin-bottom: 20px;
 }

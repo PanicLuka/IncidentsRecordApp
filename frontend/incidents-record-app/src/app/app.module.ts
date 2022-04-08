@@ -11,6 +11,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { IncidentComponent } from './components/incident/incident.component';
 import { ReportComponent } from './components/report/report.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AboutComponent } from './components/about/about.component';
+import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/home/home.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +23,11 @@ import { ReportComponent } from './components/report/report.component';
     LoginComponent,
     IncidentComponent,
     ReportComponent,
+    NavbarComponent,
+    AboutComponent,
+    RegisterComponent,
+    HomeComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
