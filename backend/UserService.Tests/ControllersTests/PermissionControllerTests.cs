@@ -19,6 +19,7 @@ namespace UserService.Tests.ControllersTests
         private readonly Mock<IPermissionService> mockPermissionService = new Mock<IPermissionService>();
         private Guid testGuid = Guid.NewGuid();
 
+        
         public PermissionControllerTests()
         {
             _permissionController = new PermissionController(mockPermissionService.Object);
@@ -28,17 +29,18 @@ namespace UserService.Tests.ControllersTests
         public void GetPermissions_ReturnsListOfPermissions_PermissionsExist()
         {
             // Arrange
-            var permissionDto = GetSamplePermissionDto();
-            mockPermissionService.Setup(x => x.GetAllPermissions()).Returns(GetSamplePermissionDto);
+            var permissionParameters = new PermissionParameters();
+            var permissionDto = GetSamplePermissionDto(permissionParameters);
+            mockPermissionService.Setup(x => x.GetAllPermissions(permissionParameters)).Returns(GetSamplePermissionDto(permissionParameters));
 
             // Act
-            var actionResult = _permissionController.GetAllPermissions();
+            var actionResult = _permissionController.GetAllPermissions(permissionParameters);
             var result = actionResult.Result as OkObjectResult;
             var actual = result.Value as IEnumerable<PermissionDto>;
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSamplePermissionDto().Count(), actual.Count());
+            Assert.Equal(GetSamplePermissionDto(permissionParameters).Count(), actual.Count());
         }
 
         [Fact]
@@ -96,7 +98,7 @@ namespace UserService.Tests.ControllersTests
             return output;
         }
 
-        private List<PermissionDto> GetSamplePermissionDto()
+        private PagedList<PermissionDto> GetSamplePermissionDto(PermissionParameters permissionParameters)
         {
             List<PermissionDto> output = new List<PermissionDto>
             {
@@ -109,7 +111,9 @@ namespace UserService.Tests.ControllersTests
                     AccessPermissions = "UserGetAll"
                 }
             };
-            return output;
+
+            IQueryable<PermissionDto> queryable = output.AsQueryable();
+            return PagedList<PermissionDto>.ToPagedList(queryable, permissionParameters.PageNumber, permissionParameters.PageSize);
         }
     }
 }

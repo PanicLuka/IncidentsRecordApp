@@ -28,17 +28,18 @@ namespace UserService.Tests.ControllersTests
         public void GetUsers_ReturnsListOfUsers_UsersExist()
         {
             // Arrange
-            var usersDto = GetSampleUserDto();
-            mockUsersService.Setup(x => x.GetAllUsers()).Returns(GetSampleUserDto);
+            var userParameters = new UserParameters();
+            var usersDto = GetSampleUserDto(userParameters);
+            mockUsersService.Setup(x => x.GetAllUsers(userParameters)).Returns(GetSampleUserDto(userParameters));
 
             // Act
-            var actionResult = _userController.GetUsers();
+            var actionResult = _userController.GetUsers(userParameters);
             var result = actionResult.Result as OkObjectResult;
             var actual = result.Value as IEnumerable<UserDto>;
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleUserDto().Count(), actual.Count());
+            Assert.Equal(GetSampleUserDto(userParameters).Count(), actual.Count());
         }
 
         [Fact]
@@ -103,7 +104,7 @@ namespace UserService.Tests.ControllersTests
             return output;
         }
 
-        private List<UserDto> GetSampleUserDto()
+        private PagedList<UserDto> GetSampleUserDto(UserParameters userParameters)
         {
             List<UserDto> output = new List<UserDto>
             {
@@ -122,7 +123,9 @@ namespace UserService.Tests.ControllersTests
                     Password = "123456"
                 }
             };
-            return output;
+
+            IQueryable<UserDto> queryable = output.AsQueryable();
+            return PagedList<UserDto>.ToPagedList(queryable, userParameters.PageNumber, userParameters.PageSize);
         }
     }
 }
