@@ -109,7 +109,26 @@ namespace IncidentService.Tests.ControllersTests
             Assert.IsType<NotFoundResult>(result);
         }
 
+        [Fact]
+        public void UpdateCategory_ReturnsUpdatedCategory_CategoryWithSpecifiedIdExists()
+        {
+            // Arrange
+            var categoryParameters = new CategoryParameters();
+            var categories = GetSampleCategory(categoryParameters);
+            var firstCategory = categories[0];
+            var testCategory = firstCategory.CategoryToDto();
+            testCategory.CategoryName = "testName";
+            mockCategoriesService.Setup(x => x.UpdateCategory(firstCategory.CategoryId, testCategory)).Returns(testCategory);
 
+            // Act
+            var actionResult = _categoryController.UpdateCategory(firstCategory.CategoryId, testCategory);
+            var result = actionResult.Result as OkObjectResult;
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+
+            result.Value.Should().BeEquivalentTo(testCategory);
+        }
 
         private PagedList<Category> GetSampleCategory(CategoryParameters categoryParameters)
         {

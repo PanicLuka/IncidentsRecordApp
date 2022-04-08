@@ -143,7 +143,26 @@ namespace IncidentService.Tests.ControllersTests
             Assert.IsType<NotFoundResult>(result);
         }
 
+        [Fact]
+        public void UpdateIncident_ReturnsUpdatedIncident_IncidentWithSpecifiedIdExists()
+        {
+            // Arrange
+            var incidentParameters = new IncidentParameters();
+            var incidents = GetSampleIncident(incidentParameters);
+            var firstIncident = incidents[0];
+            var testIncident = firstIncident.IncidentToDto();
+            testIncident.Number = "testNumber";
+            mockIncidentsService.Setup(x => x.UpdateIncident(firstIncident.IncidentId, testIncident)).Returns(testIncident);
 
+            // Act
+            var actionResult = _incidentController.UpdateIncident(firstIncident.IncidentId, testIncident);
+            var result = actionResult.Result as OkObjectResult;
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+
+            result.Value.Should().BeEquivalentTo(testIncident);
+        }
 
         private PagedList<Incident> GetSampleIncident(IncidentParameters incidentParameters)
         {
