@@ -30,16 +30,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentParameters incidentParameters)
-        {
-            if (!incidentParameters.ValidDateRange)
-            {
-                return BadRequest("Second date can not be before first date");
-            }
-            else if (!incidentParameters.ValidSolvingDateRange)
-            {
-                return BadRequest("Second solving date can not be before first solving date");
-            }
-
+        { 
             var incidentDtos = incidentsService.GetIncidents(incidentParameters);
 
             var metdata = new
@@ -50,8 +41,6 @@ namespace IncidentService.Controllers
                 incidentDtos.HasNext,
                 incidentDtos.HasPrevious
             };
-
-            Response.Headers.Add("XPagination", JsonConvert.SerializeObject(metdata));
 
             if (incidentDtos == null || incidentDtos.Count == 0)
             {

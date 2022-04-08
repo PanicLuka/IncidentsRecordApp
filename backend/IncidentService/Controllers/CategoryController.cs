@@ -40,8 +40,6 @@ namespace IncidentService.Controllers
                 categoryDtos.HasPrevious
             };
 
-            Response.Headers.Add("XPagination", JsonConvert.SerializeObject(metdata));
-
             if (categoryDtos == null || categoryDtos.Count == 0)
             {
                 return NoContent();

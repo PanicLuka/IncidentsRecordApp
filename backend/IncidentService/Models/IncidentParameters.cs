@@ -15,8 +15,5 @@ namespace IncidentService.Models
         public DateTime? SecondSolvingDate { get; set; }
         public Guid? UserId { get; set; }
         public Guid? CategoryId { get; set; }
-
-        public bool ValidDateRange => SecondDate > FirstDate;
-        public bool ValidSolvingDateRange => SecondDate > FirstDate;
     }
 }
