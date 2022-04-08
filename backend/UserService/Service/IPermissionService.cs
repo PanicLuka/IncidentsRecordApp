@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UserService.Enitites;
 using UserService.Models;
 
