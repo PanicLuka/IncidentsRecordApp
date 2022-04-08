@@ -77,6 +77,15 @@ namespace UserService.Service
 
             return userDto;
         }
+
+        public Guid GetUserIdByEmail(string Email)
+        {
+            var user = context.User.FirstOrDefault(u => u.Email == Email);
+
+            Guid userId = user.UserId;
+
+            return userId;
+        }
         public bool SaveChanges()
         {
            return context.SaveChanges() > 0;

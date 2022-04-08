@@ -24,10 +24,12 @@ namespace UserService.Service
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             Guid roleId =  userRepository.GetRoleIdByUserEmail(user.Email);
             string roleType =  roleRepository.GetRoleByRoleId(roleId);
+            Guid userId = userRepository.GetUserIdByEmail(user.Email);
 
 
             List<Claim> claims = new List<Claim>
                 {
+                    new Claim(ClaimTypes.Name, userId.ToString()),
                     new Claim(ClaimTypes.Name, user.Email),
                     new Claim(ClaimTypes.Role, roleType),
 
