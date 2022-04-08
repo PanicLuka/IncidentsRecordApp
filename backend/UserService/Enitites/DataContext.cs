@@ -24,7 +24,7 @@ namespace UserService.Enitites
 
         public DbSet<UserPermission> UserPermissions { get; set; }
 
-        public DbSet<RolePermission> rolePermissions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("UserRegisterDB"));

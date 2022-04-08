@@ -20,20 +20,20 @@ namespace UserService.Service
             this.roleValidator = roleValidator;
         }
 
-        public void CreateRole(RoleDto RoleDto)
+        public void CreateRole(RoleDto roleDto)
         {
-            roleValidator.ValidateAndThrow(RoleDto);
+            roleValidator.ValidateAndThrow(roleDto);
 
-            Role roleEntity = RoleDto.DtoToRole();
+            Role roleEntity = roleDto.DtoToRole();
 
             context.Add(roleEntity);
 
             SaveChanges();
         }
 
-        public void DeleteRole(Guid RoleId)
+        public void DeleteRole(Guid roleId)
         {
-            var role =  GetRoleByIdHelper(RoleId);
+            var role =  GetRoleByIdHelper(roleId);
 
             context.Remove(role);
 
@@ -55,18 +55,18 @@ namespace UserService.Service
             return roleDtos;
         }
 
-        public RoleDto GetRoleById(Guid RoleId)
+        public RoleDto GetRoleById(Guid roleId)
         {
-            var role = context.Role.FirstOrDefault(e => e.RoleId == RoleId);
+            var role = context.Role.FirstOrDefault(e => e.RoleId == roleId);
 
             var roleDto = role.RoleToDto();
 
             return roleDto;
         }
 
-        public string GetRoleByRoleId(Guid RoleId)
+        public string GetRoleByRoleId(Guid roleId)
         {
-            var role = GetRoleById(RoleId);
+            var role = GetRoleById(roleId);
 
             string roleType = role.UserType;
 
@@ -99,9 +99,9 @@ namespace UserService.Service
 
         }
 
-        private Role GetRoleByIdHelper(Guid RoleId)
+        private Role GetRoleByIdHelper(Guid roleId)
         {
-            var role = context.Role.FirstOrDefault(e => e.RoleId == RoleId);
+            var role = context.Role.FirstOrDefault(e => e.RoleId == roleId);
 
             return role;
         }

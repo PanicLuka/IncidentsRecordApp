@@ -15,18 +15,18 @@ namespace UserService.Service
         {
             this.context = context;
         }
-        public void CreateRolePermission(RolePermissionDto RolePermissionDto)
+        public void CreateRolePermission(RolePermissionDto rolePermissionDto)
         {
-            RolePermission permissionEntity = RolePermissionDto.DtoToRolePermission();
+            RolePermission permissionEntity = rolePermissionDto.DtoToRolePermission();
 
             context.Add(permissionEntity);
 
             SaveChanges();
         }
 
-        public void DeleteRolePermission(RolePermissionDto RolePermissionDto)
+        public void DeleteRolePermission(RolePermissionDto rolePermissionDto)
         {
-            var rolePermission = GetRolePermissionById(RolePermissionDto);
+            var rolePermission = GetRolePermissionById(rolePermissionDto);
 
             context.Remove(rolePermission);
 
@@ -35,7 +35,7 @@ namespace UserService.Service
 
         public List<RolePermissionDto> GetAllRolePermissions()
         {
-            var rolePermissions = context.rolePermissions.ToList();
+            var rolePermissions = context.RolePermissions.ToList();
             List<RolePermissionDto> rolePermissionDtos = new List<RolePermissionDto>();
 
             foreach (var permission in rolePermissions)
@@ -48,10 +48,10 @@ namespace UserService.Service
             return rolePermissionDtos;
         }
 
-        public RolePermissionDto GetRolePermissionById(RolePermissionDto RolePermissionDto)
+        public RolePermissionDto GetRolePermissionById(RolePermissionDto rolePermissionDto)
         {
-            var permission = context.rolePermissions.FirstOrDefault
-                (e => e.PermissionId == RolePermissionDto.PermissionId && e.RoleId == RolePermissionDto.RoleId);
+            var permission = context.RolePermissions.FirstOrDefault
+                (e => e.PermissionId == rolePermissionDto.PermissionId && e.RoleId == rolePermissionDto.RoleId);
 
             var permissionDto = permission.RolePermissionToDto();
 
@@ -63,7 +63,7 @@ namespace UserService.Service
             return context.SaveChanges() > 0;
         }
 
-        public RolePermissionDto UpdateRolePermission(Guid RolePermissionId, RolePermissionDto RolePermissionDto)
+        public RolePermissionDto UpdateRolePermission(Guid rolePermissionId, RolePermissionDto rolePermissionDto)
         {
             throw new NotImplementedException();
         }

@@ -9,7 +9,7 @@ namespace UserService.Service
         void CreateUserPermission(UserPermissionDto userPermissionDto);
         List<UserPermissionDto> GetAllUserPermissions();
         UserPermissionDto GetUserPermissionById(UserPermissionDto userPermissionDto);
-        UserPermissionDto UpdateUserPermission(Guid UserPermissionId, UserPermissionDto userPermissionDto);
+        UserPermissionDto UpdateUserPermission(Guid userPermissionId, UserPermissionDto userPermissionDto);
         void DeleteUserPermission(UserPermissionDto userPermissionDto);
         bool SaveChanges();
     }

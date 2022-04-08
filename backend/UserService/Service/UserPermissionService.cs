@@ -63,7 +63,7 @@ namespace UserService.Service
             return context.SaveChanges() > 0;
         }
 
-        public UserPermissionDto UpdateUserPermission(Guid UserPermissionId, UserPermissionDto userPermissionDto)
+        public UserPermissionDto UpdateUserPermission(Guid userPermissionId, UserPermissionDto userPermissionDto)
         {
             throw new NotImplementedException();
         }

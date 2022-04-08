@@ -7,31 +7,31 @@ namespace UserService.Helpers
     {
         public static List<Guid> GetGuids()
         {
-            List<Guid> guids = new List<Guid>();
+            List<Guid> Guids = new List<Guid>();
             Guid PermissionOneGuid = Guid.NewGuid();
-            guids.Add(PermissionOneGuid);
+            Guids.Add(PermissionOneGuid);
             Guid PermissionTwoGuid = Guid.NewGuid();
-            guids.Add(PermissionTwoGuid);
+            Guids.Add(PermissionTwoGuid);
             Guid PermissionThreeGuid = Guid.NewGuid();
-            guids.Add(PermissionThreeGuid);
+            Guids.Add(PermissionThreeGuid);
             Guid PermissionFourGuid = Guid.NewGuid();
-            guids.Add(PermissionFourGuid);
+            Guids.Add(PermissionFourGuid);
             Guid PermissionFiveGuid = Guid.NewGuid();
-            guids.Add(PermissionFiveGuid);
+            Guids.Add(PermissionFiveGuid);
             Guid PermissionSixGuid = Guid.NewGuid();
-            guids.Add(PermissionSixGuid);
+            Guids.Add(PermissionSixGuid);
             Guid PermissionSevenGuid = Guid.NewGuid();
-            guids.Add(PermissionSevenGuid);
+            Guids.Add(PermissionSevenGuid);
             Guid PermissionEightGuid = Guid.NewGuid();
-            guids.Add(PermissionEightGuid);
+            Guids.Add(PermissionEightGuid);
             Guid PermissionNineGuid = Guid.NewGuid();
-            guids.Add(PermissionNineGuid);
+            Guids.Add(PermissionNineGuid);
             Guid PermissionTenGuid = Guid.NewGuid();
-            guids.Add(PermissionTenGuid);
+            Guids.Add(PermissionTenGuid);
             Guid PermissionElevenGuid = Guid.NewGuid();
-            guids.Add(PermissionElevenGuid);
+            Guids.Add(PermissionElevenGuid);
 
-            return guids;
+            return Guids;
         }
 
     }

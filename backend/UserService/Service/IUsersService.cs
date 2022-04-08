@@ -6,14 +6,14 @@ namespace UserService.Service
 {
     public interface IUsersService
     {
-        void CreateUser(UserDto User);
+        void CreateUser(UserDto user);
         List<UserDto> GetAllUsers();
-        UserDto GetUserById(Guid UserId);
-        UserDto GetUserByEmail(string Email);
-        UserDto UpdateUser(Guid UserId, UserDto userDto);
-        void DeleteUser(Guid UserId);
-        Guid GetRoleIdByUserEmail(string Email);
-        public Guid GetUserIdByEmail(string Email);
+        UserDto GetUserById(Guid userId);
+        UserDto GetUserByEmail(string email);
+        UserDto UpdateUser(Guid userId, UserDto userDto);
+        void DeleteUser(Guid userId);
+        Guid GetRoleIdByUserEmail(string email);
+        public Guid GetUserIdByEmail(string email);
         bool SaveChanges();
     }
 }

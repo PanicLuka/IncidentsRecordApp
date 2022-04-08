@@ -21,11 +21,11 @@ namespace UserService.Service
             this.userValidator = userValidator;
         }
 
-        public void CreateUser(UserDto UserDto)
+        public void CreateUser(UserDto userDto)
         {
-            userValidator.ValidateAndThrow(UserDto);
+            userValidator.ValidateAndThrow(userDto);
 
-            User userEntity = UserDto.DtoToUser();
+            User userEntity = userDto.DtoToUser();
 
             userEntity.Password = BC.HashPassword(userEntity.Password);
 
@@ -34,9 +34,9 @@ namespace UserService.Service
             SaveChanges();
         }
 
-        public void DeleteUser(Guid UserId)
+        public void DeleteUser(Guid userId)
         {
-            var user = GetUserByIdHelper(UserId);
+            var user = GetUserByIdHelper(userId);
 
             context.Remove(user);
 
@@ -60,27 +60,27 @@ namespace UserService.Service
         }
 
        
-        public UserDto GetUserByEmail(string Email)
+        public UserDto GetUserByEmail(string email)
         {
-            var user = context.User.FirstOrDefault(e => e.Email == Email);
+            var user = context.User.FirstOrDefault(e => e.Email == email);
 
             var userDto = user.UserToDto();
 
             return userDto;
         }
 
-        public UserDto GetUserById(Guid UserId)
+        public UserDto GetUserById(Guid userId)
         {
-            var user = context.User.FirstOrDefault(e => e.UserId == UserId);
+            var user = context.User.FirstOrDefault(e => e.UserId == userId);
 
             var userDto = user.UserToDto();
 
             return userDto;
         }
 
-        public Guid GetUserIdByEmail(string Email)
+        public Guid GetUserIdByEmail(string email)
         {
-            var user = context.User.FirstOrDefault(u => u.Email == Email);
+            var user = context.User.FirstOrDefault(u => u.Email == email);
 
             Guid userId = user.UserId;
 
@@ -91,9 +91,9 @@ namespace UserService.Service
            return context.SaveChanges() > 0;
         }
 
-        public UserDto UpdateUser(Guid UserId, UserDto userDto)
+        public UserDto UpdateUser(Guid userId, UserDto userDto)
         {
-            var oldUserDto = GetUserByIdHelper(UserId);
+            var oldUserDto = GetUserByIdHelper(userId);
 
             if (oldUserDto == null)
             {
@@ -116,18 +116,18 @@ namespace UserService.Service
 
         }
 
-        public Guid GetRoleIdByUserEmail(string Email)
+        public Guid GetRoleIdByUserEmail(string email)
         {
-            var user = context.User.FirstOrDefault(u => u.Email == Email);
+            var user = context.User.FirstOrDefault(u => u.Email == email);
 
             Guid roleId = user.RoleId;
 
             return roleId;
         }
 
-        private User GetUserByIdHelper(Guid UserId)
+        private User GetUserByIdHelper(Guid userId)
         {
-            var user = context.User.FirstOrDefault(e => e.UserId == UserId);
+            var user = context.User.FirstOrDefault(e => e.UserId == userId);
 
             return user;
         }

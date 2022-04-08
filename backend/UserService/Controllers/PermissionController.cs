@@ -40,10 +40,10 @@ namespace UserService.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{PermissionId}")]
-        public ActionResult<PermissionDto> GetPermissionById(Guid PermissionId)
+        [HttpGet("{permissionId}")]
+        public ActionResult<PermissionDto> GetPermissionById(Guid permissionId)
         {
-            var permissionDto = repository.GetPermissionById(PermissionId);
+            var permissionDto = repository.GetPermissionById(permissionId);
 
             if (permissionDto == null)
             {
@@ -79,16 +79,16 @@ namespace UserService.Controllers
         }
 
         //[Authorize(Roles = "Admin")]
-        [HttpPut("{PermissionId}")]
+        [HttpPut("{permissionId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdatePermission(Guid PermissionId, [FromBody] PermissionDto permissionDto)
+        public ActionResult UpdatePermission(Guid permissionId, [FromBody] PermissionDto permissionDto)
         {
             try
             {
-                var newPermission = repository.UpdatePermission(PermissionId, permissionDto);
+                var newPermission = repository.UpdatePermission(permissionId, permissionDto);
 
                 if (newPermission == null)
                 {
@@ -112,17 +112,17 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpDelete("{PermissionId}")]
-        public IActionResult DeletePermission(Guid PermissionId)
+        [HttpDelete("{permissionId}")]
+        public IActionResult DeletePermission(Guid permissionId)
         {
             try
             {
-                if (repository.GetPermissionById(PermissionId) == null)
+                if (repository.GetPermissionById(permissionId) == null)
                 {
                     return NotFound();
                 }
 
-                repository.DeletePermission(PermissionId);
+                repository.DeletePermission(permissionId);
                 return NoContent();
 
             }

@@ -41,10 +41,10 @@ namespace UserService.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{UserId}")]
-        public  ActionResult<UserDto> GetUserById(Guid UserId)
+        [HttpGet("{userId}")]
+        public  ActionResult<UserDto> GetUserById(Guid userId)
         {
-            var userDto =  repository.GetUserById(UserId);
+            var userDto =  repository.GetUserById(userId);
 
             if (userDto == null)
             {
@@ -56,10 +56,10 @@ namespace UserService.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("user/{Email}")]
-        public ActionResult<UserDto> GetUserByEmail(string Email)
+        [HttpGet("user/{email}")]
+        public ActionResult<UserDto> GetUserByEmail(string email)
         {
-            var userDto = repository.GetUserByEmail(Email);
+            var userDto = repository.GetUserByEmail(email);
 
             if (userDto == null)
             {
@@ -94,16 +94,16 @@ namespace UserService.Controllers
 
         }
 
-        [HttpPut("{UserId}")]
+        [HttpPut("{userId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateUser(Guid UserId,[FromBody] UserDto userDto)
+        public ActionResult UpdateUser(Guid userId,[FromBody] UserDto userDto)
         {
             try
             {
-                var newUser =  repository.UpdateUser(UserId, userDto);
+                var newUser =  repository.UpdateUser(userId, userDto);
 
                 if(newUser == null)
                 {
@@ -127,17 +127,17 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpDelete("{UserId}")]
-        public IActionResult DeleteUser(Guid UserId)
+        [HttpDelete("{userId}")]
+        public IActionResult DeleteUser(Guid userId)
         {
             try
             {
-                if (repository.GetUserById(UserId) == null)
+                if (repository.GetUserById(userId) == null)
                 {
                     return NotFound();
                 }
 
-                repository.DeleteUser(UserId);
+                repository.DeleteUser(userId);
                 return NoContent();
 
             }

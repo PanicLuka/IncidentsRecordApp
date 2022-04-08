@@ -6,11 +6,11 @@ namespace UserService.Service
 {
     public interface IRolePermissionService
     {
-        void CreateRolePermission(RolePermissionDto RolePermissionDto);
+        void CreateRolePermission(RolePermissionDto rolePermissionDto);
         List<RolePermissionDto> GetAllRolePermissions();
-        RolePermissionDto GetRolePermissionById(RolePermissionDto RolePermissionDto);
-        RolePermissionDto UpdateRolePermission(Guid RolePermissionId, RolePermissionDto RolePermissionDto);
-        void DeleteRolePermission(RolePermissionDto RolePermissionDto);
+        RolePermissionDto GetRolePermissionById(RolePermissionDto rolePermissionDto);
+        RolePermissionDto UpdateRolePermission(Guid rolePermissionId, RolePermissionDto rolePermissionDto);
+        void DeleteRolePermission(RolePermissionDto rolePermissionDto);
         bool SaveChanges();
     }
 }

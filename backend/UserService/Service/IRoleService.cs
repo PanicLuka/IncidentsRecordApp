@@ -6,12 +6,12 @@ namespace UserService.Service
 {
     public interface IRoleService
     {
-        void CreateRole (RoleDto Role);
+        void CreateRole (RoleDto role);
         List<RoleDto> GetAllRoles();
-        RoleDto GetRoleById(Guid RoleId);
-        string GetRoleByRoleId(Guid RoleId);
-        RoleDto UpdateRole(Guid roleId, RoleDto Role);
-        void DeleteRole(Guid RoleId);
+        RoleDto GetRoleById(Guid roleId);
+        string GetRoleByRoleId(Guid roleId);
+        RoleDto UpdateRole(Guid roleId, RoleDto role);
+        void DeleteRole(Guid roleId);
         bool SaveChanges();
 
     }

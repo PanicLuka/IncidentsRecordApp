@@ -40,10 +40,10 @@ namespace UserService.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{RoleId}")]
-        public ActionResult<RoleDto> GetRoleById(Guid RoleId)
+        [HttpGet("{roleId}")]
+        public ActionResult<RoleDto> GetRoleById(Guid roleId)
         {
-            var roleDto = repository.GetRoleById(RoleId);
+            var roleDto = repository.GetRoleById(roleId);
 
             if (roleDto == null)
             {
@@ -78,16 +78,16 @@ namespace UserService.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("{RoleId}")]
+        [HttpPut("{roleId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateRole(Guid RoleId, [FromBody] RoleDto roleDto)
+        public ActionResult UpdateRole(Guid roleId, [FromBody] RoleDto roleDto)
         {
             try
             {
-                var newRole = repository.UpdateRole(RoleId, roleDto);
+                var newRole = repository.UpdateRole(roleId, roleDto);
 
                 if (newRole == null)
                 {
@@ -111,17 +111,17 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpDelete("{RoleId}")]
-        public IActionResult DeleteRole(Guid RoleId)
+        [HttpDelete("{roleId}")]
+        public IActionResult DeleteRole(Guid roleId)
         {
             try
             {
-                if (repository.GetRoleById(RoleId) == null)
+                if (repository.GetRoleById(roleId) == null)
                 {
                     return NotFound();
                 }
 
-                repository.DeleteRole(RoleId);
+                repository.DeleteRole(roleId);
                 return NoContent();
 
             }

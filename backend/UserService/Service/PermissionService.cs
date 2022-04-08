@@ -18,20 +18,20 @@ namespace UserService.Service
             this.context = context;
             this.validator = validator;
         }
-        public void CreatePermission(PermissionDto PermissionDto)
+        public void CreatePermission(PermissionDto permissionDto)
         {
-            validator.ValidateAndThrow(PermissionDto);
+            validator.ValidateAndThrow(permissionDto);
 
-            Permission permissionEntity = PermissionDto.DtoToPermission();
+            Permission permissionEntity = permissionDto.DtoToPermission();
 
             context.Add(permissionEntity);
 
             SaveChanges();
         }
 
-        public void DeletePermission(Guid PermissionId)
+        public void DeletePermission(Guid permissionId)
         {
-            var permission = GetPermissionByIdHelper(PermissionId);
+            var permission = GetPermissionByIdHelper(permissionId);
 
             context.Remove(permission);
 
@@ -53,9 +53,9 @@ namespace UserService.Service
             return permissionDtos;
         }
 
-        public PermissionDto GetPermissionById(Guid PermissionId)
+        public PermissionDto GetPermissionById(Guid permissionId)
         {
-            var permission = context.Permission.FirstOrDefault(e => e.PermissionId == PermissionId);
+            var permission = context.Permission.FirstOrDefault(e => e.PermissionId == permissionId);
 
             var permissionDto = permission.PermissionToDto();
 
@@ -67,18 +67,18 @@ namespace UserService.Service
             return context.SaveChanges() > 0;
         }
 
-        public PermissionDto UpdatePermission(Guid PermissionId, PermissionDto PermissionDto)
+        public PermissionDto UpdatePermission(Guid permissionId, PermissionDto permissionDto)
         {
-            var oldPermissionDto = GetPermissionByIdHelper(PermissionId);
+            var oldPermissionDto = GetPermissionByIdHelper(permissionId);
 
             if (oldPermissionDto == null)
             {
-                CreatePermission(PermissionDto);
+                CreatePermission(permissionDto);
                 return oldPermissionDto.PermissionToDto();
             }
             else
             {
-                Permission permission = PermissionDto.DtoToPermission();
+                Permission permission = permissionDto.DtoToPermission();
 
                 oldPermissionDto.AccessPermissions = permission.AccessPermissions;
 
