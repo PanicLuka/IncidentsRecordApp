@@ -64,7 +64,7 @@ namespace UserService.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: new Guid("487ff1f2-af6d-4d76-8aca-0c54b90880f5"))
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: new Guid("57677386-3999-4011-ba64-085b2f321e3f"))
                 },
                 constraints: table =>
                 {
@@ -106,17 +106,17 @@ namespace UserService.Migrations
                 columns: new[] { "PermissionId", "AccessPermissions" },
                 values: new object[,]
                 {
-                    { new Guid("ac305f0a-ec91-4c46-a5fb-493c2dc88c59"), "CanAccessGetAllUsers" },
-                    { new Guid("530204ff-0701-46c8-bd34-34c8c0e8fea6"), "CanAccessDeleteUser" },
-                    { new Guid("e58d35bb-0368-489a-b0c7-29a0a799bc82"), "CanAccessUpdateUser" },
-                    { new Guid("0c14e988-d157-40e7-b7d8-346abcf5aac3"), "CanAccessGetByIdUser" },
-                    { new Guid("98fe9a1f-dde1-49b6-a69f-d1acd0e1e14f"), "CanAccessCreateUser" },
-                    { new Guid("74836c59-2d06-4e3a-abe1-43147a787016"), "CanAccessGetAllIncidents" },
-                    { new Guid("9f85d078-64ce-4a25-b27a-05c8aede3746"), "CanAccessGetIncidentById" },
-                    { new Guid("1dc7ee0f-7ddd-4fe0-93e7-cdcc38746c2e"), "CanAccessUpdateIncident" },
-                    { new Guid("b2206c80-3d84-4e8f-904a-3d0ffbba5f06"), "CanAccessDeleteIncident" },
-                    { new Guid("6091f2f7-6e0e-4cb6-a7a8-575ee5a00fdf"), "CanAccessCreateIncident" },
-                    { new Guid("d98b342a-9d28-459c-b68f-830b268430ed"), "CanPromoteToAdmin" }
+                    { new Guid("723bb965-8689-4934-a9a2-5442942e5473"), "UserGetAll" },
+                    { new Guid("3b342250-a052-4d8f-8433-08c45f258d02"), "UserDelete" },
+                    { new Guid("dbf4f926-0ea6-4c70-971d-6f87ef4d4aa2"), "UserUpdate" },
+                    { new Guid("b37105b5-f801-4218-af95-47c4b61f07c6"), "UserGetById" },
+                    { new Guid("44114348-5c6f-444e-88cb-0e36369dbb53"), "UserCreateUser" },
+                    { new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637"), "IncidentsGetAll" },
+                    { new Guid("d6bead18-e752-4d9e-bf85-fe6cda2b2754"), "IncidentsGetById" },
+                    { new Guid("6bf02553-ea87-4b11-95b3-a853d7fdc58f"), "IncidentsUpdate" },
+                    { new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9"), "IncidentsDelete" },
+                    { new Guid("65a007bb-221e-49fc-8201-37d6c1e11b8c"), "IncidentsCreate" },
+                    { new Guid("968852ea-a13f-4896-9bb6-be970c3ca2f1"), "PromoteToAdmin" }
                 });
 
             migrationBuilder.InsertData(
@@ -124,8 +124,8 @@ namespace UserService.Migrations
                 columns: new[] { "RoleId", "UserType" },
                 values: new object[,]
                 {
-                    { new Guid("487ff1f2-af6d-4d76-8aca-0c54b90880f5"), "User" },
-                    { new Guid("22b40e6c-59d5-4d80-93a5-d15b4201ade5"), "Admin" }
+                    { new Guid("57677386-3999-4011-ba64-085b2f321e3f"), "User" },
+                    { new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e"), "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -133,8 +133,8 @@ namespace UserService.Migrations
                 columns: new[] { "UserId", "Email", "FirstName", "LastName", "Password", "RoleId" },
                 values: new object[,]
                 {
-                    { new Guid("c5c49a80-5142-4e54-9d17-c1681dfa8607"), "marko@gmail.com", "Marko", "Milic", "123456", new Guid("487ff1f2-af6d-4d76-8aca-0c54b90880f5") },
-                    { new Guid("c37ed033-4573-49bc-9f28-afbf995cab79"), "Nikola@gmail.com", "Nikola", "Milic", "123456", new Guid("22b40e6c-59d5-4d80-93a5-d15b4201ade5") }
+                    { new Guid("aa4cf009-44b7-4413-89dc-00902bdd3bf7"), "marko@gmail.com", "Marko", "Milic", "123456", new Guid("57677386-3999-4011-ba64-085b2f321e3f") },
+                    { new Guid("e16e702f-cbcf-47a5-a2ed-e2ded8aeb5c3"), "Nikola@gmail.com", "Nikola", "Milic", "123456", new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") }
                 });
 
             migrationBuilder.InsertData(
@@ -142,22 +142,22 @@ namespace UserService.Migrations
                 columns: new[] { "PermissionId", "RoleId" },
                 values: new object[,]
                 {
-                    { new Guid("74836c59-2d06-4e3a-abe1-43147a787016"), new Guid("487ff1f2-af6d-4d76-8aca-0c54b90880f5") },
-                    { new Guid("74836c59-2d06-4e3a-abe1-43147a787016"), new Guid("22b40e6c-59d5-4d80-93a5-d15b4201ade5") },
-                    { new Guid("9f85d078-64ce-4a25-b27a-05c8aede3746"), new Guid("22b40e6c-59d5-4d80-93a5-d15b4201ade5") },
-                    { new Guid("1dc7ee0f-7ddd-4fe0-93e7-cdcc38746c2e"), new Guid("22b40e6c-59d5-4d80-93a5-d15b4201ade5") },
-                    { new Guid("b2206c80-3d84-4e8f-904a-3d0ffbba5f06"), new Guid("22b40e6c-59d5-4d80-93a5-d15b4201ade5") }
+                    { new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637"), new Guid("57677386-3999-4011-ba64-085b2f321e3f") },
+                    { new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") },
+                    { new Guid("d6bead18-e752-4d9e-bf85-fe6cda2b2754"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") },
+                    { new Guid("6bf02553-ea87-4b11-95b3-a853d7fdc58f"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") },
+                    { new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "PermissionId", "UserId" },
-                values: new object[] { new Guid("b2206c80-3d84-4e8f-904a-3d0ffbba5f06"), new Guid("c5c49a80-5142-4e54-9d17-c1681dfa8607") });
+                values: new object[] { new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9"), new Guid("aa4cf009-44b7-4413-89dc-00902bdd3bf7") });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "PermissionId", "UserId" },
-                values: new object[] { new Guid("6091f2f7-6e0e-4cb6-a7a8-575ee5a00fdf"), new Guid("c37ed033-4573-49bc-9f28-afbf995cab79") });
+                values: new object[] { new Guid("65a007bb-221e-49fc-8201-37d6c1e11b8c"), new Guid("e16e702f-cbcf-47a5-a2ed-e2ded8aeb5c3") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_rolePermissions_PermissionId",
