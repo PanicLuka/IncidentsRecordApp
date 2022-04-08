@@ -7,17 +7,17 @@ namespace EnumClassLibrary
     {
         public enum Permissions 
         {
-            CanAccessGetAllUsers = 0,
-            CanAccessDeleteUser = 1,
-            CanAccessUpdateUser = 2,
-            CanAccessGetByIdUser = 3,
-            CanAccessCreateUser = 4,
-            CanAccessGetAllIncidents = 5,
-            CanAccessGetIncidentById = 6,
-            CanAccessUpdateIncident = 7,
-            CanAccessDeleteIncident = 8,
-            CanAccessCreateIncident = 9,
-            CanPromoteToAdmin = 10
+            UserGetAll = 0,
+            UserDelete = 1,
+            UserUpdate = 2,
+            UserGetById = 3,
+            UserCreateUser = 4,
+            IncidentsGetAll = 5,
+            IncidentsGetById = 6,
+            IncidentsUpdate = 7,
+            IncidentsDelete = 8,
+            IncidentsCreate = 9,
+            PromoteToAdmin = 10
         }
     }
 }
