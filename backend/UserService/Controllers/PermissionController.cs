@@ -25,9 +25,9 @@ namespace UserService.Controllers
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<List<PermissionDto>> GetAllPermissions()
+        public ActionResult<List<PermissionDto>> GetAllPermissions([FromQuery] PermissionParameters permissionParameters)
         {
-            var permissionDtos = repository.GetAllPermissions();
+            var permissionDtos = repository.GetAllPermissions(permissionParameters);
 
             if (permissionDtos == null || permissionDtos.Count == 0)
             {

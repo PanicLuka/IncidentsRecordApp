@@ -38,7 +38,7 @@ namespace UserService.Service
             SaveChanges();
         }
 
-        public List<PermissionDto> GetAllPermissions()
+        public PagedList<PermissionDto> GetAllPermissions(PermissionParameters permissionParameters)
         {
             var permissions = context.Permission.ToList();
             List<PermissionDto> permissionDtos = new List<PermissionDto>();
@@ -50,8 +50,12 @@ namespace UserService.Service
                 permissionDtos.Add(permissionDto);
             }
 
-            return permissionDtos;
+            IQueryable<PermissionDto> queryable = permissionDtos.AsQueryable();
+
+            return PagedList<PermissionDto>.ToPagedList(queryable, permissionParameters.PageNumber, permissionParameters.PageSize);
         }
+
+        
 
         public PermissionDto GetPermissionById(Guid permissionId)
         {

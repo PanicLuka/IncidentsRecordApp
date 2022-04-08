@@ -43,7 +43,7 @@ namespace UserService.Service
             SaveChanges();
         }
 
-        public List<UserDto> GetAllUsers()
+        public PagedList<UserDto> GetAllUsers(UserParameters userParameters)
         {
             var users  = context.User.ToList();
 
@@ -55,8 +55,9 @@ namespace UserService.Service
 
                 userDtos.Add(userDto);
             }
+            IQueryable<UserDto> queryable = userDtos.AsQueryable();
 
-            return userDtos;
+            return PagedList<UserDto>.ToPagedList(queryable, userParameters.PageNumber, userParameters.PageSize);
         }
 
        

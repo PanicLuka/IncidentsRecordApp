@@ -26,9 +26,9 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
-        public ActionResult<List<UserDto>> GetUsers()
+        public ActionResult<List<UserDto>> GetUsers([FromQuery] UserParameters userParameters)
         {
-            var userDtos =  repository.GetAllUsers();
+            var userDtos =  repository.GetAllUsers(userParameters);
 
             if (userDtos == null || userDtos.Count == 0)
             {

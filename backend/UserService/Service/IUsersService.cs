@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UserService.Enitites;
 using UserService.Models;
 
 namespace UserService.Service
@@ -7,7 +8,7 @@ namespace UserService.Service
     public interface IUsersService
     {
         void CreateUser(UserDto user);
-        List<UserDto> GetAllUsers();
+        PagedList<UserDto> GetAllUsers(UserParameters userParameters);
         UserDto GetUserById(Guid userId);
         UserDto GetUserByEmail(string email);
         UserDto UpdateUser(Guid userId, UserDto userDto);
