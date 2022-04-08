@@ -6,12 +6,9 @@ using IncidentService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
 
 namespace IncidentService.Controllers
 {
-    //[Authorize]
     [ApiController]
     [Route("api/category")]
     public class CategoryController : ControllerBase
@@ -93,7 +90,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateCategory(Guid CategoryId, [FromBody] CategoryDto categoryDto)
+        public ActionResult<CategoryDto> UpdateCategory(Guid CategoryId, [FromBody] CategoryDto categoryDto)
         {
             try
             {

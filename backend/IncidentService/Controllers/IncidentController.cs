@@ -6,14 +6,11 @@ using IncidentService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace IncidentService.Controllers
 {
-    //[Authorize]
     [ApiController]
     [Route("api/incident")]
     public class IncidentController : ControllerBase
@@ -79,16 +76,7 @@ namespace IncidentService.Controllers
 
                 IEnumerable<Claim> claim = identity.Claims;
 
-                var userEmailClaim = claim.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault();
-
-
-                /*if (userEmailClaim == null)
-                {
-                    return BadRequest();
-                }*/
-
-
-                //Must add getUserIdByEmail when implemented in User service
+                var userIdClaim = claim.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault();
 
                 Guid userId = Guid.NewGuid();
 
@@ -111,7 +99,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateIncident(Guid IncidentId, [FromBody] IncidentDto incidentDto)
+        public ActionResult<IncidentDto> UpdateIncident(Guid IncidentId, [FromBody] IncidentDto incidentDto)
         {
             try
             {
