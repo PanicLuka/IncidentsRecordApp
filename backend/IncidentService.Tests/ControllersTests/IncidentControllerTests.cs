@@ -144,6 +144,20 @@ namespace IncidentService.Tests.ControllersTests
         }
 
         [Fact]
+        public void DeleteIncident_ReturnsNotFound_IncidentWithSpecifiedIdDoesNotExists()
+        {
+            // Arrange
+            var incidentParameters = new IncidentParameters();
+            mockIncidentsService.Setup(x => x.DeleteIncident(FirstIncidentGuid));
+
+            // Act
+            var actionResult = _incidentController.DeleteIncident(TestGuid);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(actionResult);
+        }
+
+        [Fact]
         public void UpdateIncident_ReturnsUpdatedIncident_IncidentWithSpecifiedIdExists()
         {
             // Arrange

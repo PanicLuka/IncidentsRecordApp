@@ -110,6 +110,20 @@ namespace IncidentService.Tests.ControllersTests
         }
 
         [Fact]
+        public void DeleteCategory_ReturnsNotFound_CategoryWithSpecifiedIdDoesNotExists()
+        {
+            // Arrange
+            var categoryParameters = new CategoryParameters();
+            mockCategoriesService.Setup(x => x.DeleteCategory(FirstCategoryGuid));
+
+            // Act
+            var actionResult = _categoryController.DeleteCategory(TestGuid);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(actionResult);
+        }
+
+        [Fact]
         public void UpdateCategory_ReturnsUpdatedCategory_CategoryWithSpecifiedIdExists()
         {
             // Arrange
