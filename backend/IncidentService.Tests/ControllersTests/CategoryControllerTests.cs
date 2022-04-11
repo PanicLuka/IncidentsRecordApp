@@ -93,23 +93,6 @@ namespace IncidentService.Tests.ControllersTests
         }
 
         [Fact]
-        public void GetCategoryById_ReturnsCategoryWithIdDto_CategoryWithSpecifiedIdDoesNotExists()
-        {
-            // Arrange
-            var categoryOpts = new CategoryOpts();
-            var categories = GetSampleCategory(categoryOpts);
-            var firstCategory = categories[0];
-            _mockCategoriesService.Setup(x => x.GetCategoryById(FirstCategoryGuid)).Returns(firstCategory.CategoryToCategoryWithIdDto());
-
-            // Act
-            var actionResult = _categoryController.GetCategoryById(TestGuid);
-            var result = actionResult.Result;
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
-        }
-
-        [Fact]
         public void CreateCategory_ReturnsOk_DatabaseExists()
         {
             // Arrange
@@ -123,20 +106,6 @@ namespace IncidentService.Tests.ControllersTests
 
             // Assert
             Assert.IsType<OkResult>(actionResult);
-        }
-
-        [Fact]
-        public void DeleteCategory_ReturnsNotFound_CategoryWithSpecifiedIdDoesNotExists()
-        {
-            // Arrange
-            var categoryOpts = new CategoryOpts();
-            _mockCategoriesService.Setup(x => x.DeleteCategory(FirstCategoryGuid));
-
-            // Act
-            var actionResult = _categoryController.DeleteCategory(TestGuid);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(actionResult);
         }
 
         [Fact]

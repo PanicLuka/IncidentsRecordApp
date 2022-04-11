@@ -12,9 +12,14 @@ namespace IncidentService.Entities
         private Guid defaultCategoryId = Guid.NewGuid();
         private Guid defaultUserId = Guid.NewGuid();
 
+        public DataContext() { }
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
+
         public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
         {
-            this._configuration = configuration;
+            _configuration = configuration;
         }
 
         public DbSet<Incident> Incidents { get; set; }

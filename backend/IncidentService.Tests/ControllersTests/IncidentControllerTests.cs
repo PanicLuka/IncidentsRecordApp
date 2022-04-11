@@ -127,23 +127,6 @@ namespace IncidentService.Tests.ControllersTests
         }
 
         [Fact]
-        public void GetIncidentById_ReturnsIncidentWithIdDto_IncidentWithSpecifiedIdDoesNotExists()
-        {
-            // Arrange
-            var incidentOpts = new IncidentOpts();
-            var incidents = GetSampleIncident(incidentOpts);
-            var firstIncident = incidents[0];
-            _mockIncidentsService.Setup(x => x.GetIncidentById(FirstIncidentGuid)).Returns(firstIncident.IncidentToIncidentWithIdDto());
-
-            // Act
-            var actionResult = _incidentController.GetIncidentById(TestGuid);
-            var result = actionResult.Result;
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
-        }
-
-        [Fact]
         public void CreateIncident_ReturnsOk_DatabaseExists()
         {
             // Arrange
@@ -157,20 +140,6 @@ namespace IncidentService.Tests.ControllersTests
 
             // Assert
             Assert.IsType<ObjectResult>(actionResult);
-        }
-
-        [Fact]
-        public void DeleteIncident_ReturnsNotFound_IncidentWithSpecifiedIdDoesNotExists()
-        {
-            // Arrange
-            var incidentOpts = new IncidentOpts();
-            _mockIncidentsService.Setup(x => x.DeleteIncident(FirstIncidentGuid));
-
-            // Act
-            var actionResult = _incidentController.DeleteIncident(TestGuid);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(actionResult);
         }
 
         [Fact]
