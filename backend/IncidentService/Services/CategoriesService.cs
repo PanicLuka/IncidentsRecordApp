@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Web.Http;
 using FluentValidation;
 using IncidentService.Entities;
 using IncidentService.Helpers;
@@ -32,6 +34,12 @@ namespace IncidentService.Services
         public void DeleteCategory(Guid id)
         {
             var category = GetCategoryForUpdateById(id);
+            
+            if (category == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             _context.Remove(category);
             SaveChanges();
         }
@@ -42,12 +50,22 @@ namespace IncidentService.Services
 
             CategoryWithIdDto categoryWithIdDto = category.CategoryToCategoryWithIdDto();
 
+            if (categoryWithIdDto == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             return categoryWithIdDto;
         }
 
         public PagedList<CategoryDto> GetCategories(CategoryOpts categoryOpts)
         {
             List<Category> categories = _context.Categories.ToList();
+
+            if (categories == null || categories.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+            }
 
             List<CategoryDto> categoryDtos = new List<CategoryDto>();
 
@@ -67,6 +85,11 @@ namespace IncidentService.Services
         {
             Category category = _context.Categories.FirstOrDefault(e => e.CategoryId == id);
 
+            if (category == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             return category;
         }
 
@@ -76,8 +99,7 @@ namespace IncidentService.Services
 
             if (oldCategory == null)
             {
-                CreateCategory(categoryDto);
-                return categoryDto;
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             else
             {

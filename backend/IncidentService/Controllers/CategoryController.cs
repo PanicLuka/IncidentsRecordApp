@@ -26,14 +26,16 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<CategoryDto>> GetCategories([FromQuery] CategoryOpts categoryOpts)
         {
-            var categoryDtos = _categoriesService.GetCategories(categoryOpts);
-
-            if (categoryDtos == null || categoryDtos.Count == 0)
+            try
             {
-                return NoContent();
-            }
+                var categoryDtos = _categoriesService.GetCategories(categoryOpts);
 
-            return Ok(categoryDtos);
+                return Ok(categoryDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
 
         [HttpGet("{CategoryId}")]
@@ -41,15 +43,16 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<CategoryWithIdDto> GetCategoryById(Guid CategoryId)
         {
-            var categoryDto = _categoriesService.GetCategoryById(CategoryId);
-
-            if (categoryDto == null)
+            try
             {
-                return NotFound();
+                var categoryDto = _categoriesService.GetCategoryById(CategoryId);
+
+                return Ok(categoryDto);
             }
-
-            return Ok(categoryDto);
-
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
 
         [HttpPost]
@@ -86,11 +89,6 @@ namespace IncidentService.Controllers
             {
                 var newCategory = _categoriesService.UpdateCategory(CategoryId, categoryDto);
 
-                if (newCategory == null)
-                {
-                    return NotFound();
-                }
-
                 return Ok(newCategory);
             }
             catch (ValidationException v)
@@ -114,12 +112,8 @@ namespace IncidentService.Controllers
             {
                 var category = _categoriesService.GetCategoryById(CategoryId);
 
-                if (category == null)
-                {
-                    return NotFound();
-                }
-
                 _categoriesService.DeleteCategory(CategoryId);
+
                 return NoContent();
             }
             catch (Exception e)

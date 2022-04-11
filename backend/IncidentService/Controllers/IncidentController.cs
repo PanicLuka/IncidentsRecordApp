@@ -28,14 +28,16 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentOpts incidentOpts)
         { 
-            var incidentDtos = _incidentsService.GetIncidents(incidentOpts);
-
-            if (incidentDtos == null || incidentDtos.Count == 0)
+            try
             {
-                return NoContent();
-            }
+                var incidentDtos = _incidentsService.GetIncidents(incidentOpts);
 
-            return Ok(incidentDtos);
+                return Ok(incidentDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
 
         [HttpGet("{IncidentId}")]
@@ -43,14 +45,16 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IncidentDto> GetIncidentById(Guid IncidentId)
         {
-            var incidentDto = _incidentsService.GetIncidentById(IncidentId);
-
-            if (incidentDto == null)
+            try
             {
-                return NotFound();
-            }
+                var incidentDto = _incidentsService.GetIncidentById(IncidentId);
 
-            return Ok(incidentDto);
+                return Ok(incidentDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
 
         }
 
@@ -96,11 +100,6 @@ namespace IncidentService.Controllers
             {
                 var newIncident = _incidentsService.UpdateIncident(IncidentId, incidentDto);
 
-                if (newIncident == null)
-                {
-                    return NotFound();
-                }
-
                 return Ok(newIncident);
             }
             catch (ValidationException v)
@@ -122,11 +121,6 @@ namespace IncidentService.Controllers
             try
             {
                 var incident = _incidentsService.GetIncidentById(IncidentId);
-
-                if (incident == null)
-                {
-                    return NotFound();
-                }
 
                 _incidentsService.DeleteIncident(IncidentId);
 

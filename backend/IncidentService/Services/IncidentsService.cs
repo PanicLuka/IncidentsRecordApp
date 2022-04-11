@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Web.Http;
 using FluentValidation;
 using IncidentService.Entities;
 using IncidentService.Helpers;
@@ -18,7 +20,7 @@ namespace IncidentService.Services
 
         public IncidentsService(DataContext context)
         {
-            this._context = context;
+            _context = context;
         }
         public void CreateIncident(IncidentDto incidentDto, Guid userId)
         {
@@ -36,7 +38,14 @@ namespace IncidentService.Services
         public void DeleteIncident(Guid id)
         {
             var incident = GetIncidentForUpdateById(id);
+
+            if (incident == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             _context.Remove(incident);
+
             SaveChanges();
         }
 
@@ -46,6 +55,11 @@ namespace IncidentService.Services
 
             IncidentWithIdDto incidentWithIdDto = incident.IncidentToIncidentWithIdDto();
 
+            if (incidentWithIdDto == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             return incidentWithIdDto;
         }
 
@@ -54,10 +68,14 @@ namespace IncidentService.Services
             
             List<Incident> incidents = _context.Incidents.ToList();
 
-
             var filteredIncidents = FilterIncidents(incidents, incidentOpts);
 
             incidents = filteredIncidents.ToList();
+
+            if (incidents == null || incidents.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+            }
 
             List<IncidentDto> incidentDtos = new List<IncidentDto>();
 
@@ -122,6 +140,11 @@ namespace IncidentService.Services
         {
             Incident incident = _context.Incidents.FirstOrDefault(e => e.IncidentId == id);
 
+            if (incident == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             return incident;
         }
 
@@ -131,8 +154,7 @@ namespace IncidentService.Services
 
             if (oldIncident == null)
             {
-                CreateIncident(incidentDto, oldIncident.UserId);
-                return incidentDto;
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             else
             {
