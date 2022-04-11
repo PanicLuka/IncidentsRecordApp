@@ -13,7 +13,6 @@ namespace UserService.Service
         UserDto UpdateUser(Guid userId, UserDto userDto);
         void DeleteUser(Guid userId);
         Guid GetRoleIdByUserEmail(string email);
-        public Guid GetUserIdByEmail(string email);
-        bool SaveChanges();
+        Guid GetUserIdByEmail(string email);
     }
 }

@@ -87,12 +87,12 @@ namespace UserService.Tests.ControllersTests
                 new Permission
                 {
                    PermissionId = testGuid,
-                    AccessPermissions = "UserGetById"
+                    AccessPermission = "UserGetById"
                 },
                 new Permission
                 {
                    PermissionId = Guid.NewGuid(),
-                    AccessPermissions = "UsersGetAll"
+                    AccessPermission = "UsersGetAll"
                 }
             };
             return output;
@@ -104,11 +104,11 @@ namespace UserService.Tests.ControllersTests
             {
                 new PermissionDto
                 {
-                  AccessPermissions = "UserGetById"
+                  AccessPermission = "UserGetById"
                 },
                 new PermissionDto
                 {
-                    AccessPermissions = "UserGetAll"
+                    AccessPermission = "UserGetAll"
                 }
             };
 

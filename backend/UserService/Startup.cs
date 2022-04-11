@@ -10,7 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
-using UserService.Enitites;
+using UserService.Entities;
+using UserService.Helpers;
 using UserService.Service;
 
 namespace UserService
@@ -24,6 +25,7 @@ namespace UserService
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<JsonValuesHelper>(Configuration.GetSection(JsonValuesHelper.sectionName));
 
             services.AddControllers()
                 .AddFluentValidation(s =>
@@ -59,17 +61,19 @@ namespace UserService
                      ValidateLifetime = true,
                      ValidateIssuerSigningKey = true,
 
-                     ValidIssuer = "http://localhost:5002",
-                     ValidAudience = "http://localhost:5002",
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:JWTkey"].ToString()))
+                     ValidIssuer = Configuration.GetValue<string>("JWT:Issuer"),
+                     ValidAudience = Configuration.GetValue<string>("JWT:Audience"),
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JWT:JWTkey")))
 
                  };
              });
 
+            services.AddOptions();
+
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserRegisterDB")));
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<IAuthenticate, Authenticate>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

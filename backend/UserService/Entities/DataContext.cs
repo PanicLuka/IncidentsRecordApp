@@ -4,30 +4,31 @@ using System;
 using EnumClassLibrary;
 using System.Collections.Generic;
 using UserService.Helpers;
+using UserService.Enitites;
 
-namespace UserService.Enitites
+namespace UserService.Entities
 {
     public class DataContext : DbContext
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
 
         public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
         {
-            this.configuration = configuration;
+            _configuration = configuration;
         }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public DbSet<Role> Role { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
-        public DbSet<Permission> Permission { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         public DbSet<UserPermission> UserPermissions { get; set; }
 
         public DbSet<RolePermission> RolePermissions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("UserRegisterDB"));
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("UserRegisterDB"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,89 +56,86 @@ namespace UserService.Enitites
                 permissionNames.Add(i);
             }
 
-            #region
+        
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[0],
-                    AccessPermissions = permissionNames[0]
+                    AccessPermission = permissionNames[0]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[1],
-                    AccessPermissions = permissionNames[1]
+                    AccessPermission = permissionNames[1]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[2],
-                    AccessPermissions = permissionNames[2]
+                    AccessPermission = permissionNames[2]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[3],
-                    AccessPermissions = permissionNames[3]
+                    AccessPermission = permissionNames[3]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[4],
-                    AccessPermissions = permissionNames[4]
+                    AccessPermission = permissionNames[4]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[5],
-                    AccessPermissions = permissionNames[5]
+                    AccessPermission = permissionNames[5]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[6],
-                    AccessPermissions = permissionNames[6]
+                    AccessPermission = permissionNames[6]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[7],
-                    AccessPermissions = permissionNames[7]
+                    AccessPermission = permissionNames[7]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[8],
-                    AccessPermissions = permissionNames[8]
+                    AccessPermission = permissionNames[8]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[9],
-                    AccessPermissions = permissionNames[9]
+                    AccessPermission = permissionNames[9]
                 });
 
             modelBuilder.Entity<Permission>()
                 .HasData(new
                 {
                     PermissionId = permissionGuids[10],
-                    AccessPermissions = permissionNames[10]
+                    AccessPermission = permissionNames[10]
                 });
 
-            #endregion
 
-
-            #region
 
             modelBuilder.Entity<Role>()
                 .HasData(new
@@ -153,9 +151,7 @@ namespace UserService.Enitites
                     UserType = "Admin"
                 });
 
-            #endregion
-
-            #region
+         
 
             modelBuilder.Entity<RolePermission>()
                 .HasData(new
@@ -197,9 +193,7 @@ namespace UserService.Enitites
 
                });
 
-            #endregion
-
-            #region
+            
 
             modelBuilder.Entity<UserPermission>()
                .HasData(new
@@ -217,10 +211,7 @@ namespace UserService.Enitites
 
                });
 
-            #endregion
-
-
-            #region
+          
 
             modelBuilder.Entity<User>()
                 .Property(b => b.RoleId)
@@ -250,7 +241,6 @@ namespace UserService.Enitites
                     RoleId = defaultGuidAdmin
                 });
 
-            #endregion
         }
 
     }

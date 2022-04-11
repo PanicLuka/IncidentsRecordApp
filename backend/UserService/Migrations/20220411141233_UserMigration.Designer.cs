@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserService.Enitites;
+using UserService.Entities;
 
 namespace UserService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220408081832_UserMigration")]
+    [Migration("20220411141233_UserMigration")]
     partial class UserMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,68 +27,68 @@ namespace UserService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AccessPermissions")
+                    b.Property<string>("AccessPermission")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PermissionId");
 
-                    b.ToTable("Permission");
+                    b.ToTable("Permissions");
 
                     b.HasData(
                         new
                         {
-                            PermissionId = new Guid("723bb965-8689-4934-a9a2-5442942e5473"),
-                            AccessPermissions = "UserGetAll"
+                            PermissionId = new Guid("114ea29f-07f2-4448-a9d5-9a13c18f43f6"),
+                            AccessPermission = "UserGetAll"
                         },
                         new
                         {
-                            PermissionId = new Guid("3b342250-a052-4d8f-8433-08c45f258d02"),
-                            AccessPermissions = "UserDelete"
+                            PermissionId = new Guid("f268f7b3-a362-4945-84d8-88d7ddce5bdc"),
+                            AccessPermission = "UserDelete"
                         },
                         new
                         {
-                            PermissionId = new Guid("dbf4f926-0ea6-4c70-971d-6f87ef4d4aa2"),
-                            AccessPermissions = "UserUpdate"
+                            PermissionId = new Guid("810c68f3-4405-4f2c-aa5c-0310aa344f7e"),
+                            AccessPermission = "UserUpdate"
                         },
                         new
                         {
-                            PermissionId = new Guid("b37105b5-f801-4218-af95-47c4b61f07c6"),
-                            AccessPermissions = "UserGetById"
+                            PermissionId = new Guid("fb5ad568-2823-4ff7-83ad-4fd6170ac616"),
+                            AccessPermission = "UserGetById"
                         },
                         new
                         {
-                            PermissionId = new Guid("44114348-5c6f-444e-88cb-0e36369dbb53"),
-                            AccessPermissions = "UserCreateUser"
+                            PermissionId = new Guid("47dfae26-ab31-4bd8-8eaf-e697b2007f6e"),
+                            AccessPermission = "UserCreateUser"
                         },
                         new
                         {
-                            PermissionId = new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637"),
-                            AccessPermissions = "IncidentsGetAll"
+                            PermissionId = new Guid("b5f48801-8140-41df-941e-586cc221e477"),
+                            AccessPermission = "IncidentsGetAll"
                         },
                         new
                         {
-                            PermissionId = new Guid("d6bead18-e752-4d9e-bf85-fe6cda2b2754"),
-                            AccessPermissions = "IncidentsGetById"
+                            PermissionId = new Guid("61a94456-07f6-407c-b1ff-0d3032b7482e"),
+                            AccessPermission = "IncidentsGetById"
                         },
                         new
                         {
-                            PermissionId = new Guid("6bf02553-ea87-4b11-95b3-a853d7fdc58f"),
-                            AccessPermissions = "IncidentsUpdate"
+                            PermissionId = new Guid("3a625004-b54f-47ff-ae20-2363f486f353"),
+                            AccessPermission = "IncidentsUpdate"
                         },
                         new
                         {
-                            PermissionId = new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9"),
-                            AccessPermissions = "IncidentsDelete"
+                            PermissionId = new Guid("97fc05bf-4c22-4e5d-8fa2-91a478c1cde1"),
+                            AccessPermission = "IncidentsDelete"
                         },
                         new
                         {
-                            PermissionId = new Guid("65a007bb-221e-49fc-8201-37d6c1e11b8c"),
-                            AccessPermissions = "IncidentsCreate"
+                            PermissionId = new Guid("d04348cc-d878-45e0-b7b2-35b35233a99d"),
+                            AccessPermission = "IncidentsCreate"
                         },
                         new
                         {
-                            PermissionId = new Guid("968852ea-a13f-4896-9bb6-be970c3ca2f1"),
-                            AccessPermissions = "PromoteToAdmin"
+                            PermissionId = new Guid("0e40bba4-6085-4cdc-af56-015402e533ca"),
+                            AccessPermission = "PromoteToAdmin"
                         });
                 });
 
@@ -103,17 +103,17 @@ namespace UserService.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
                         {
-                            RoleId = new Guid("57677386-3999-4011-ba64-085b2f321e3f"),
+                            RoleId = new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f"),
                             UserType = "User"
                         },
                         new
                         {
-                            RoleId = new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e"),
+                            RoleId = new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11"),
                             UserType = "Admin"
                         });
                 });
@@ -130,33 +130,33 @@ namespace UserService.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("rolePermissions");
+                    b.ToTable("RolePermissions");
 
                     b.HasData(
                         new
                         {
-                            RoleId = new Guid("57677386-3999-4011-ba64-085b2f321e3f"),
-                            PermissionId = new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637")
+                            RoleId = new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f"),
+                            PermissionId = new Guid("b5f48801-8140-41df-941e-586cc221e477")
                         },
                         new
                         {
-                            RoleId = new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e"),
-                            PermissionId = new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637")
+                            RoleId = new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11"),
+                            PermissionId = new Guid("b5f48801-8140-41df-941e-586cc221e477")
                         },
                         new
                         {
-                            RoleId = new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e"),
-                            PermissionId = new Guid("d6bead18-e752-4d9e-bf85-fe6cda2b2754")
+                            RoleId = new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11"),
+                            PermissionId = new Guid("61a94456-07f6-407c-b1ff-0d3032b7482e")
                         },
                         new
                         {
-                            RoleId = new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e"),
-                            PermissionId = new Guid("6bf02553-ea87-4b11-95b3-a853d7fdc58f")
+                            RoleId = new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11"),
+                            PermissionId = new Guid("3a625004-b54f-47ff-ae20-2363f486f353")
                         },
                         new
                         {
-                            RoleId = new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e"),
-                            PermissionId = new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9")
+                            RoleId = new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11"),
+                            PermissionId = new Guid("97fc05bf-4c22-4e5d-8fa2-91a478c1cde1")
                         });
                 });
 
@@ -181,32 +181,32 @@ namespace UserService.Migrations
                     b.Property<Guid>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("57677386-3999-4011-ba64-085b2f321e3f"));
+                        .HasDefaultValue(new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f"));
 
                     b.HasKey("UserId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("aa4cf009-44b7-4413-89dc-00902bdd3bf7"),
+                            UserId = new Guid("ef72df04-f4b6-4d20-8fdd-d02ab10a083d"),
                             Email = "marko@gmail.com",
                             FirstName = "Marko",
                             LastName = "Milic",
                             Password = "123456",
-                            RoleId = new Guid("57677386-3999-4011-ba64-085b2f321e3f")
+                            RoleId = new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f")
                         },
                         new
                         {
-                            UserId = new Guid("e16e702f-cbcf-47a5-a2ed-e2ded8aeb5c3"),
+                            UserId = new Guid("cdc5f80a-97c6-4c1d-a5d4-9cd39e196309"),
                             Email = "Nikola@gmail.com",
                             FirstName = "Nikola",
                             LastName = "Milic",
                             Password = "123456",
-                            RoleId = new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e")
+                            RoleId = new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11")
                         });
                 });
 
@@ -227,33 +227,33 @@ namespace UserService.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("aa4cf009-44b7-4413-89dc-00902bdd3bf7"),
-                            PermissionId = new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9")
+                            UserId = new Guid("ef72df04-f4b6-4d20-8fdd-d02ab10a083d"),
+                            PermissionId = new Guid("97fc05bf-4c22-4e5d-8fa2-91a478c1cde1")
                         },
                         new
                         {
-                            UserId = new Guid("e16e702f-cbcf-47a5-a2ed-e2ded8aeb5c3"),
-                            PermissionId = new Guid("65a007bb-221e-49fc-8201-37d6c1e11b8c")
+                            UserId = new Guid("cdc5f80a-97c6-4c1d-a5d4-9cd39e196309"),
+                            PermissionId = new Guid("d04348cc-d878-45e0-b7b2-35b35233a99d")
                         });
                 });
 
             modelBuilder.Entity("UserService.Enitites.RolePermission", b =>
                 {
-                    b.HasOne("UserService.Enitites.Permission", "permission")
+                    b.HasOne("UserService.Enitites.Permission", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserService.Enitites.Role", "role")
+                    b.HasOne("UserService.Enitites.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("permission");
+                    b.Navigation("Permission");
 
-                    b.Navigation("role");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("UserService.Enitites.User", b =>
@@ -269,21 +269,21 @@ namespace UserService.Migrations
 
             modelBuilder.Entity("UserService.Enitites.UserPermission", b =>
                 {
-                    b.HasOne("UserService.Enitites.Permission", "permission")
+                    b.HasOne("UserService.Enitites.Permission", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserService.Enitites.User", "user")
+                    b.HasOne("UserService.Enitites.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("permission");
+                    b.Navigation("Permission");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

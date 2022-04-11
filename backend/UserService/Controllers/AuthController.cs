@@ -9,13 +9,13 @@ namespace UserService.Controllers
     [Route("api/login")]
     public class AuthController : ControllerBase
     {
-        private readonly IUsersService userRepository;
-        private readonly IAuthenticate authenticate;
+        private readonly IUsersService _userService;
+        private readonly IAuthenticateService _authenticateService;
 
-        public AuthController(IUsersService userRepository, IAuthenticate authenticate)
+        public AuthController(IUsersService userService, IAuthenticateService authenticateService)
         {
-            this.userRepository = userRepository;
-            this.authenticate = authenticate;
+            _userService = userService;
+            _authenticateService = authenticateService;
         }
 
         [HttpPost]
@@ -30,14 +30,14 @@ namespace UserService.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            var entity =  userRepository.GetUserByEmail(user.Email);
+            var savedUser = _userService.GetUserByEmail(user.Email);
 
-            bool verify = authenticate.VerifyPassword(user);
+            bool passwordVerified = _authenticateService.VerifiedPassword(user);
 
-            if (user.Email == entity.Email && verify == true)
+            if (user.Email == savedUser.Email && passwordVerified)
             {
 
-                var tokenString =  authenticate.GenerateToken(user);
+                var tokenString = _authenticateService.GenerateToken(user);
                 return Ok(tokenString);
             }
 

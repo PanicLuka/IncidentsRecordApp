@@ -11,6 +11,5 @@ namespace UserService.Service
         RolePermissionDto GetRolePermissionById(RolePermissionDto rolePermissionDto);
         RolePermissionDto UpdateRolePermission(Guid rolePermissionId, RolePermissionDto rolePermissionDto);
         void DeleteRolePermission(RolePermissionDto rolePermissionDto);
-        bool SaveChanges();
     }
 }

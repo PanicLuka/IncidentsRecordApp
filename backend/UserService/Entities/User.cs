@@ -5,7 +5,6 @@ namespace UserService.Enitites
 {
     public class User
     {
-        #region
         [Key]
         public Guid UserId { get; set; }
         public string FirstName { get; set; }
@@ -14,6 +13,5 @@ namespace UserService.Enitites
         public string Password { get; set; }
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
-        #endregion
     }
 }

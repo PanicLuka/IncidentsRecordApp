@@ -17,7 +17,7 @@ namespace UserService.Validators
                 conditions.Add(i);
             }
 
-            RuleFor(x => x.AccessPermissions).Must(x => conditions.Contains(x))
+            RuleFor(x => x.AccessPermission).Must(x => conditions.Contains(x))
                 .WithMessage("Significance can only be: " + String.Join(",", conditions) + "!");
         }
     }

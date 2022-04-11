@@ -4,22 +4,25 @@ using System.Linq;
 using UserService.Enitites;
 using UserService.Models;
 using UserService.Helpers;
+using UserService.Entities;
+using System.Web.Http;
+using System.Net;
 
 namespace UserService.Service
 {
     public class RolePermissionService : IRolePermissionService
     {
-        private readonly DataContext context;
+        private readonly DataContext _context;
 
         public RolePermissionService(DataContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public void CreateRolePermission(RolePermissionDto rolePermissionDto)
         {
             RolePermission permissionEntity = rolePermissionDto.DtoToRolePermission();
 
-            context.Add(permissionEntity);
+            _context.Add(permissionEntity);
 
             SaveChanges();
         }
@@ -28,14 +31,26 @@ namespace UserService.Service
         {
             var rolePermission = GetRolePermissionById(rolePermissionDto);
 
-            context.Remove(rolePermission);
+            if(rolePermission == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            _context.Remove(rolePermission);
 
             SaveChanges();
         }
 
         public List<RolePermissionDto> GetAllRolePermissions()
         {
-            var rolePermissions = context.RolePermissions.ToList();
+            var rolePermissions = _context.RolePermissions.ToList();
+
+            if (rolePermissions == null || rolePermissions.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+
             List<RolePermissionDto> rolePermissionDtos = new List<RolePermissionDto>();
 
             foreach (var permission in rolePermissions)
@@ -50,17 +65,22 @@ namespace UserService.Service
 
         public RolePermissionDto GetRolePermissionById(RolePermissionDto rolePermissionDto)
         {
-            var permission = context.RolePermissions.FirstOrDefault
+            var permission = _context.RolePermissions.FirstOrDefault
                 (e => e.PermissionId == rolePermissionDto.PermissionId && e.RoleId == rolePermissionDto.RoleId);
+
+            if (permission == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             var permissionDto = permission.RolePermissionToDto();
 
             return permissionDto;
         }
 
-        public bool SaveChanges()
+        private bool SaveChanges()
         {
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public RolePermissionDto UpdateRolePermission(Guid rolePermissionId, RolePermissionDto rolePermissionDto)

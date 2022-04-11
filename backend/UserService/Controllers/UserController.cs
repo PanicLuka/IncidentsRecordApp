@@ -11,31 +11,26 @@ namespace UserService.Controllers
 {
     [ApiController]
     [Route("api/register")]
-    [Produces("application/json", "application/xml")]
+    [Produces("application/json")]
     [Consumes("application/json")]
     public class UserController : ControllerBase
     {
-        private readonly IUsersService repository;
-        public UserController(IUsersService repository)
+        private readonly IUsersService _userService;
+        public UserController(IUsersService userService)
         {
-            this.repository = repository;
+            _userService = userService;
         }
 
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-
         public ActionResult<List<UserDto>> GetUsers([FromQuery] UserParameters userParameters)
         {
-            var userDtos =  repository.GetAllUsers(userParameters);
-
-            if (userDtos == null || userDtos.Count == 0)
-            {
-                return NoContent();
-            }
-
+            var userDtos =  _userService.GetAllUsers(userParameters);
+        
             return Ok(userDtos);
+   
         }
 
 
@@ -44,14 +39,10 @@ namespace UserService.Controllers
         [HttpGet("{userId}")]
         public  ActionResult<UserDto> GetUserById(Guid userId)
         {
-            var userDto =  repository.GetUserById(userId);
-
-            if (userDto == null)
-            {
-                return NotFound();
-            }
+            var userDto =  _userService.GetUserById(userId);
 
             return Ok(userDto);
+
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -59,12 +50,7 @@ namespace UserService.Controllers
         [HttpGet("user/{email}")]
         public ActionResult<UserDto> GetUserByEmail(string email)
         {
-            var userDto = repository.GetUserByEmail(email);
-
-            if (userDto == null)
-            {
-                return NotFound();
-            }
+            var userDto = _userService.GetUserByEmail(email);
 
             return Ok(userDto);
         }
@@ -79,7 +65,7 @@ namespace UserService.Controllers
         {
             try
             {
-                repository.CreateUser(userDto);
+                _userService.CreateUser(userDto);
                 return Ok();
             }
             catch (ValidationException v)
@@ -103,15 +89,10 @@ namespace UserService.Controllers
         {
             try
             {
-                var newUser =  repository.UpdateUser(userId, userDto);
-
-                if(newUser == null)
-                {
-                    return NotFound();
-                }
+                var newUser =  _userService.UpdateUser(userId, userDto);
 
                 return Ok(newUser);
-              
+             
             }
             catch (ValidationException v)
             {
@@ -132,16 +113,11 @@ namespace UserService.Controllers
         {
             try
             {
-                if (repository.GetUserById(userId) == null)
-                {
-                    return NotFound();
-                }
-
-                repository.DeleteUser(userId);
+                _userService.DeleteUser(userId);
                 return NoContent();
-
+      
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }

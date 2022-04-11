@@ -6,25 +6,28 @@ using UserService.Models;
 using UserService.Helpers;
 using UserService.Validators;
 using FluentValidation;
+using UserService.Entities;
+using System.Web.Http;
+using System.Net;
 
 namespace UserService.Service
 {
     public class PermissionService : IPermissionService
     {
-        private readonly DataContext context;
-        private readonly PermissionValidator validator;
+        private readonly DataContext _context;
+        private readonly PermissionValidator _validator;
         public PermissionService(DataContext context, PermissionValidator validator)
         {
-            this.context = context;
-            this.validator = validator;
+            _context = context;
+            _validator = validator;
         }
         public void CreatePermission(PermissionDto permissionDto)
         {
-            validator.ValidateAndThrow(permissionDto);
+            _validator.ValidateAndThrow(permissionDto);
 
             Permission permissionEntity = permissionDto.DtoToPermission();
 
-            context.Add(permissionEntity);
+            _context.Add(permissionEntity);
 
             SaveChanges();
         }
@@ -33,14 +36,25 @@ namespace UserService.Service
         {
             var permission = GetPermissionByIdHelper(permissionId);
 
-            context.Remove(permission);
+            if (permission == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            _context.Remove(permission);
 
             SaveChanges();
         }
 
         public PagedList<PermissionDto> GetAllPermissions(PermissionParameters permissionParameters)
         {
-            var permissions = context.Permission.ToList();
+            var permissions = _context.Permissions.ToList();
+
+            if(permissions == null || permissions.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             List<PermissionDto> permissionDtos = new List<PermissionDto>();
 
             foreach (var permission in permissions)
@@ -59,16 +73,16 @@ namespace UserService.Service
 
         public PermissionDto GetPermissionById(Guid permissionId)
         {
-            var permission = context.Permission.FirstOrDefault(e => e.PermissionId == permissionId);
+            var permission = _context.Permissions.FirstOrDefault(e => e.PermissionId == permissionId);
+
+            if (permission == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             var permissionDto = permission.PermissionToDto();
 
             return permissionDto;
-        }
-
-        public bool SaveChanges()
-        {
-            return context.SaveChanges() > 0;
         }
 
         public PermissionDto UpdatePermission(Guid permissionId, PermissionDto permissionDto)
@@ -84,16 +98,30 @@ namespace UserService.Service
             {
                 Permission permission = permissionDto.DtoToPermission();
 
-                oldPermissionDto.AccessPermissions = permission.AccessPermissions;
+                oldPermissionDto.AccessPermission = permission.AccessPermission;
 
                 SaveChanges();
+                if(oldPermissionDto.PermissionToDto() == null)
+                {
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                }
+
                 return oldPermissionDto.PermissionToDto();
             }
         }
 
+        private bool SaveChanges()
+        {
+            return _context.SaveChanges() > 0;
+        }
         private Permission GetPermissionByIdHelper(Guid permissionId)
         {
-            var permission = context.Permission.FirstOrDefault(e => e.PermissionId == permissionId);
+            var permission = _context.Permissions.FirstOrDefault(e => e.PermissionId == permissionId);
+
+            if (permission == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             return permission;
         }

@@ -2,10 +2,6 @@
 {
     public class PermissionDto
     {
-        #region
-
-        public string AccessPermissions { get; set; }
-
-        #endregion
+        public string AccessPermission { get; set; }
     }
 }

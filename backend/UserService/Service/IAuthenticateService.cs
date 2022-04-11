@@ -2,10 +2,10 @@
 
 namespace UserService.Service
 {
-    public interface IAuthenticate
+    public interface IAuthenticateService
     {
        string GenerateToken(UserLogin user);
-       bool VerifyPassword(UserLogin user);
+       bool VerifiedPassword(UserLogin user);
 
     }
 }

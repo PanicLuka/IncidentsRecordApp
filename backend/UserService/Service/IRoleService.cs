@@ -12,7 +12,5 @@ namespace UserService.Service
         string GetRoleByRoleId(Guid roleId);
         RoleDto UpdateRole(Guid roleId, RoleDto role);
         void DeleteRole(Guid roleId);
-        bool SaveChanges();
-
     }
 }

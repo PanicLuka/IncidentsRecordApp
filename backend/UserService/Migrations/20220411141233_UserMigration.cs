@@ -8,19 +8,19 @@ namespace UserService.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Permission",
+                name: "Permissions",
                 columns: table => new
                 {
                     PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AccessPermissions = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AccessPermission = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permission", x => x.PermissionId);
+                    table.PrimaryKey("PK_Permissions", x => x.PermissionId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Roles",
                 columns: table => new
                 {
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -28,11 +28,11 @@ namespace UserService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.RoleId);
+                    table.PrimaryKey("PK_Roles", x => x.RoleId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "rolePermissions",
+                name: "RolePermissions",
                 columns: table => new
                 {
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -40,23 +40,23 @@ namespace UserService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_rolePermissions", x => new { x.RoleId, x.PermissionId });
+                    table.PrimaryKey("PK_RolePermissions", x => new { x.RoleId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_rolePermissions_Permission_PermissionId",
+                        name: "FK_RolePermissions_Permissions_PermissionId",
                         column: x => x.PermissionId,
-                        principalTable: "Permission",
+                        principalTable: "Permissions",
                         principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_rolePermissions_Role_RoleId",
+                        name: "FK_RolePermissions_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Role",
+                        principalTable: "Roles",
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -64,15 +64,15 @@ namespace UserService.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: new Guid("57677386-3999-4011-ba64-085b2f321e3f"))
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f"))
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_User_Role_RoleId",
+                        name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Role",
+                        principalTable: "Roles",
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -88,109 +88,109 @@ namespace UserService.Migrations
                 {
                     table.PrimaryKey("PK_UserPermissions", x => new { x.UserId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_UserPermissions_Permission_PermissionId",
+                        name: "FK_UserPermissions_Permissions_PermissionId",
                         column: x => x.PermissionId,
-                        principalTable: "Permission",
+                        principalTable: "Permissions",
                         principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPermissions_User_UserId",
+                        name: "FK_UserPermissions_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Permission",
-                columns: new[] { "PermissionId", "AccessPermissions" },
+                table: "Permissions",
+                columns: new[] { "PermissionId", "AccessPermission" },
                 values: new object[,]
                 {
-                    { new Guid("723bb965-8689-4934-a9a2-5442942e5473"), "UserGetAll" },
-                    { new Guid("3b342250-a052-4d8f-8433-08c45f258d02"), "UserDelete" },
-                    { new Guid("dbf4f926-0ea6-4c70-971d-6f87ef4d4aa2"), "UserUpdate" },
-                    { new Guid("b37105b5-f801-4218-af95-47c4b61f07c6"), "UserGetById" },
-                    { new Guid("44114348-5c6f-444e-88cb-0e36369dbb53"), "UserCreateUser" },
-                    { new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637"), "IncidentsGetAll" },
-                    { new Guid("d6bead18-e752-4d9e-bf85-fe6cda2b2754"), "IncidentsGetById" },
-                    { new Guid("6bf02553-ea87-4b11-95b3-a853d7fdc58f"), "IncidentsUpdate" },
-                    { new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9"), "IncidentsDelete" },
-                    { new Guid("65a007bb-221e-49fc-8201-37d6c1e11b8c"), "IncidentsCreate" },
-                    { new Guid("968852ea-a13f-4896-9bb6-be970c3ca2f1"), "PromoteToAdmin" }
+                    { new Guid("114ea29f-07f2-4448-a9d5-9a13c18f43f6"), "UserGetAll" },
+                    { new Guid("f268f7b3-a362-4945-84d8-88d7ddce5bdc"), "UserDelete" },
+                    { new Guid("810c68f3-4405-4f2c-aa5c-0310aa344f7e"), "UserUpdate" },
+                    { new Guid("fb5ad568-2823-4ff7-83ad-4fd6170ac616"), "UserGetById" },
+                    { new Guid("47dfae26-ab31-4bd8-8eaf-e697b2007f6e"), "UserCreateUser" },
+                    { new Guid("b5f48801-8140-41df-941e-586cc221e477"), "IncidentsGetAll" },
+                    { new Guid("61a94456-07f6-407c-b1ff-0d3032b7482e"), "IncidentsGetById" },
+                    { new Guid("3a625004-b54f-47ff-ae20-2363f486f353"), "IncidentsUpdate" },
+                    { new Guid("97fc05bf-4c22-4e5d-8fa2-91a478c1cde1"), "IncidentsDelete" },
+                    { new Guid("d04348cc-d878-45e0-b7b2-35b35233a99d"), "IncidentsCreate" },
+                    { new Guid("0e40bba4-6085-4cdc-af56-015402e533ca"), "PromoteToAdmin" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Role",
+                table: "Roles",
                 columns: new[] { "RoleId", "UserType" },
                 values: new object[,]
                 {
-                    { new Guid("57677386-3999-4011-ba64-085b2f321e3f"), "User" },
-                    { new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e"), "Admin" }
+                    { new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f"), "User" },
+                    { new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11"), "Admin" }
                 });
 
             migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "UserId", "Email", "FirstName", "LastName", "Password", "RoleId" },
-                values: new object[,]
-                {
-                    { new Guid("aa4cf009-44b7-4413-89dc-00902bdd3bf7"), "marko@gmail.com", "Marko", "Milic", "123456", new Guid("57677386-3999-4011-ba64-085b2f321e3f") },
-                    { new Guid("e16e702f-cbcf-47a5-a2ed-e2ded8aeb5c3"), "Nikola@gmail.com", "Nikola", "Milic", "123456", new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "rolePermissions",
+                table: "RolePermissions",
                 columns: new[] { "PermissionId", "RoleId" },
                 values: new object[,]
                 {
-                    { new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637"), new Guid("57677386-3999-4011-ba64-085b2f321e3f") },
-                    { new Guid("7daa70f5-9de0-4a73-974e-03c2b8f33637"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") },
-                    { new Guid("d6bead18-e752-4d9e-bf85-fe6cda2b2754"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") },
-                    { new Guid("6bf02553-ea87-4b11-95b3-a853d7fdc58f"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") },
-                    { new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9"), new Guid("c16c32eb-95ae-45e3-8641-6304d8d8759e") }
+                    { new Guid("b5f48801-8140-41df-941e-586cc221e477"), new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f") },
+                    { new Guid("b5f48801-8140-41df-941e-586cc221e477"), new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11") },
+                    { new Guid("61a94456-07f6-407c-b1ff-0d3032b7482e"), new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11") },
+                    { new Guid("3a625004-b54f-47ff-ae20-2363f486f353"), new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11") },
+                    { new Guid("97fc05bf-4c22-4e5d-8fa2-91a478c1cde1"), new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Email", "FirstName", "LastName", "Password", "RoleId" },
+                values: new object[,]
+                {
+                    { new Guid("ef72df04-f4b6-4d20-8fdd-d02ab10a083d"), "marko@gmail.com", "Marko", "Milic", "123456", new Guid("16aee3f2-6ee5-4d2b-8ddd-22670af9f38f") },
+                    { new Guid("cdc5f80a-97c6-4c1d-a5d4-9cd39e196309"), "Nikola@gmail.com", "Nikola", "Milic", "123456", new Guid("501fbb12-98ed-4bfa-af87-e916eab08d11") }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "PermissionId", "UserId" },
-                values: new object[] { new Guid("3202b090-4d7e-4049-81d6-4e5c909288c9"), new Guid("aa4cf009-44b7-4413-89dc-00902bdd3bf7") });
+                values: new object[] { new Guid("97fc05bf-4c22-4e5d-8fa2-91a478c1cde1"), new Guid("ef72df04-f4b6-4d20-8fdd-d02ab10a083d") });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "PermissionId", "UserId" },
-                values: new object[] { new Guid("65a007bb-221e-49fc-8201-37d6c1e11b8c"), new Guid("e16e702f-cbcf-47a5-a2ed-e2ded8aeb5c3") });
+                values: new object[] { new Guid("d04348cc-d878-45e0-b7b2-35b35233a99d"), new Guid("cdc5f80a-97c6-4c1d-a5d4-9cd39e196309") });
 
             migrationBuilder.CreateIndex(
-                name: "IX_rolePermissions_PermissionId",
-                table: "rolePermissions",
+                name: "IX_RolePermissions_PermissionId",
+                table: "RolePermissions",
                 column: "PermissionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_RoleId",
-                table: "User",
-                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPermissions_PermissionId",
                 table: "UserPermissions",
                 column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "rolePermissions");
+                name: "RolePermissions");
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");
 
             migrationBuilder.DropTable(
-                name: "Permission");
+                name: "Permissions");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Roles");
         }
     }
 }

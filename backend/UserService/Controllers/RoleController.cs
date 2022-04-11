@@ -11,14 +11,14 @@ namespace UserService.Controllers
 {
     [ApiController]
     [Route("api/role")]
-    [Produces("application/json", "application/xml")]
+    [Produces("application/json")]
     [Consumes("application/json")]
     public class RoleController : ControllerBase
     {   
-        private readonly IRoleService repository;
-        public RoleController(IRoleService repository)
+        private readonly IRoleService _roleService;
+        public RoleController(IRoleService roleService)
         {
-            this.repository = repository;
+            _roleService = roleService;
         }
 
         [HttpGet]
@@ -27,12 +27,7 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<RoleDto>> GetAllRoles()
         {
-            var roleDtos = repository.GetAllRoles();
-
-            if (roleDtos == null || roleDtos.Count == 0)
-            {
-                return NoContent();
-            }
+            var roleDtos = _roleService.GetAllRoles();
 
             return Ok(roleDtos);
 
@@ -43,17 +38,11 @@ namespace UserService.Controllers
         [HttpGet("{roleId}")]
         public ActionResult<RoleDto> GetRoleById(Guid roleId)
         {
-            var roleDto = repository.GetRoleById(roleId);
-
-            if (roleDto == null)
-            {
-                return NotFound();
-            }
+            var roleDto = _roleService.GetRoleById(roleId);
 
             return Ok(roleDto);
-
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -64,7 +53,7 @@ namespace UserService.Controllers
             try
             {
              
-                repository.CreateRole(roleDto);
+                _roleService.CreateRole(roleDto);
                 return Ok();
             }
             catch (ValidationException v)
@@ -77,7 +66,6 @@ namespace UserService.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPut("{roleId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -87,14 +75,10 @@ namespace UserService.Controllers
         {
             try
             {
-                var newRole = repository.UpdateRole(roleId, roleDto);
-
-                if (newRole == null)
-                {
-                    return NotFound();
-                }
+                var newRole = _roleService.UpdateRole(roleId, roleDto);
 
                 return Ok(newRole);
+              
 
             }
             catch (ValidationException v)
@@ -107,7 +91,6 @@ namespace UserService.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -116,13 +99,10 @@ namespace UserService.Controllers
         {
             try
             {
-                if (repository.GetRoleById(roleId) == null)
-                {
-                    return NotFound();
-                }
-
-                repository.DeleteRole(roleId);
+               
+                _roleService.DeleteRole(roleId);
                 return NoContent();
+              
 
             }
             catch (Exception e)

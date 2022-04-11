@@ -4,22 +4,25 @@ using System.Linq;
 using UserService.Enitites;
 using UserService.Models;
 using UserService.Helpers;
+using UserService.Entities;
+using System.Web.Http;
+using System.Net;
 
 namespace UserService.Service
 {
     public class UserPermissionService : IUserPermissionsService
     {
-        private readonly DataContext context;
+        private readonly DataContext _context;
 
         public UserPermissionService(DataContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public void CreateUserPermission(UserPermissionDto userPermissionDto)
         {
             UserPermission permissionEntity = userPermissionDto.DtoToUserPermission();
 
-            context.Add(permissionEntity);
+            _context.Add(permissionEntity);
 
             SaveChanges();
         }
@@ -28,14 +31,25 @@ namespace UserService.Service
         {
             var userPermission = GetUserPermissionById(userPermissionDto);
 
-            context.Remove(userPermission);
+            if (userPermission == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            _context.Remove(userPermission);
 
             SaveChanges();
         }
 
         public List<UserPermissionDto> GetAllUserPermissions()
         {
-            var userPermissions = context.UserPermissions.ToList();
+            var userPermissions = _context.UserPermissions.ToList();
+
+            if (userPermissions == null || userPermissions.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             List<UserPermissionDto> userPermissionDtos = new List<UserPermissionDto>();
 
             foreach (var permission in userPermissions)
@@ -50,17 +64,22 @@ namespace UserService.Service
 
         public UserPermissionDto GetUserPermissionById(UserPermissionDto userPermissionDto)
         {
-            var permission = context.UserPermissions.FirstOrDefault
+            var permission = _context.UserPermissions.FirstOrDefault
                 (e => e.PermissionId == userPermissionDto.PermissionId && e.UserId == userPermissionDto.UserId);
+
+            if (permission == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             var permissionDto = permission.UserPermissionToDto();
 
             return permissionDto;
         }
 
-        public bool SaveChanges()
+        private bool SaveChanges()
         {
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public UserPermissionDto UpdateUserPermission(Guid userPermissionId, UserPermissionDto userPermissionDto)

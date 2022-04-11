@@ -11,14 +11,14 @@ namespace UserService.Controllers
 {
     [ApiController]
     [Route("api/permission")]
-    [Produces("application/json", "application/xml")]
+    [Produces("application/json")]
     [Consumes("application/json")]
     public class PermissionController : ControllerBase
     {
-        private readonly IPermissionService repository;
-        public PermissionController(IPermissionService repository)
+        private readonly IPermissionService _permissionService;
+        public PermissionController(IPermissionService permissionService)
         {
-            this.repository = repository;
+            _permissionService = permissionService;
         }
 
         [HttpGet]
@@ -27,12 +27,7 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<PermissionDto>> GetAllPermissions([FromQuery] PermissionParameters permissionParameters)
         {
-            var permissionDtos = repository.GetAllPermissions(permissionParameters);
-
-            if (permissionDtos == null || permissionDtos.Count == 0)
-            {
-                return NoContent();
-            }
+            var permissionDtos = _permissionService.GetAllPermissions(permissionParameters);
 
             return Ok(permissionDtos);
 
@@ -43,18 +38,12 @@ namespace UserService.Controllers
         [HttpGet("{permissionId}")]
         public ActionResult<PermissionDto> GetPermissionById(Guid permissionId)
         {
-            var permissionDto = repository.GetPermissionById(permissionId);
-
-            if (permissionDto == null)
-            {
-                return NotFound();
-            }
+            var permissionDto = _permissionService.GetPermissionById(permissionId);
 
             return Ok(permissionDto);
-
+     
         }
 
-        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -65,7 +54,7 @@ namespace UserService.Controllers
             try
             {
 
-                repository.CreatePermission(permissionDto);
+                _permissionService.CreatePermission(permissionDto);
                 return Ok();
             }
             catch (ValidationException v)
@@ -78,7 +67,6 @@ namespace UserService.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin")]
         [HttpPut("{permissionId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -88,15 +76,10 @@ namespace UserService.Controllers
         {
             try
             {
-                var newPermission = repository.UpdatePermission(permissionId, permissionDto);
-
-                if (newPermission == null)
-                {
-                    return NotFound();
-                }
+                var newPermission = _permissionService.UpdatePermission(permissionId, permissionDto);
 
                 return Ok(newPermission);
-
+    
             }
             catch (ValidationException v)
             {
@@ -108,7 +91,6 @@ namespace UserService.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -117,14 +99,9 @@ namespace UserService.Controllers
         {
             try
             {
-                if (repository.GetPermissionById(permissionId) == null)
-                {
-                    return NotFound();
-                }
-
-                repository.DeletePermission(permissionId);
-                return NoContent();
-
+                _permissionService.DeletePermission(permissionId);
+                 return NoContent();
+           
             }
             catch (Exception e)
             {

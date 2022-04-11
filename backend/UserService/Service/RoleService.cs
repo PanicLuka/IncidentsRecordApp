@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Web.Http;
 using UserService.Enitites;
+using UserService.Entities;
 using UserService.Helpers;
 using UserService.Models;
 using UserService.Validators;
@@ -11,22 +14,22 @@ namespace UserService.Service
 {
     public class RoleService : IRoleService
     {
-        private readonly DataContext context;
-        private readonly RoleValidator roleValidator;
+        private readonly DataContext _context;
+        private readonly RoleValidator _roleValidator;
 
         public RoleService(DataContext context, RoleValidator roleValidator)
         {
-            this.context = context;
-            this.roleValidator = roleValidator;
+            _context = context;
+            _roleValidator = roleValidator;
         }
 
         public void CreateRole(RoleDto roleDto)
         {
-            roleValidator.ValidateAndThrow(roleDto);
+            _roleValidator.ValidateAndThrow(roleDto);
 
             Role roleEntity = roleDto.DtoToRole();
 
-            context.Add(roleEntity);
+            _context.Add(roleEntity);
 
             SaveChanges();
         }
@@ -35,14 +38,25 @@ namespace UserService.Service
         {
             var role =  GetRoleByIdHelper(roleId);
 
-            context.Remove(role);
+            if (role == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            _context.Remove(role);
 
             SaveChanges();
         }
 
         public List<RoleDto> GetAllRoles()
         {
-            var roles = context.Role.ToList();
+            var roles = _context.Roles.ToList();
+
+            if(roles == null || roles.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             List<RoleDto> roleDtos = new List<RoleDto>();
 
             foreach (var role in roles)
@@ -57,7 +71,12 @@ namespace UserService.Service
 
         public RoleDto GetRoleById(Guid roleId)
         {
-            var role = context.Role.FirstOrDefault(e => e.RoleId == roleId);
+            var role = _context.Roles.FirstOrDefault(e => e.RoleId == roleId);
+
+            if (role == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             var roleDto = role.RoleToDto();
 
@@ -68,14 +87,19 @@ namespace UserService.Service
         {
             var role = GetRoleById(roleId);
 
+            if (role == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             string roleType = role.UserType;
 
             return roleType;
         }
 
-        public bool SaveChanges()
+        private bool SaveChanges()
         {
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public RoleDto UpdateRole(Guid roleId, RoleDto roleDto)
@@ -94,6 +118,11 @@ namespace UserService.Service
                 oldRoleDto.UserType = role.UserType;
 
                 SaveChanges();
+                if(oldRoleDto.RoleToDto() == null)
+                {
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                }
+
                 return oldRoleDto.RoleToDto();
             }
 
@@ -101,7 +130,12 @@ namespace UserService.Service
 
         private Role GetRoleByIdHelper(Guid roleId)
         {
-            var role = context.Role.FirstOrDefault(e => e.RoleId == roleId);
+            var role = _context.Roles.FirstOrDefault(e => e.RoleId == roleId);
+
+            if (role == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             return role;
         }

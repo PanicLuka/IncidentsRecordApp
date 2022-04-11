@@ -7,7 +7,7 @@ namespace UserService.Enitites
     {
         [Key]
         public Guid PermissionId { get; set; }
-        public string AccessPermissions { get; set; }
+        public string AccessPermission { get; set; }
 
     }
 }
