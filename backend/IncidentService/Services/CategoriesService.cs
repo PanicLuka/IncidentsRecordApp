@@ -11,20 +11,20 @@ namespace IncidentService.Services
 {
     public class CategoriesService : ICategoriesService
     {
-        private readonly DataContext context;
-        private readonly CategoryValidator categoryValidator = new CategoryValidator();
+        private readonly DataContext _context;
+        private readonly CategoryValidator _categoryValidator = new CategoryValidator();
 
         public CategoriesService(DataContext context)
         {
-            this.context = context;
+            this._context = context;
         }
         public void CreateCategory(CategoryDto categoryDto)
         {
             Category category = categoryDto.DtoToCategory();
 
-            categoryValidator.ValidateAndThrow(categoryDto);
+            _categoryValidator.ValidateAndThrow(categoryDto);
 
-            context.Add(category);
+            _context.Add(category);
 
             SaveChanges();
         }
@@ -32,13 +32,13 @@ namespace IncidentService.Services
         public void DeleteCategory(Guid id)
         {
             var category = GetCategoryForUpdateById(id);
-            context.Remove(category);
+            _context.Remove(category);
             SaveChanges();
         }
 
         public CategoryWithIdDto GetCategoryById(Guid id)
         {
-            Category category = context.Categories.FirstOrDefault(e => e.CategoryId == id);
+            Category category = _context.Categories.FirstOrDefault(e => e.CategoryId == id);
 
             CategoryWithIdDto categoryWithIdDto = category.CategoryToCategoryWithIdDto();
 
@@ -47,7 +47,7 @@ namespace IncidentService.Services
 
         public PagedList<CategoryDto> GetCategories(CategoryOpts categoryOpts)
         {
-            List<Category> categories = context.Categories.ToList();
+            List<Category> categories = _context.Categories.ToList();
 
             List<CategoryDto> categoryDtos = new List<CategoryDto>();
 
@@ -65,7 +65,7 @@ namespace IncidentService.Services
 
         private Category GetCategoryForUpdateById (Guid id)
         {
-            Category category = context.Categories.FirstOrDefault(e => e.CategoryId == id);
+            Category category = _context.Categories.FirstOrDefault(e => e.CategoryId == id);
 
             return category;
         }
@@ -85,7 +85,7 @@ namespace IncidentService.Services
 
                 oldCategory.CategoryName = category.CategoryName;
 
-                categoryValidator.ValidateAndThrow(categoryDto);
+                _categoryValidator.ValidateAndThrow(categoryDto);
 
                 SaveChanges();
 
@@ -95,7 +95,7 @@ namespace IncidentService.Services
 
         public bool SaveChanges()
         {
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
     }

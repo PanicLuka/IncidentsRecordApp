@@ -13,12 +13,12 @@ namespace IncidentService.Services
 {
     public class IncidentsService : IIncidentsService
     {
-        private readonly DataContext context;
-        private readonly IncidentValidator incidentValidator = new IncidentValidator();
+        private readonly DataContext _context;
+        private readonly IncidentValidator _incidentValidator = new IncidentValidator();
 
         public IncidentsService(DataContext context)
         {
-            this.context = context;
+            this._context = context;
         }
         public void CreateIncident(IncidentDto incidentDto, Guid userId)
         {
@@ -26,9 +26,9 @@ namespace IncidentService.Services
 
             incident.UserId = userId;
 
-            incidentValidator.ValidateAndThrow(incidentDto);
+            _incidentValidator.ValidateAndThrow(incidentDto);
 
-            context.Add(incident);
+            _context.Add(incident);
 
             SaveChanges();
         }
@@ -36,13 +36,13 @@ namespace IncidentService.Services
         public void DeleteIncident(Guid id)
         {
             var incident = GetIncidentForUpdateById(id);
-            context.Remove(incident);
+            _context.Remove(incident);
             SaveChanges();
         }
 
         public IncidentWithIdDto GetIncidentById(Guid id)
         {
-            Incident incident = context.Incidents.FirstOrDefault(e => e.IncidentId == id);
+            Incident incident = _context.Incidents.FirstOrDefault(e => e.IncidentId == id);
 
             IncidentWithIdDto incidentWithIdDto = incident.IncidentToIncidentWithIdDto();
 
@@ -52,7 +52,7 @@ namespace IncidentService.Services
         public PagedList<IncidentDto> GetIncidents(IncidentOpts incidentOpts)
         {
             
-            List<Incident> incidents = context.Incidents.ToList();
+            List<Incident> incidents = _context.Incidents.ToList();
 
 
             var filteredIncidents = FilterIncidents(incidents, incidentOpts);
@@ -115,12 +115,12 @@ namespace IncidentService.Services
 
         private IQueryable<Incident> GetIncidentsByCondition(Expression<Func<Incident, bool>> expression)
         {
-            return context.Set<Incident>().Where(expression).AsNoTracking();
+            return _context.Set<Incident>().Where(expression).AsNoTracking();
         }
 
         private Incident GetIncidentForUpdateById(Guid id)
         {
-            Incident incident = context.Incidents.FirstOrDefault(e => e.IncidentId == id);
+            Incident incident = _context.Incidents.FirstOrDefault(e => e.IncidentId == id);
 
             return incident;
         }
@@ -156,7 +156,7 @@ namespace IncidentService.Services
                 oldIncident.CategoryId = incidentDto.CategoryId;
                 oldIncident.Category = incidentDto.Category;
 
-                incidentValidator.ValidateAndThrow(incidentDto);
+                _incidentValidator.ValidateAndThrow(incidentDto);
 
                 SaveChanges();
 
@@ -166,7 +166,7 @@ namespace IncidentService.Services
 
         public bool SaveChanges()
         {
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
     }

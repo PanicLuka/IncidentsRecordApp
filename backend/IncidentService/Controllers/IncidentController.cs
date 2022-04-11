@@ -15,11 +15,11 @@ namespace IncidentService.Controllers
     [Route("api/incident")]
     public class IncidentController : ControllerBase
     {
-        private readonly IIncidentsService incidentsService;
+        private readonly IIncidentsService _incidentsService;
 
         public IncidentController(IIncidentsService incidentsService)
         {
-            this.incidentsService = incidentsService;
+            this._incidentsService = incidentsService;
         }
 
         [HttpGet]
@@ -28,7 +28,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentOpts incidentOpts)
         { 
-            var incidentDtos = incidentsService.GetIncidents(incidentOpts);
+            var incidentDtos = _incidentsService.GetIncidents(incidentOpts);
 
             var metdata = new
             {
@@ -52,7 +52,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IncidentDto> GetIncidentById(Guid IncidentId)
         {
-            var incidentDto = incidentsService.GetIncidentById(IncidentId);
+            var incidentDto = _incidentsService.GetIncidentById(IncidentId);
 
             if (incidentDto == null)
             {
@@ -80,7 +80,7 @@ namespace IncidentService.Controllers
 
                 Guid userId = Guid.NewGuid();
 
-                incidentsService.CreateIncident(incidentDto, userId);
+                _incidentsService.CreateIncident(incidentDto, userId);
 
                 return Ok();
             }
@@ -103,7 +103,7 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var newIncident = incidentsService.UpdateIncident(IncidentId, incidentDto);
+                var newIncident = _incidentsService.UpdateIncident(IncidentId, incidentDto);
 
                 if (newIncident == null)
                 {
@@ -130,14 +130,14 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var incident = incidentsService.GetIncidentById(IncidentId);
+                var incident = _incidentsService.GetIncidentById(IncidentId);
 
                 if (incident == null)
                 {
                     return NotFound();
                 }
 
-                incidentsService.DeleteIncident(IncidentId);
+                _incidentsService.DeleteIncident(IncidentId);
 
                 return NoContent();
             }

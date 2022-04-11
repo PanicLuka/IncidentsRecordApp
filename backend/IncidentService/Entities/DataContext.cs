@@ -6,7 +6,7 @@ namespace IncidentService.Entities
 {
     public class DataContext : DbContext
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
 
         private Guid defaultIncidentId = Guid.NewGuid();
         private Guid defaultCategoryId = Guid.NewGuid();
@@ -14,7 +14,7 @@ namespace IncidentService.Entities
 
         public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
         {
-            this.configuration = configuration;
+            this._configuration = configuration;
         }
 
         public DbSet<Incident> Incidents { get; set; }
@@ -22,7 +22,7 @@ namespace IncidentService.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("IncidentDB"));
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("IncidentDB"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

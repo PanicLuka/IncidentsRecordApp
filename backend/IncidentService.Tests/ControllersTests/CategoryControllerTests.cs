@@ -17,7 +17,7 @@ namespace IncidentService.Tests.ControllersTests
     {
 
         private readonly CategoryController _categoryController;
-        private readonly Mock<ICategoriesService> mockCategoriesService = new Mock<ICategoriesService>();
+        private readonly Mock<ICategoriesService> _mockCategoriesService = new Mock<ICategoriesService>();
 
         Guid FirstCategoryGuid = Guid.NewGuid();
         Guid SecondCategoryGuid = Guid.NewGuid();
@@ -35,7 +35,7 @@ namespace IncidentService.Tests.ControllersTests
 
         public CategoryControllerTests()
         {
-            _categoryController = new CategoryController(mockCategoriesService.Object);
+            _categoryController = new CategoryController(_mockCategoriesService.Object);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace IncidentService.Tests.ControllersTests
             // Arrange
             var categoryOpts = new CategoryOpts();
             var categoriesDto = GetSampleCategoryDto(categoryOpts);
-            mockCategoriesService.Setup(x => x.GetCategories(categoryOpts)).Returns(GetSampleCategoryDto(categoryOpts));
+            _mockCategoriesService.Setup(x => x.GetCategories(categoryOpts)).Returns(GetSampleCategoryDto(categoryOpts));
 
             // Act
             var actionResult = _categoryController.GetCategories(categoryOpts);
@@ -61,7 +61,7 @@ namespace IncidentService.Tests.ControllersTests
         {
             // Arrange
             var categoriesDto = GetSampleCategoryDto(_parameters);
-            mockCategoriesService.Setup(x => x.GetCategories(_parameters)).Returns(GetSampleCategoryDto(_parameters));
+            _mockCategoriesService.Setup(x => x.GetCategories(_parameters)).Returns(GetSampleCategoryDto(_parameters));
 
             // Act
             var actionResult = _categoryController.GetCategories(_parameters);
@@ -80,7 +80,7 @@ namespace IncidentService.Tests.ControllersTests
             var categoryOpts = new CategoryOpts();
             var categories = GetSampleCategory(categoryOpts);
             var firstCategory = categories[0];
-            mockCategoriesService.Setup(x => x.GetCategoryById(FirstCategoryGuid)).Returns(firstCategory.CategoryToCategoryWithIdDto());
+            _mockCategoriesService.Setup(x => x.GetCategoryById(FirstCategoryGuid)).Returns(firstCategory.CategoryToCategoryWithIdDto());
 
             // Act
             var actionResult = _categoryController.GetCategoryById(FirstCategoryGuid);
@@ -99,7 +99,7 @@ namespace IncidentService.Tests.ControllersTests
             var categoryOpts = new CategoryOpts();
             var categories = GetSampleCategory(categoryOpts);
             var firstCategory = categories[0];
-            mockCategoriesService.Setup(x => x.GetCategoryById(FirstCategoryGuid)).Returns(firstCategory.CategoryToCategoryWithIdDto());
+            _mockCategoriesService.Setup(x => x.GetCategoryById(FirstCategoryGuid)).Returns(firstCategory.CategoryToCategoryWithIdDto());
 
             // Act
             var actionResult = _categoryController.GetCategoryById(TestGuid);
@@ -116,7 +116,7 @@ namespace IncidentService.Tests.ControllersTests
             var categoryOpts = new CategoryOpts();
             var categoriesDto = GetSampleCategoryDto(categoryOpts);
             var firstCategory = categoriesDto[0];
-            mockCategoriesService.Setup(x => x.CreateCategory(firstCategory));
+            _mockCategoriesService.Setup(x => x.CreateCategory(firstCategory));
 
             // Act
             var actionResult = _categoryController.CreateCategory(firstCategory);
@@ -130,7 +130,7 @@ namespace IncidentService.Tests.ControllersTests
         {
             // Arrange
             var categoryOpts = new CategoryOpts();
-            mockCategoriesService.Setup(x => x.DeleteCategory(FirstCategoryGuid));
+            _mockCategoriesService.Setup(x => x.DeleteCategory(FirstCategoryGuid));
 
             // Act
             var actionResult = _categoryController.DeleteCategory(TestGuid);
@@ -148,7 +148,7 @@ namespace IncidentService.Tests.ControllersTests
             var firstCategory = categories[0];
             var testCategory = firstCategory.CategoryToDto();
             testCategory.CategoryName = "testName";
-            mockCategoriesService.Setup(x => x.UpdateCategory(firstCategory.CategoryId, testCategory)).Returns(testCategory);
+            _mockCategoriesService.Setup(x => x.UpdateCategory(firstCategory.CategoryId, testCategory)).Returns(testCategory);
 
             // Act
             var actionResult = _categoryController.UpdateCategory(firstCategory.CategoryId, testCategory);

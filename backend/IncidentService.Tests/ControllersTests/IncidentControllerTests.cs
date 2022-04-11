@@ -16,7 +16,7 @@ namespace IncidentService.Tests.ControllersTests
     public class IncidentControllerTests
     {
         private readonly IncidentController _incidentController;
-        private readonly Mock<IIncidentsService> mockIncidentsService = new Mock<IIncidentsService>();
+        private readonly Mock<IIncidentsService> _mockIncidentsService = new Mock<IIncidentsService>();
 
         Guid FirstIncidentGuid = Guid.NewGuid();
         Guid SecondIncidentGuid = Guid.NewGuid();
@@ -52,7 +52,7 @@ namespace IncidentService.Tests.ControllersTests
         };
         public IncidentControllerTests()
         {
-            _incidentController = new IncidentController(mockIncidentsService.Object);
+            _incidentController = new IncidentController(_mockIncidentsService.Object);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace IncidentService.Tests.ControllersTests
             // Arrange
             var incidentOpts = new IncidentOpts();
             var incidentsDto = GetSampleIncidentDto(incidentOpts);
-            mockIncidentsService.Setup(x => x.GetIncidents(incidentOpts)).Returns(GetSampleIncidentDto(incidentOpts));
+            _mockIncidentsService.Setup(x => x.GetIncidents(incidentOpts)).Returns(GetSampleIncidentDto(incidentOpts));
 
             // Act
             var actionResult = _incidentController.GetIncidents(incidentOpts);
@@ -78,7 +78,7 @@ namespace IncidentService.Tests.ControllersTests
         {
             // Arrange
             var incidentsDto = GetSampleIncidentDto(_pagedParameters);
-            mockIncidentsService.Setup(x => x.GetIncidents(_pagedParameters)).Returns(GetSampleIncidentDto(_pagedParameters));
+            _mockIncidentsService.Setup(x => x.GetIncidents(_pagedParameters)).Returns(GetSampleIncidentDto(_pagedParameters));
 
             // Act
             var actionResult = _incidentController.GetIncidents(_pagedParameters);
@@ -95,7 +95,7 @@ namespace IncidentService.Tests.ControllersTests
         {
             // Arrange
             var incidentsDto = GetSampleIncidentDto(_filterParameters);
-            mockIncidentsService.Setup(x => x.GetIncidents(_filterParameters)).Returns(GetSampleIncidentDto(_filterParameters));
+            _mockIncidentsService.Setup(x => x.GetIncidents(_filterParameters)).Returns(GetSampleIncidentDto(_filterParameters));
 
             // Act
             var actionResult = _incidentController.GetIncidents(_filterParameters);
@@ -114,7 +114,7 @@ namespace IncidentService.Tests.ControllersTests
             var incidentOpts = new IncidentOpts();
             var incidents = GetSampleIncident(incidentOpts);
             var firstIncident = incidents[0];
-            mockIncidentsService.Setup(x => x.GetIncidentById(FirstIncidentGuid)).Returns(firstIncident.IncidentToIncidentWithIdDto());
+            _mockIncidentsService.Setup(x => x.GetIncidentById(FirstIncidentGuid)).Returns(firstIncident.IncidentToIncidentWithIdDto());
 
             // Act
             var actionResult = _incidentController.GetIncidentById(FirstIncidentGuid);
@@ -133,7 +133,7 @@ namespace IncidentService.Tests.ControllersTests
             var incidentOpts = new IncidentOpts();
             var incidents = GetSampleIncident(incidentOpts);
             var firstIncident = incidents[0];
-            mockIncidentsService.Setup(x => x.GetIncidentById(FirstIncidentGuid)).Returns(firstIncident.IncidentToIncidentWithIdDto());
+            _mockIncidentsService.Setup(x => x.GetIncidentById(FirstIncidentGuid)).Returns(firstIncident.IncidentToIncidentWithIdDto());
 
             // Act
             var actionResult = _incidentController.GetIncidentById(TestGuid);
@@ -150,7 +150,7 @@ namespace IncidentService.Tests.ControllersTests
             var incidentOpts = new IncidentOpts();
             var incidentsDto = GetSampleIncidentDto(incidentOpts);
             var firstIncident = incidentsDto[0];
-            mockIncidentsService.Setup(x => x.CreateIncident(firstIncident, TestGuid));
+            _mockIncidentsService.Setup(x => x.CreateIncident(firstIncident, TestGuid));
 
             // Act
             var actionResult = _incidentController.CreateIncident(firstIncident);
@@ -164,7 +164,7 @@ namespace IncidentService.Tests.ControllersTests
         {
             // Arrange
             var incidentOpts = new IncidentOpts();
-            mockIncidentsService.Setup(x => x.DeleteIncident(FirstIncidentGuid));
+            _mockIncidentsService.Setup(x => x.DeleteIncident(FirstIncidentGuid));
 
             // Act
             var actionResult = _incidentController.DeleteIncident(TestGuid);
@@ -182,7 +182,7 @@ namespace IncidentService.Tests.ControllersTests
             var firstIncident = incidents[0];
             var testIncident = firstIncident.IncidentToDto();
             testIncident.Number = "testNumber";
-            mockIncidentsService.Setup(x => x.UpdateIncident(firstIncident.IncidentId, testIncident)).Returns(testIncident);
+            _mockIncidentsService.Setup(x => x.UpdateIncident(firstIncident.IncidentId, testIncident)).Returns(testIncident);
 
             // Act
             var actionResult = _incidentController.UpdateIncident(firstIncident.IncidentId, testIncident);

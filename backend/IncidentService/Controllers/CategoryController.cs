@@ -13,11 +13,11 @@ namespace IncidentService.Controllers
     [Route("api/category")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoriesService categoriesService;
+        private readonly ICategoriesService _categoriesService;
 
         public CategoryController(ICategoriesService categoriesService)
         {
-            this.categoriesService = categoriesService;
+            this._categoriesService = categoriesService;
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<CategoryDto>> GetCategories([FromQuery] CategoryOpts categoryOpts)
         {
-            var categoryDtos = categoriesService.GetCategories(categoryOpts);
+            var categoryDtos = _categoriesService.GetCategories(categoryOpts);
 
             var metdata = new
             {
@@ -50,7 +50,7 @@ namespace IncidentService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<CategoryWithIdDto> GetCategoryById(Guid CategoryId)
         {
-            var categoryDto = categoriesService.GetCategoryById(CategoryId);
+            var categoryDto = _categoriesService.GetCategoryById(CategoryId);
 
             if (categoryDto == null)
             {
@@ -70,7 +70,7 @@ namespace IncidentService.Controllers
         {
             try
             { 
-                categoriesService.CreateCategory(categoryDto);
+                _categoriesService.CreateCategory(categoryDto);
 
                 return Ok();
             }
@@ -93,7 +93,7 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var newCategory = categoriesService.UpdateCategory(CategoryId, categoryDto);
+                var newCategory = _categoriesService.UpdateCategory(CategoryId, categoryDto);
 
                 if (newCategory == null)
                 {
@@ -121,14 +121,14 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var category = categoriesService.GetCategoryById(CategoryId);
+                var category = _categoriesService.GetCategoryById(CategoryId);
 
                 if (category == null)
                 {
                     return NotFound();
                 }
 
-                categoriesService.DeleteCategory(CategoryId);
+                _categoriesService.DeleteCategory(CategoryId);
                 return NoContent();
             }
             catch (Exception e)
