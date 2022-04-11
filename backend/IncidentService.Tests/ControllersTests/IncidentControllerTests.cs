@@ -28,7 +28,7 @@ namespace IncidentService.Tests.ControllersTests
         Guid CategoryGuid = Guid.NewGuid();
         Guid TestGuid = Guid.NewGuid();
 
-        private readonly IncidentParameters _filterParameters = new IncidentParameters
+        private readonly IncidentOpts _filterParameters = new IncidentOpts
         {
             FirstDate = null,
             SecondDate = null,
@@ -45,7 +45,7 @@ namespace IncidentService.Tests.ControllersTests
             PageSize = 2
         };
 
-        private readonly IncidentParameters _pagedParameters = new IncidentParameters
+        private readonly IncidentOpts _pagedParameters = new IncidentOpts
         {
             PageNumber = 1,
             PageSize = 2
@@ -59,18 +59,18 @@ namespace IncidentService.Tests.ControllersTests
         public void GetIncidents_ReturnsAllIncidents_IncidentsExist()
         {
             // Arrange
-            var incidentParameters = new IncidentParameters();
-            var incidentsDto = GetSampleIncidentDto(incidentParameters);
-            mockIncidentsService.Setup(x => x.GetIncidents(incidentParameters)).Returns(GetSampleIncidentDto(incidentParameters));
+            var incidentOpts = new IncidentOpts();
+            var incidentsDto = GetSampleIncidentDto(incidentOpts);
+            mockIncidentsService.Setup(x => x.GetIncidents(incidentOpts)).Returns(GetSampleIncidentDto(incidentOpts));
 
             // Act
-            var actionResult = _incidentController.GetIncidents(incidentParameters);
+            var actionResult = _incidentController.GetIncidents(incidentOpts);
             var result = actionResult.Result as OkObjectResult;
             var actual = result.Value as IEnumerable<IncidentDto>;
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleIncidentDto(incidentParameters).Count(), actual.Count());
+            Assert.Equal(GetSampleIncidentDto(incidentOpts).Count(), actual.Count());
         }
 
         [Fact]
@@ -111,8 +111,8 @@ namespace IncidentService.Tests.ControllersTests
         public void GetIncidentById_ReturnsIncidentWithIdDto_IncidentWithSpecifiedIdExists()
         {
             // Arrange
-            var incidentParameters = new IncidentParameters();
-            var incidents = GetSampleIncident(incidentParameters);
+            var incidentOpts = new IncidentOpts();
+            var incidents = GetSampleIncident(incidentOpts);
             var firstIncident = incidents[0];
             mockIncidentsService.Setup(x => x.GetIncidentById(FirstIncidentGuid)).Returns(firstIncident.IncidentToIncidentWithIdDto());
 
@@ -130,8 +130,8 @@ namespace IncidentService.Tests.ControllersTests
         public void GetIncidentById_ReturnsIncidentWithIdDto_IncidentWithSpecifiedIdDoesNotExists()
         {
             // Arrange
-            var incidentParameters = new IncidentParameters();
-            var incidents = GetSampleIncident(incidentParameters);
+            var incidentOpts = new IncidentOpts();
+            var incidents = GetSampleIncident(incidentOpts);
             var firstIncident = incidents[0];
             mockIncidentsService.Setup(x => x.GetIncidentById(FirstIncidentGuid)).Returns(firstIncident.IncidentToIncidentWithIdDto());
 
@@ -147,8 +147,8 @@ namespace IncidentService.Tests.ControllersTests
         public void CreateIncident_ReturnsOk_DatabaseExists()
         {
             // Arrange
-            var incidentParameters = new IncidentParameters();
-            var incidentsDto = GetSampleIncidentDto(incidentParameters);
+            var incidentOpts = new IncidentOpts();
+            var incidentsDto = GetSampleIncidentDto(incidentOpts);
             var firstIncident = incidentsDto[0];
             mockIncidentsService.Setup(x => x.CreateIncident(firstIncident, TestGuid));
 
@@ -163,7 +163,7 @@ namespace IncidentService.Tests.ControllersTests
         public void DeleteIncident_ReturnsNotFound_IncidentWithSpecifiedIdDoesNotExists()
         {
             // Arrange
-            var incidentParameters = new IncidentParameters();
+            var incidentOpts = new IncidentOpts();
             mockIncidentsService.Setup(x => x.DeleteIncident(FirstIncidentGuid));
 
             // Act
@@ -177,8 +177,8 @@ namespace IncidentService.Tests.ControllersTests
         public void UpdateIncident_ReturnsUpdatedIncident_IncidentWithSpecifiedIdExists()
         {
             // Arrange
-            var incidentParameters = new IncidentParameters();
-            var incidents = GetSampleIncident(incidentParameters);
+            var incidentOpts = new IncidentOpts();
+            var incidents = GetSampleIncident(incidentOpts);
             var firstIncident = incidents[0];
             var testIncident = firstIncident.IncidentToDto();
             testIncident.Number = "testNumber";
@@ -194,7 +194,7 @@ namespace IncidentService.Tests.ControllersTests
             result.Value.Should().BeEquivalentTo(testIncident);
         }
 
-        private PagedList<Incident> GetSampleIncident(IncidentParameters incidentParameters)
+        private PagedList<Incident> GetSampleIncident(IncidentOpts incidentOpts)
         {
             List<Incident> output = new List<Incident>
             {
@@ -320,10 +320,10 @@ namespace IncidentService.Tests.ControllersTests
                 }
             };
             IQueryable<Incident> queryable = output.AsQueryable();
-            return PagedList<Incident>.ToPagedList(queryable, incidentParameters.PageNumber, incidentParameters.PageSize);
+            return PagedList<Incident>.ToPagedList(queryable, incidentOpts.PageNumber, incidentOpts.PageSize);
         }
 
-        private PagedList<IncidentDto> GetSampleIncidentDto(IncidentParameters incidentParameters)
+        private PagedList<IncidentDto> GetSampleIncidentDto(IncidentOpts incidentOpts)
         {
             List<IncidentDto> output = new List<IncidentDto>
             {
@@ -443,7 +443,7 @@ namespace IncidentService.Tests.ControllersTests
                 }
             };
             IQueryable<IncidentDto> queryable = output.AsQueryable();
-            return PagedList<IncidentDto>.ToPagedList(queryable, incidentParameters.PageNumber, incidentParameters.PageSize);
+            return PagedList<IncidentDto>.ToPagedList(queryable, incidentOpts.PageNumber, incidentOpts.PageSize);
         }
     }
 }

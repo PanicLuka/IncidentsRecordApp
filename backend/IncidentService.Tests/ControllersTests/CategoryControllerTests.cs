@@ -27,7 +27,7 @@ namespace IncidentService.Tests.ControllersTests
         Guid SixthCategoryGuid = Guid.NewGuid();
         Guid TestGuid = Guid.NewGuid();
 
-        private readonly CategoryParameters _parameters = new CategoryParameters
+        private readonly CategoryOpts _parameters = new CategoryOpts
         {
             PageNumber = 1,
             PageSize = 2
@@ -42,18 +42,18 @@ namespace IncidentService.Tests.ControllersTests
         public void GetCategories_ReturnsAllOfCategories_CategoriesExist()
         {
             // Arrange
-            var categoryParameters = new CategoryParameters();
-            var categoriesDto = GetSampleCategoryDto(categoryParameters);
-            mockCategoriesService.Setup(x => x.GetCategories(categoryParameters)).Returns(GetSampleCategoryDto(categoryParameters));
+            var categoryOpts = new CategoryOpts();
+            var categoriesDto = GetSampleCategoryDto(categoryOpts);
+            mockCategoriesService.Setup(x => x.GetCategories(categoryOpts)).Returns(GetSampleCategoryDto(categoryOpts));
 
             // Act
-            var actionResult = _categoryController.GetCategories(categoryParameters);
+            var actionResult = _categoryController.GetCategories(categoryOpts);
             var result = actionResult.Result as OkObjectResult;
             var actual = result.Value as IEnumerable<CategoryDto>;
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleCategoryDto(categoryParameters).Count(), actual.Count());
+            Assert.Equal(GetSampleCategoryDto(categoryOpts).Count(), actual.Count());
         }
 
         [Fact]
@@ -77,8 +77,8 @@ namespace IncidentService.Tests.ControllersTests
         public void GetCategoryById_ReturnsCategoryWithIdDto_CategoryWithSpecifiedIdExists()
         {
             // Arrange
-            var categoryParameters = new CategoryParameters();
-            var categories = GetSampleCategory(categoryParameters);
+            var categoryOpts = new CategoryOpts();
+            var categories = GetSampleCategory(categoryOpts);
             var firstCategory = categories[0];
             mockCategoriesService.Setup(x => x.GetCategoryById(FirstCategoryGuid)).Returns(firstCategory.CategoryToCategoryWithIdDto());
 
@@ -96,8 +96,8 @@ namespace IncidentService.Tests.ControllersTests
         public void GetCategoryById_ReturnsCategoryWithIdDto_CategoryWithSpecifiedIdDoesNotExists()
         {
             // Arrange
-            var categoryParameters = new CategoryParameters();
-            var categories = GetSampleCategory(categoryParameters);
+            var categoryOpts = new CategoryOpts();
+            var categories = GetSampleCategory(categoryOpts);
             var firstCategory = categories[0];
             mockCategoriesService.Setup(x => x.GetCategoryById(FirstCategoryGuid)).Returns(firstCategory.CategoryToCategoryWithIdDto());
 
@@ -113,8 +113,8 @@ namespace IncidentService.Tests.ControllersTests
         public void CreateCategory_ReturnsOk_DatabaseExists()
         {
             // Arrange
-            var categoryParameters = new CategoryParameters();
-            var categoriesDto = GetSampleCategoryDto(categoryParameters);
+            var categoryOpts = new CategoryOpts();
+            var categoriesDto = GetSampleCategoryDto(categoryOpts);
             var firstCategory = categoriesDto[0];
             mockCategoriesService.Setup(x => x.CreateCategory(firstCategory));
 
@@ -129,7 +129,7 @@ namespace IncidentService.Tests.ControllersTests
         public void DeleteCategory_ReturnsNotFound_CategoryWithSpecifiedIdDoesNotExists()
         {
             // Arrange
-            var categoryParameters = new CategoryParameters();
+            var categoryOpts = new CategoryOpts();
             mockCategoriesService.Setup(x => x.DeleteCategory(FirstCategoryGuid));
 
             // Act
@@ -143,8 +143,8 @@ namespace IncidentService.Tests.ControllersTests
         public void UpdateCategory_ReturnsUpdatedCategory_CategoryWithSpecifiedIdExists()
         {
             // Arrange
-            var categoryParameters = new CategoryParameters();
-            var categories = GetSampleCategory(categoryParameters);
+            var categoryOpts = new CategoryOpts();
+            var categories = GetSampleCategory(categoryOpts);
             var firstCategory = categories[0];
             var testCategory = firstCategory.CategoryToDto();
             testCategory.CategoryName = "testName";
@@ -160,7 +160,7 @@ namespace IncidentService.Tests.ControllersTests
             result.Value.Should().BeEquivalentTo(testCategory);
         }
 
-        private PagedList<Category> GetSampleCategory(CategoryParameters categoryParameters)
+        private PagedList<Category> GetSampleCategory(CategoryOpts categoryOpts)
         {
             List<Category> output = new List<Category>
             {
@@ -196,10 +196,10 @@ namespace IncidentService.Tests.ControllersTests
                 }
             };
             IQueryable<Category> queryable = output.AsQueryable();
-            return PagedList<Category>.ToPagedList(queryable, categoryParameters.PageNumber, categoryParameters.PageSize);
+            return PagedList<Category>.ToPagedList(queryable, categoryOpts.PageNumber, categoryOpts.PageSize);
         }
 
-        private PagedList<CategoryDto> GetSampleCategoryDto(CategoryParameters categoryParameters)
+        private PagedList<CategoryDto> GetSampleCategoryDto(CategoryOpts categoryOpts)
         {
             List<CategoryDto> output = new List<CategoryDto>
             {
@@ -229,7 +229,7 @@ namespace IncidentService.Tests.ControllersTests
                 }
             };
             IQueryable<CategoryDto> queryable = output.AsQueryable();
-            return PagedList<CategoryDto>.ToPagedList(queryable, categoryParameters.PageNumber, categoryParameters.PageSize);
+            return PagedList<CategoryDto>.ToPagedList(queryable, categoryOpts.PageNumber, categoryOpts.PageSize);
         }
     }
 }

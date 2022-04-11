@@ -24,9 +24,9 @@ namespace IncidentService.Controllers
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<List<CategoryDto>> GetCategories([FromQuery] CategoryParameters categoryParameters)
+        public ActionResult<List<CategoryDto>> GetCategories([FromQuery] CategoryOpts categoryOpts)
         {
-            var categoryDtos = categoriesService.GetCategories(categoryParameters);
+            var categoryDtos = categoriesService.GetCategories(categoryOpts);
 
             var metdata = new
             {
@@ -83,7 +83,6 @@ namespace IncidentService.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
 
         [HttpPut("{CategoryId}")]
         [Consumes("application/json")]

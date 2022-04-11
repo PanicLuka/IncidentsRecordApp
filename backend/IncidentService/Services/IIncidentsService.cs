@@ -6,7 +6,7 @@ namespace IncidentService.Services
 {
     public interface IIncidentsService
     {
-        PagedList<IncidentDto> GetIncidents(IncidentParameters incidentParameters);
+        PagedList<IncidentDto> GetIncidents(IncidentOpts incidentOpts);
         IncidentWithIdDto GetIncidentById(Guid id);
         IncidentDto UpdateIncident(Guid id, IncidentDto incidentDto);
         void DeleteIncident(Guid id);

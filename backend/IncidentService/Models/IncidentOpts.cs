@@ -2,7 +2,7 @@
 
 namespace IncidentService.Models
 {
-    public class IncidentParameters : QueryStringParameters
+    public class IncidentOpts : PaginationQueryStringOpts
     {
         public int? Significance { get; set; }
         public DateTime? FirstDate { get; set; }

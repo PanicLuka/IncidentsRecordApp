@@ -49,13 +49,13 @@ namespace IncidentService.Services
             return incidentWithIdDto;
         }
 
-        public PagedList<IncidentDto> GetIncidents(IncidentParameters incidentParameters)
+        public PagedList<IncidentDto> GetIncidents(IncidentOpts incidentOpts)
         {
             
             List<Incident> incidents = context.Incidents.ToList();
 
 
-            var filteredIncidents = FilterIncidents(incidents, incidentParameters);
+            var filteredIncidents = FilterIncidents(incidents, incidentOpts);
 
             incidents = filteredIncidents.ToList();
 
@@ -69,46 +69,46 @@ namespace IncidentService.Services
             }
             IQueryable<IncidentDto> queryable = incidentDtos.AsQueryable();
 
-            return PagedList<IncidentDto>.ToPagedList(queryable, incidentParameters.PageNumber, incidentParameters.PageSize);
+            return PagedList<IncidentDto>.ToPagedList(queryable, incidentOpts.PageNumber, incidentOpts.PageSize);
         }
 
-        private IEnumerable<Incident> FilterIncidents(IEnumerable<Incident> incidentList, IncidentParameters incidentParameters)
+        private IEnumerable<Incident> FilterIncidents(IEnumerable<Incident> incidentList, IncidentOpts incidentOpts)
         {
-            if (incidentParameters.FirstDate.HasValue)
+            if (incidentOpts.FirstDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Date >= incidentParameters.FirstDate);
+                incidentList = incidentList.Where(o => o.Date >= incidentOpts.FirstDate);
             }
-            if (incidentParameters.SecondDate.HasValue)
+            if (incidentOpts.SecondDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Date <= incidentParameters.SecondDate);
+                incidentList = incidentList.Where(o => o.Date <= incidentOpts.SecondDate);
             }
-            if (incidentParameters.FirstSolvingDate.HasValue)
+            if (incidentOpts.FirstSolvingDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.SolvingDate >= incidentParameters.FirstSolvingDate);
+                incidentList = incidentList.Where(o => o.SolvingDate >= incidentOpts.FirstSolvingDate);
             }
-            if (incidentParameters.SecondSolvingDate.HasValue)
+            if (incidentOpts.SecondSolvingDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.SolvingDate <= incidentParameters.SecondSolvingDate);
+                incidentList = incidentList.Where(o => o.SolvingDate <= incidentOpts.SecondSolvingDate);
             }
-            if (incidentParameters.Significance.HasValue)
+            if (incidentOpts.Significance.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Significance == incidentParameters.Significance);
+                incidentList = incidentList.Where(o => o.Significance == incidentOpts.Significance);
             }
-            if (incidentParameters.FurtherAction.HasValue)
+            if (incidentOpts.FurtherAction.HasValue)
             {
-                incidentList = incidentList.Where(o => o.FurtherAction == incidentParameters.FurtherAction);
+                incidentList = incidentList.Where(o => o.FurtherAction == incidentOpts.FurtherAction);
             }
-            if (incidentParameters.ThirdPartyHelp.HasValue)
+            if (incidentOpts.ThirdPartyHelp.HasValue)
             {
-                incidentList = incidentList.Where(o => o.FurtherAction == incidentParameters.ThirdPartyHelp);
+                incidentList = incidentList.Where(o => o.FurtherAction == incidentOpts.ThirdPartyHelp);
             }
-            if (incidentParameters.ExactDate.HasValue)
+            if (incidentOpts.ExactDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Date == incidentParameters.ExactDate);
+                incidentList = incidentList.Where(o => o.Date == incidentOpts.ExactDate);
             }
-            if (incidentParameters.ExactSolvingDate.HasValue)
+            if (incidentOpts.ExactSolvingDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.SolvingDate == incidentParameters.ExactSolvingDate);
+                incidentList = incidentList.Where(o => o.SolvingDate == incidentOpts.ExactSolvingDate);
             }
             return incidentList;
         }

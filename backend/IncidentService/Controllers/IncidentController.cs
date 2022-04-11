@@ -26,9 +26,9 @@ namespace IncidentService.Controllers
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentParameters incidentParameters)
+        public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentOpts incidentOpts)
         { 
-            var incidentDtos = incidentsService.GetIncidents(incidentParameters);
+            var incidentDtos = incidentsService.GetIncidents(incidentOpts);
 
             var metdata = new
             {
