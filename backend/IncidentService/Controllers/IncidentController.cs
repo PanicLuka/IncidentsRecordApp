@@ -30,15 +30,6 @@ namespace IncidentService.Controllers
         { 
             var incidentDtos = _incidentsService.GetIncidents(incidentOpts);
 
-            var metdata = new
-            {
-                incidentDtos.TotalCount,
-                incidentDtos.PageSize,
-                incidentDtos.CurrentPage,
-                incidentDtos.HasNext,
-                incidentDtos.HasPrevious
-            };
-
             if (incidentDtos == null || incidentDtos.Count == 0)
             {
                 return NoContent();

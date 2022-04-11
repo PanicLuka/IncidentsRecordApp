@@ -28,15 +28,6 @@ namespace IncidentService.Controllers
         {
             var categoryDtos = _categoriesService.GetCategories(categoryOpts);
 
-            var metdata = new
-            {
-                categoryDtos.TotalCount,
-                categoryDtos.PageSize,
-                categoryDtos.CurrentPage,
-                categoryDtos.HasNext,
-                categoryDtos.HasPrevious
-            };
-
             if (categoryDtos == null || categoryDtos.Count == 0)
             {
                 return NoContent();

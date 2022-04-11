@@ -16,7 +16,7 @@ namespace IncidentService.Services
 
         public CategoriesService(DataContext context)
         {
-            this._context = context;
+            _context = context;
         }
         public void CreateCategory(CategoryDto categoryDto)
         {
