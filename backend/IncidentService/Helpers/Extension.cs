@@ -6,7 +6,6 @@ namespace IncidentService
 {
     public static class Extension
     {
-        #region
         public static CategoryDto CategoryToDto(this Category category)
         {
             if (category != null)
@@ -80,9 +79,7 @@ namespace IncidentService
             }
             return null;
         }
-        #endregion
 
-        #region
         public static IncidentDto IncidentToDto(this Incident incident)
         {
             if (incident != null)
@@ -251,6 +248,5 @@ namespace IncidentService
             }
             return null;
         }
-        #endregion
     }
 }
