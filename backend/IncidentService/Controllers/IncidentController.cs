@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IncidentService.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("api/incident")]
     public class IncidentController : ControllerBase
@@ -19,7 +21,7 @@ namespace IncidentService.Controllers
 
         public IncidentController(IIncidentsService incidentsService)
         {
-            this._incidentsService = incidentsService;
+            _incidentsService = incidentsService;
         }
 
         [HttpGet]
@@ -67,17 +69,11 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                var userId = GetUserId();
 
-                IEnumerable<Claim> claim = identity.Claims;
+                var createdIncident = _incidentsService.CreateIncident(incidentDto, userId);
 
-                var userIdClaim = claim.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault();
-
-                Guid userId = Guid.NewGuid();
-
-                _incidentsService.CreateIncident(incidentDto, userId);
-
-                return Ok();
+                return Ok(createdIncident);
             }
             catch (ValidationException v)
             {
@@ -137,6 +133,17 @@ namespace IncidentService.Controllers
         {
             Response.Headers.Add("Allow", "GET, POST, PUT, DELETE");
             return Ok();
+        }
+
+        private Guid GetUserId()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            IEnumerable<Claim> claim = identity.Claims;
+
+            var userIdClaim = claim.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().ToString();
+
+            return Guid.Parse(userIdClaim);
         }
     }
 }

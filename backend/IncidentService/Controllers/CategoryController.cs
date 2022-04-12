@@ -6,9 +6,12 @@ using IncidentService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IncidentService.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/category")]
     public class CategoryController : ControllerBase
@@ -17,7 +20,7 @@ namespace IncidentService.Controllers
 
         public CategoryController(ICategoriesService categoriesService)
         {
-            this._categoriesService = categoriesService;
+            _categoriesService = categoriesService;
         }
 
         [HttpGet]
@@ -64,9 +67,9 @@ namespace IncidentService.Controllers
         {
             try
             { 
-                _categoriesService.CreateCategory(categoryDto);
+                var createdCategory = _categoriesService.CreateCategory(categoryDto);
 
-                return Ok();
+                return Ok(createdCategory);
             }
             catch (ValidationException v)
             {

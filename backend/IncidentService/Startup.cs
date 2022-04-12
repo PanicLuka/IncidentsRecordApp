@@ -76,6 +76,8 @@ namespace IncidentService
                     }
                 };
 
+                //Request.Headers.Add("ApiKey", JsonConvert.SerializeObject("secretApiKey"));
+
                 setup.AddSecurityDefinition("Bearer", securitySchema);
 
                 var securityRequirement = new OpenApiSecurityRequirement

@@ -150,7 +150,7 @@ namespace IncidentService.Tests.ControllersTests
             var incidents = GetSampleIncident(incidentOpts);
             var firstIncident = incidents[0];
             var testIncident = firstIncident.IncidentToDto();
-            testIncident.Number = "testNumber";
+            testIncident.Designation = "testDesignation";
             _mockIncidentsService.Setup(x => x.UpdateIncident(firstIncident.IncidentId, testIncident)).Returns(testIncident);
 
             // Act
@@ -170,7 +170,7 @@ namespace IncidentService.Tests.ControllersTests
                 new Incident
                 {
                     IncidentId = FirstIncidentGuid,
-                    Number = "sample1",
+                    Designation = "sample1",
                     Significance = 1,
                     Workspace = "sample1",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -190,7 +190,7 @@ namespace IncidentService.Tests.ControllersTests
                 new Incident
                 {
                     IncidentId = SecondIncidentGuid,
-                    Number = "sample2",
+                    Designation = "sample2",
                     Significance = 1,
                     Workspace = "sample2",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -210,7 +210,7 @@ namespace IncidentService.Tests.ControllersTests
                 new Incident
                 {
                     IncidentId = ThirdIncidentGuid,
-                    Number = "sample3",
+                    Designation = "sample3",
                     Significance = 1,
                     Workspace = "sample3",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -230,7 +230,7 @@ namespace IncidentService.Tests.ControllersTests
                 new Incident
                 {
                     IncidentId = FourthIncidentGuid,
-                    Number = "sample4",
+                    Designation = "sample4",
                     Significance = 1,
                     Workspace = "sample4",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -250,7 +250,7 @@ namespace IncidentService.Tests.ControllersTests
                 new Incident
                 {
                     IncidentId = FifthIncidentGuid,
-                    Number = "sample5",
+                    Designation = "sample5",
                     Significance = 1,
                     Workspace = "sample5",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -270,7 +270,7 @@ namespace IncidentService.Tests.ControllersTests
                 new Incident
                 {
                     IncidentId = SixthIncidentGuid,
-                    Number = "sample6",
+                    Designation = "sample6",
                     Significance = 1,
                     Workspace = "sample6",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -298,7 +298,7 @@ namespace IncidentService.Tests.ControllersTests
             {
                 new IncidentDto
                 {
-                    Number = "sample1",
+                    Designation = "sample1",
                     Significance = 2,
                     Workspace = "sample1",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -312,12 +312,13 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample1",
                     Verifies = "sample1",
+                    ReportedBy = "sample1",
                     UserId = UserGuid,
                     CategoryId = CategoryGuid
                 },
                 new IncidentDto
                 {
-                    Number = "sample2",
+                    Designation = "sample2",
                     Significance = 3,
                     Workspace = "sample2",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -331,12 +332,13 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample2",
                     Verifies = "sample2",
+                    ReportedBy = "sample2",
                     UserId = UserGuid,
                     CategoryId = CategoryGuid
                 },
                 new IncidentDto
                 {
-                    Number = "sample3",
+                    Designation = "sample3",
                     Significance = 1,
                     Workspace = "sample3",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -350,12 +352,13 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample3",
                     Verifies = "sample3",
+                    ReportedBy = "sample3",
                     UserId = UserGuid,
                     CategoryId = CategoryGuid
                 },
                 new IncidentDto
                 {
-                    Number = "sample4",
+                    Designation = "sample4",
                     Significance = 1,
                     Workspace = "sample4",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -369,12 +372,13 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample4",
                     Verifies = "sample4",
+                    ReportedBy = "sample4",
                     UserId = UserGuid,
                     CategoryId = CategoryGuid
                 },
                 new IncidentDto
                 {
-                    Number = "sample5",
+                    Designation = "sample5",
                     Significance = 1,
                     Workspace = "sample5",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -388,12 +392,13 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample5",
                     Verifies = "sample5",
+                    ReportedBy = "sample5",
                     UserId = UserGuid,
                     CategoryId = CategoryGuid
                 },
                 new IncidentDto
                 {
-                    Number = "sample6",
+                    Designation = "sample6",
                     Significance = 1,
                     Workspace = "sample6",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -407,6 +412,7 @@ namespace IncidentService.Tests.ControllersTests
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "sample6",
                     Verifies = "sample6",
+                    ReportedBy = "sample6",
                     UserId = UserGuid,
                     CategoryId = CategoryGuid
                 }

@@ -20,7 +20,7 @@ namespace IncidentService.Services
         {
             _context = context;
         }
-        public void CreateCategory(CategoryDto categoryDto)
+        public CategoryDto CreateCategory(CategoryDto categoryDto)
         {
             Category category = categoryDto.DtoToCategory();
 
@@ -29,6 +29,8 @@ namespace IncidentService.Services
             _context.Add(category);
 
             SaveChanges();
+
+            return category.CategoryToDto();
         }
 
         public void DeleteCategory(Guid id)
@@ -41,6 +43,7 @@ namespace IncidentService.Services
             }
 
             _context.Remove(category);
+            
             SaveChanges();
         }
 
@@ -67,16 +70,7 @@ namespace IncidentService.Services
                 throw new HttpResponseException(HttpStatusCode.NoContent);
             }
 
-            List<CategoryDto> categoryDtos = new List<CategoryDto>();
-
-            foreach (var category in categories)
-            {
-                CategoryDto categoryDto = category.CategoryToDto();
-
-                categoryDtos.Add(categoryDto);
-            }
-
-            IQueryable<CategoryDto> queryable = categoryDtos.AsQueryable();
+            IQueryable<CategoryDto> queryable = categories.Select(cateogry => cateogry.CategoryToDto()).AsQueryable();
 
             return PagedList<CategoryDto>.ToPagedList(queryable, categoryOpts.PageNumber, categoryOpts.PageSize);
         }

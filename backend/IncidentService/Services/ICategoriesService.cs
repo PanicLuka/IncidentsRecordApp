@@ -10,7 +10,7 @@ namespace IncidentService.Services
         CategoryWithIdDto GetCategoryById(Guid id);
         CategoryDto UpdateCategory(Guid CategoryId, CategoryDto categoryDto);
         void DeleteCategory(Guid id);
-        void CreateCategory(CategoryDto categoryDto);
+        CategoryDto CreateCategory(CategoryDto categoryDto);
         bool SaveChanges();
     }
 }

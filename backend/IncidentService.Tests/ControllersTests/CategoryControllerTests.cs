@@ -105,7 +105,7 @@ namespace IncidentService.Tests.ControllersTests
             var actionResult = _categoryController.CreateCategory(firstCategory);
 
             // Assert
-            Assert.IsType<OkResult>(actionResult);
+            Assert.IsType<OkObjectResult>(actionResult);
         }
 
         [Fact]
