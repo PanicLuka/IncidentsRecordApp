@@ -12,7 +12,6 @@ using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using IncidentService.Microservices;
 
 namespace IncidentService
 {
@@ -40,8 +39,6 @@ namespace IncidentService
             services.AddDbContext<DataContext>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddScoped<IServiceCall, ServiceCall>();
 
             var secret = Configuration["ApplicationSettings:JWT_Secret"].ToString();
             var key = Encoding.ASCII.GetBytes(secret);
