@@ -5,28 +5,18 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "192.168.179.149",
           "Port": 44201
         }
       ],
       "UpstreamPathTemplate": "/incident/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "FileCacheOptions": { "TtlSeconds": 30 },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "SwaggerKey": "incident"
-    },
-    {
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44202
-        }
-      ],
-      "UpstreamPathTemplate": "/report/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "FileCacheOptions": { "TtlSeconds": 30 },
-      "SwaggerKey": "report"
     },
     {
       "DownstreamPathTemplate": "/weatherforecast",
@@ -40,7 +30,25 @@
       "UpstreamPathTemplate": "/weather",
       "UpstreamHttpMethod": [ "Get" ],
       "FileCacheOptions": { "TtlSeconds": 30 },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "SwaggerKey": "weather"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.179.150",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/user/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "SwaggerKey": "user"
     }
 
   ],
@@ -51,17 +59,17 @@
         {
           "Name": "Incident API",
           "Version": "v1",
-          "Url": "http://localhost:44201/swagger/v1/swagger.json"
+          "Url": "http://192.168.179.149:44201/swagger/v1/swagger.json"
         }
       ]
     },
     {
-      "Key": "report",
+      "Key": "user",
       "Config": [
         {
-          "Name": "Report API",
+          "Name": "User API",
           "Version": "v1",
-          "Url": "http://localhost:44202/swagger/v1/swagger.json"
+          "Url": "http://192.168.179.150:5002/swagger/v1/swagger.json"
         }
       ]
     },

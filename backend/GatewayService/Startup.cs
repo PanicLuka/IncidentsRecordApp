@@ -10,6 +10,7 @@ using Ocelot.Cache.CacheManager;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace GatewayService
 {
@@ -28,7 +29,7 @@ namespace GatewayService
             services.AddControllers();
             services.AddSwaggerForOcelot(Configuration);
 
-            /*var secret = Configuration["ApplicationSettings:JWT_Secret"].ToString();
+            var secret = Configuration["ApplicationSettings:JWT_Secret"].ToString();
             var key = Encoding.ASCII.GetBytes(secret);
 
             services.AddAuthentication(option =>
@@ -46,7 +47,7 @@ namespace GatewayService
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
-            });*/
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GatewayService", Version = "v1" });
@@ -60,8 +61,6 @@ namespace GatewayService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GatewayService v1"));
             }
 
             app.UseSwaggerForOcelotUI();
@@ -70,13 +69,14 @@ namespace GatewayService
 
             app.UseRouting();
 
-            //app.UseAuthentication();
-
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Ocelot Api Gateway");
+                });
             });
 
             app.UseOcelot().Wait();
