@@ -5,28 +5,28 @@ namespace UserService.Helpers
 {
     public static class PermissionExtension
     {
-         public static PermissionDto PermissionToDto(this Permission permission)
-    {
-        if (permission != null)
+        public static PermissionDto PermissionToDto(this Permission permission)
         {
-            return new PermissionDto
+            if (permission != null)
             {
-                AccessPermission = permission.AccessPermission
+                return new PermissionDto
+                {
+                    AccessPermission = permission.AccessPermission
 
-            };
+                };
+            }
+            return null;
         }
-        return null;
-    }
-    public static Permission DtoToPermission(this PermissionDto permissionDto)
-    {
-        if (permissionDto != null)
+        public static Permission DtoToPermission(this PermissionDto permissionDto)
         {
-            return new Permission
+            if (permissionDto != null)
             {
-                AccessPermission = permissionDto.AccessPermission
-            };
+                return new Permission
+                {
+                    AccessPermission = permissionDto.AccessPermission
+                };
+            }
+            return null;
         }
-        return null;
     }
-}
 }

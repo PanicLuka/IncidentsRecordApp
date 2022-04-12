@@ -1,5 +1,4 @@
-﻿
-using UserService.Enitites;
+﻿using UserService.Enitites;
 using UserService.Models;
 
 namespace UserService.Helpers
