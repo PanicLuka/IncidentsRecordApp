@@ -6,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using UserService.Service;
 using UserService.Models;
+using UserService.Attributes;
 
 namespace UserService.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/role")]
     [Produces("application/json")]
@@ -20,7 +22,7 @@ namespace UserService.Controllers
         {
             _roleService = roleService;
         }
-
+        [MicroserviceAuth]
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -32,7 +34,7 @@ namespace UserService.Controllers
             return Ok(roleDtos);
 
         }
-
+        [MicroserviceAuth]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{roleId}")]
@@ -42,7 +44,7 @@ namespace UserService.Controllers
 
             return Ok(roleDto);
         }
-
+        [MicroserviceAuth]
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -65,7 +67,7 @@ namespace UserService.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        [MicroserviceAuth]
         [HttpPut("{roleId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -90,7 +92,7 @@ namespace UserService.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        [MicroserviceAuth]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

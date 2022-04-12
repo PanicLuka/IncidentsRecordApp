@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using UserService.Attributes;
 using UserService.Models;
 using UserService.Service;
 
 namespace UserService.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/permission")]
     [Produces("application/json")]
@@ -21,6 +23,7 @@ namespace UserService.Controllers
             _permissionService = permissionService;
         }
 
+        [MicroserviceAuth]
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,6 +36,7 @@ namespace UserService.Controllers
 
         }
 
+        [MicroserviceAuth]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{permissionId}")]
@@ -43,7 +47,7 @@ namespace UserService.Controllers
             return Ok(permissionDto);
      
         }
-
+        [MicroserviceAuth]
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -66,7 +70,7 @@ namespace UserService.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        [MicroserviceAuth]
         [HttpPut("{permissionId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -90,7 +94,7 @@ namespace UserService.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
-
+        [MicroserviceAuth]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

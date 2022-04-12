@@ -1,14 +1,17 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
+using UserService.Attributes;
 using UserService.Models;
 using UserService.Service;
 
 namespace UserService.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/register")]
     [Produces("application/json")]
@@ -21,6 +24,7 @@ namespace UserService.Controllers
             _userService = userService;
         }
 
+        [MicroserviceAuth]
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,7 +37,7 @@ namespace UserService.Controllers
    
         }
 
-
+        [MicroserviceAuth]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{userId}")]
@@ -44,7 +48,7 @@ namespace UserService.Controllers
             return Ok(userDto);
 
         }
-
+        [MicroserviceAuth]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("user/{email}")]
@@ -55,7 +59,7 @@ namespace UserService.Controllers
             return Ok(userDto);
         }
 
-
+        [MicroserviceAuth]
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -79,7 +83,7 @@ namespace UserService.Controllers
 
 
         }
-
+        [MicroserviceAuth]
         [HttpPut("{userId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -104,7 +108,7 @@ namespace UserService.Controllers
             }
         }
 
-
+        [MicroserviceAuth]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

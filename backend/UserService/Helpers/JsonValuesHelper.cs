@@ -14,10 +14,5 @@ namespace UserService.Helpers
 
     }
 
-    public class JsonApiKeyHelper
-    {
-        public const string sectionName = "APIkey";
-
-        public string Key { get; set; }
-    }
+    
 }

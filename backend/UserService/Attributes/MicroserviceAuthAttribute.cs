@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using UserService.Helpers;
 
 namespace UserService.Attributes
 {
@@ -11,7 +11,6 @@ namespace UserService.Attributes
     {
         private const string ApiKeyHeaderName = "ApiKey";
 
-        private readonly IOptions<JsonApiKeyHelper> _options;
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (!context.HttpContext.Request.Headers.TryGetValue(ApiKeyHeaderName, out var potentialApiKey))
@@ -25,9 +24,11 @@ namespace UserService.Attributes
                 return;
             }
 
-            var apiKey = _options.Value.Key;
+            var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
 
-            if(!apiKey.Equals(potentialApiKey))
+            var apiKey = configuration.GetValue<string>("APIkey:Key");
+
+            if (!apiKey.Equals(potentialApiKey))
             {
                 context.Result = new ContentResult()
                 {
