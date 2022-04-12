@@ -47,9 +47,14 @@ button {
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease 0s;
+  background-color: #c50d01;
+  color: white;
+  margin-right: 8px;
+  text-transform: uppercase;
+
 }
 
 button:hover {
-  background-color: rgba(179, 39, 39, 0.8);
-  color: white;
+  background-color: #ddd;
+  color: #c50d01;
 }
