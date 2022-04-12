@@ -13,4 +13,11 @@ namespace UserService.Helpers
         public int Hours { get; set; }
 
     }
+
+    public class JsonApiKeyHelper
+    {
+        public const string sectionName = "APIkey";
+
+        public string Key { get; set; }
+    }
 }
