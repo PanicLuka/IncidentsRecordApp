@@ -8,7 +8,7 @@ namespace IncidentService.Entities
     {
         [Key]
         public Guid IncidentId { get; set; }
-        public string Number { get; set; }
+        public string Designation { get; set; }
         public int Significance { get; set; }
         public string Workspace { get; set; }
         public DateTime Date { get; set; }
@@ -22,7 +22,7 @@ namespace IncidentService.Entities
         public DateTime SolvingDate { get; set; }
         public string Remarks { get; set; }
         public string Verifies { get; set; }
-        //[ForeignKey("FK_UserId")]
+        public string ReportedBy { get; set; }
         public Guid UserId { get; set; }
         [ForeignKey("FK_CategoryId")]
         public Guid CategoryId { get; set; }

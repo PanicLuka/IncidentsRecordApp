@@ -11,7 +11,7 @@ namespace IncidentService.Helpers
             {
                 return new IncidentDto
                 {
-                    Number = incident.Number,
+                    Designation = incident.Designation,
                     Significance = incident.Significance,
                     Workspace = incident.Workspace,
                     Date = incident.Date,
@@ -38,7 +38,7 @@ namespace IncidentService.Helpers
             {
                 return new Incident
                 {
-                    Number = incidentDto.Number,
+                    Designation = incidentDto.Designation,
                     Significance = incidentDto.Significance,
                     Workspace = incidentDto.Workspace,
                     Date = incidentDto.Date,
@@ -66,7 +66,7 @@ namespace IncidentService.Helpers
             {
                 return new IncidentDto
                 {
-                    Number = incidentWithIdDto.Number,
+                    Designation = incidentWithIdDto.Designation,
                     Significance = incidentWithIdDto.Significance,
                     Workspace = incidentWithIdDto.Workspace,
                     Date = incidentWithIdDto.Date,
@@ -94,7 +94,7 @@ namespace IncidentService.Helpers
             {
                 return new IncidentWithIdDto
                 {
-                    Number = incidentDto.Number,
+                    Designation = incidentDto.Designation,
                     Significance = incidentDto.Significance,
                     Workspace = incidentDto.Workspace,
                     Date = incidentDto.Date,
@@ -123,7 +123,7 @@ namespace IncidentService.Helpers
                 return new IncidentWithIdDto
                 {
                     IncidentId = incident.IncidentId,
-                    Number = incident.Number,
+                    Designation = incident.Designation,
                     Significance = incident.Significance,
                     Workspace = incident.Workspace,
                     Date = incident.Date,
@@ -152,7 +152,7 @@ namespace IncidentService.Helpers
                 return new Incident
                 {
                     IncidentId = incidentWithIdDto.IncidentId,
-                    Number = incidentWithIdDto.Number,
+                    Designation = incidentWithIdDto.Designation,
                     Significance = incidentWithIdDto.Significance,
                     Workspace = incidentWithIdDto.Workspace,
                     Date = incidentWithIdDto.Date,

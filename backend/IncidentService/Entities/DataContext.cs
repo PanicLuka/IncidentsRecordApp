@@ -44,7 +44,7 @@ namespace IncidentService.Entities
                 .HasData(new
                 {
                     IncidentId = defaultIncidentId,
-                    Number = "test01",
+                    Designation = "test01",
                     Significance = 1,
                     Workspace = "test",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
@@ -58,6 +58,7 @@ namespace IncidentService.Entities
                     SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
                     Remarks = "test",
                     Verifies = "test",
+                    ReportedBy = "test",
                     UserId = defaultUserId,
                     CategoryId = defaultCategoryId
                 });

@@ -8,6 +8,5 @@ namespace IncidentService.Entities
         [Key]
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
-
     }
 }
