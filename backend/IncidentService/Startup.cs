@@ -29,31 +29,7 @@ namespace IncidentService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(setup =>
-            {
-                var securitySchema = new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                };
-
-                setup.AddSecurityDefinition("Bearer", securitySchema);
-
-                setup.SwaggerDoc("v1",
-                    new OpenApiInfo()
-                    {
-                        Title = "Incident Service",
-                        Version = "v1",
-                    });
-            });
+            
 
             services.AddScoped<IIncidentsService, IncidentsService>();
             services.AddScoped<ICategoriesService, CategoriesService>();
@@ -86,6 +62,39 @@ namespace IncidentService
                     ValidateAudience = false
                 };
             });
+
+            services.AddSwaggerGen(setup =>
+            {
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                };
+
+                setup.AddSecurityDefinition("Bearer", securitySchema);
+
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    { securitySchema, new[] { "Bearer" } }
+                };
+
+                setup.AddSecurityRequirement(securityRequirement);
+
+                setup.SwaggerDoc("v1",
+                    new OpenApiInfo()
+                    {
+                        Title = "Incident Service",
+                        Version = "v1",
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +110,8 @@ namespace IncidentService
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
