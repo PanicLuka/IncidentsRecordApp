@@ -8,7 +8,7 @@
       "schematics": {
         "@schematics/angular:application": {
           "strict": true
-        } 
+        }
       },
       "root": "",
       "sourceRoot": "src",
@@ -23,7 +23,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/font-awesome/css/font-awesome.css"
+            ],
             "scripts": []
           },
           "configurations": {

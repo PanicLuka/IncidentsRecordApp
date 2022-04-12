@@ -1,25 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from './components/about/about.component';
-import { HomeComponent } from './components/home/home.component';
-import { IncidentComponent } from './components/incident/incident.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ReportComponent } from './components/report/report.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'incident', component: IncidentComponent },
-  { path: 'report', component: ReportComponent },
-  { path: 'about', component: AboutComponent },
-  { path: '', component: HomeComponent },
-  { path: '', pathMatch: 'full', redirectTo: '' }
-
+  { path: '', pathMatch: 'full', redirectTo: '' },
+  { path: '', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule) },
+  { path: 'about', loadChildren: () => import('./modules/about/about.module').then((m) => m.AboutModule), },
+  { path: 'report',loadChildren: () => import('./modules/report/report.module').then((m) => m.ReportModule), },
+  { path: 'incident', loadChildren: () => import('./modules/incident/incident.module').then((m) => m.IncidentModule), },
+  { path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule) },
+  { path: 'register', loadChildren: () => import('./modules/register/register.module').then(m => m.RegisterModule) },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

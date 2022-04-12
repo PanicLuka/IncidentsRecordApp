@@ -1,6 +1,10 @@
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import url("//fonts.googleapis.com/icon?family=Material+Icons");
 
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   width: 100%;
@@ -8,17 +12,13 @@ body {
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
-}
-body {
-  margin: 0;
+  overflow-y: auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #c50d01;
 }
 
-
 a {
   text-decoration: none;
-  color: steelblue;
 }
 
 p {

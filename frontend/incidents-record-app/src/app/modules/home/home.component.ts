@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
       User: 'John',
       Significance: 'significance',
       SolvingDate: '03-03-2024',
-      Verifies: 'Jess'
+      Verifies: 'Jess',
     },
     {
       number: '1',
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
       User: 'John',
       Significance: 'significance',
       SolvingDate: '03-03-2024',
-      Verifies: 'Jess'
+      Verifies: 'Jess',
     },
     {
       number: '1',
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
       User: 'John',
       Significance: 'significance',
       SolvingDate: '03-03-2024',
-      Verifies: 'Jess'
+      Verifies: 'Jess',
     },
     {
       number: '1',
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
       User: 'John',
       Significance: 'significance',
       SolvingDate: '03-03-2024',
-      Verifies: 'Jess'
+      Verifies: 'Jess',
     },
     {
       number: '1',
@@ -50,13 +50,20 @@ export class HomeComponent implements OnInit {
       User: 'John',
       Significance: 'significance',
       SolvingDate: '03-03-2024',
-      Verifies: 'Jess'
+      Verifies: 'Jess',
     },
-    
-    
   ];
 
-  displayedColumns: string[] = ['number', 'description', 'date', 'user', 'significance', 'solvingDate', 'verifies', 'actions'];
+  displayedColumns: string[] = [
+    'number',
+    'description',
+    'date',
+    'user',
+    'significance',
+    'solvingDate',
+    'verifies',
+    'actions',
+  ];
   dataSource = this.ELEMENT_DATA;
 
   constructor() {}
