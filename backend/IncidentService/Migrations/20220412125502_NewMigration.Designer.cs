@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IncidentService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220406141135_NewMigration")]
+    [Migration("20220412125502_NewMigration")]
     partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("33fd5821-8a8b-421a-b529-1fcfe57195cb"),
+                            CategoryId = new Guid("94385e47-dddc-4113-8975-28ddb2dce389"),
                             CategoryName = "testName"
                         });
                 });
@@ -60,19 +60,22 @@ namespace IncidentService.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Designation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("FurtherAction")
                         .HasColumnType("bit");
 
                     b.Property<string>("FurtherActionPerson")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Number")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ProblemSolved")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReportedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Significance")
@@ -105,21 +108,22 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            IncidentId = new Guid("64724124-721c-449a-b9e6-cc2217b36052"),
+                            IncidentId = new Guid("c34fde92-5c1a-4390-93d1-3a7751067af3"),
                             ActionDescription = "test",
-                            CategoryId = new Guid("33fd5821-8a8b-421a-b529-1fcfe57195cb"),
+                            CategoryId = new Guid("94385e47-dddc-4113-8975-28ddb2dce389"),
                             Date = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "test",
+                            Designation = "test01",
                             FurtherAction = true,
                             FurtherActionPerson = "test",
-                            Number = "test01",
                             ProblemSolved = "test",
                             Remarks = "test",
+                            ReportedBy = "test",
                             Significance = 1,
                             SolvingDate = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ThirdPartyHelp = true,
                             Time = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("95342baa-73c9-4202-b558-ded5ffe060f7"),
+                            UserId = new Guid("1f0a3f5e-023f-433f-9f32-95283224cb93"),
                             Verifies = "test",
                             Workspace = "test"
                         });
