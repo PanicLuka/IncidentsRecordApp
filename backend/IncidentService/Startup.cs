@@ -12,6 +12,7 @@ using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using IncidentService.Microservices;
 
 namespace IncidentService
 {
@@ -28,7 +29,8 @@ namespace IncidentService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
+
+            services.AddScoped<IServiceCall, ServiceCall>();
 
             services.AddScoped<IIncidentsService, IncidentsService>();
             services.AddScoped<ICategoriesService, CategoriesService>();
