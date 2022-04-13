@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IncidentService } from '../shared';
 
 @Component({
   selector: 'app-incident',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IncidentComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private readonly _incidentService: IncidentService
+  ) { }
 
   ngOnInit(): void {
+    this._incidentService
+      .getIncidents()
+      .subscribe((incidents) => {
+        console.log(incidents)
+      })
   }
 
 }

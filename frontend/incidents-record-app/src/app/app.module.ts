@@ -6,8 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './modules/shared/components/navbar/navbar.component';
+import { NavbarComponent,  } from './modules/shared/components/navbar/navbar.component';
 import { FooterComponent } from './modules/shared/components/footer/footer.component';
+import { IncidentService } from './modules/shared/services/incident.service';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, FooterComponent],
@@ -18,7 +19,7 @@ import { FooterComponent } from './modules/shared/components/footer/footer.compo
     BrowserAnimationsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [IncidentService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
