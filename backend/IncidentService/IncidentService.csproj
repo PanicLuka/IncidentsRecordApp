@@ -6,12 +6,6 @@
   <PropertyGroup>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Microservices\**" />
-    <Content Remove="Microservices\**" />
-    <EmbeddedResource Remove="Microservices\**" />
-    <None Remove="Microservices\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
