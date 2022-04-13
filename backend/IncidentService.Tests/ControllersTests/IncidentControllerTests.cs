@@ -163,7 +163,7 @@ namespace IncidentService.Tests.ControllersTests
             result.Value.Should().BeEquivalentTo(testIncident);
         }
 
-        private PagedList<Incident> GetSampleIncident(IncidentOpts incidentOpts)
+        private List<Incident> GetSampleIncident(IncidentOpts incidentOpts)
         {
             List<Incident> output = new List<Incident>
             {
@@ -288,11 +288,10 @@ namespace IncidentService.Tests.ControllersTests
                     CategoryId = CategoryGuid
                 }
             };
-            IQueryable<Incident> queryable = output.AsQueryable();
-            return PagedList<Incident>.ToPagedList(queryable, incidentOpts.PageNumber, incidentOpts.PageSize);
+            return output;
         }
 
-        private PagedList<IncidentDto> GetSampleIncidentDto(IncidentOpts incidentOpts)
+        private List<IncidentDto> GetSampleIncidentDto(IncidentOpts incidentOpts)
         {
             List<IncidentDto> output = new List<IncidentDto>
             {
@@ -417,8 +416,7 @@ namespace IncidentService.Tests.ControllersTests
                     CategoryId = CategoryGuid
                 }
             };
-            IQueryable<IncidentDto> queryable = output.AsQueryable();
-            return PagedList<IncidentDto>.ToPagedList(queryable, incidentOpts.PageNumber, incidentOpts.PageSize);
+            return output;
         }
     }
 }

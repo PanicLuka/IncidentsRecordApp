@@ -57,7 +57,7 @@ namespace IncidentService.Tests.ControllersTests
         }
 
         [Fact]
-        public void GetCategories_ReturnsPagedListOfCategories_CategoriesExist()
+        public void GetCategories_ReturnsListOfCategories_CategoriesExist()
         {
             // Arrange
             var categoriesDto = GetSampleCategoryDto(_parameters);
@@ -129,7 +129,7 @@ namespace IncidentService.Tests.ControllersTests
             result.Value.Should().BeEquivalentTo(testCategory);
         }
 
-        private PagedList<Category> GetSampleCategory(CategoryOpts categoryOpts)
+        private List<Category> GetSampleCategory(CategoryOpts categoryOpts)
         {
             List<Category> output = new List<Category>
             {
@@ -164,11 +164,10 @@ namespace IncidentService.Tests.ControllersTests
                     CategoryName = "sample6"
                 }
             };
-            IQueryable<Category> queryable = output.AsQueryable();
-            return PagedList<Category>.ToPagedList(queryable, categoryOpts.PageNumber, categoryOpts.PageSize);
+            return output;
         }
 
-        private PagedList<CategoryDto> GetSampleCategoryDto(CategoryOpts categoryOpts)
+        private List<CategoryDto> GetSampleCategoryDto(CategoryOpts categoryOpts)
         {
             List<CategoryDto> output = new List<CategoryDto>
             {
@@ -197,8 +196,7 @@ namespace IncidentService.Tests.ControllersTests
                     CategoryName = "sample6"
                 }
             };
-            IQueryable<CategoryDto> queryable = output.AsQueryable();
-            return PagedList<CategoryDto>.ToPagedList(queryable, categoryOpts.PageNumber, categoryOpts.PageSize);
+            return output;
         }
     }
 }
