@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Web.Http;
 using FluentValidation;
@@ -9,7 +8,6 @@ using IncidentService.Entities;
 using IncidentService.Helpers;
 using IncidentService.Models;
 using IncidentService.Validators;
-using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Services
 {
@@ -17,7 +15,7 @@ namespace IncidentService.Services
     {
         private readonly DataContext _context;
         private readonly IncidentValidator _incidentValidator = new IncidentValidator();
-
+        private int _count = 0;
         public IncidentsService(DataContext context)
         {
             _context = context;
@@ -65,121 +63,74 @@ namespace IncidentService.Services
             return incidentWithIdDto;
         }
 
-        public PagedList<IncidentDto> GetIncidents(IncidentOpts incidentOpts)
+        public List<IncidentDto> GetIncidents(IncidentOpts incidentOpts)
         {
-            List<Incident> incidents = _context.Incidents.ToList();
+            var filteredIncidents = FilterIncidents(incidentOpts);
 
-            var filteredIncidents = FilterIncidents(incidents, incidentOpts);
+            List<Incident> incidents = filteredIncidents.ToList();
 
-            incidents = filteredIncidents.ToList();
-
-            if (incidents == null || incidents.Count == 0)
+            if (incidents == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NoContent);
             }
 
-            IQueryable<IncidentDto> queryable = filteredIncidents.Select(incident => incident.IncidentToDto()).AsQueryable();
+            List<IncidentDto> incidentDtos = incidents.Select(incident => incident.IncidentToDto()).ToList();
 
-            //return PagedList<IncidentDto>.ToPagedList(queryable, incidentOpts.PageNumber, incidentOpts.PageSize);
-            //List<IncidentDto> incidents = filteredIncidents.Select(incident => incident.IncidentToDto()).ToList();
-            //return incidents;
-            return PagedList<IncidentDto>.ToPagedList(queryable, incidentOpts.PageNumber, incidentOpts.PageSize);
+            return incidentDtos;
         }
 
-        private IEnumerable<Incident> FilterIncidents(IEnumerable<Incident> incidentList, IncidentOpts incidentOpts)
-        {
+        private IQueryable<Incident> FilterIncidents(IncidentOpts incidentOpts) {
+
+            IQueryable<Incident> incidentList = _context.Incidents;
+
             if (incidentOpts.FirstDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Date >= incidentOpts.FirstDate);
+                incidentList = incidentList.Where(o => o.Date >= incidentOpts.FirstDate).AsQueryable();
             }
             if (incidentOpts.SecondDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Date <= incidentOpts.SecondDate);
+                incidentList = incidentList.Where(o => o.Date <= incidentOpts.SecondDate).AsQueryable();
             }
             if (incidentOpts.FirstSolvingDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.SolvingDate >= incidentOpts.FirstSolvingDate);
+                incidentList = incidentList.Where(o => o.SolvingDate >= incidentOpts.FirstSolvingDate).AsQueryable();
             }
             if (incidentOpts.SecondSolvingDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.SolvingDate <= incidentOpts.SecondSolvingDate);
+                incidentList = incidentList.Where(o => o.SolvingDate <= incidentOpts.SecondSolvingDate).AsQueryable();
             }
             if (incidentOpts.Significance.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Significance == incidentOpts.Significance);
+                incidentList = incidentList.Where(o => o.Significance == incidentOpts.Significance).AsQueryable();
             }
             if (incidentOpts.FurtherAction.HasValue)
             {
-                incidentList = incidentList.Where(o => o.FurtherAction == incidentOpts.FurtherAction);
+                incidentList = incidentList.Where(o => o.FurtherAction == incidentOpts.FurtherAction).AsQueryable();
             }
             if (incidentOpts.ThirdPartyHelp.HasValue)
             {
-                incidentList = incidentList.Where(o => o.FurtherAction == incidentOpts.ThirdPartyHelp);
+                incidentList = incidentList.Where(o => o.FurtherAction == incidentOpts.ThirdPartyHelp).AsQueryable();
             }
             if (incidentOpts.ExactDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.Date == incidentOpts.ExactDate);
+                incidentList = incidentList.Where(o => o.Date == incidentOpts.ExactDate).AsQueryable();
             }
             if (incidentOpts.ExactSolvingDate.HasValue)
             {
-                incidentList = incidentList.Where(o => o.SolvingDate == incidentOpts.ExactSolvingDate);
+                incidentList = incidentList.Where(o => o.SolvingDate == incidentOpts.ExactSolvingDate).AsQueryable();
             }
+
+            _count = incidentList.Count();
+
+            incidentList = incidentList.Skip((incidentOpts.PageNumber - 1) * incidentOpts.PageSize).Take(incidentOpts.PageSize).AsQueryable();
+
             return incidentList;
         }
 
-
-        /*private IQueryable<Incident> FilterIncidents(IncidentOpts incidentOpts)
+        public int GetIncidentCount()
         {
-            //IQueryable<Incident> incidentList = _context.Incidents.Skip(incidentOpts.PageNumber*incidentOpts.PageSize).Take(incidentOpts.PageSize);
-            IQueryable<Incident> incidentList = _context.Incidents;
-            if (incidentOpts.FirstDate.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.Date >= incidentOpts.FirstDate).AsQueryable();
-            }
-            if (incidentOpts.SecondDate.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.Date <= incidentOpts.SecondDate).AsQueryable();
-            }
-            if (incidentOpts.FirstSolvingDate.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.SolvingDate >= incidentOpts.FirstSolvingDate).AsQueryable();
-            }
-            if (incidentOpts.SecondSolvingDate.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.SolvingDate <= incidentOpts.SecondSolvingDate).AsQueryable();
-            }
-            if (incidentOpts.Significance.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.Significance == incidentOpts.Significance).AsQueryable();
-            }
-            if (incidentOpts.FurtherAction.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.FurtherAction == incidentOpts.FurtherAction).AsQueryable();
-            }
-            if (incidentOpts.ThirdPartyHelp.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.FurtherAction == incidentOpts.ThirdPartyHelp).AsQueryable();
-            }
-            if (incidentOpts.ExactDate.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.Date == incidentOpts.ExactDate).AsQueryable();
-            }
-            if (incidentOpts.ExactSolvingDate.HasValue)
-            {
-                incidentList = _context.Incidents.Where(o => o.SolvingDate == incidentOpts.ExactSolvingDate).AsQueryable();
-            }
-            else
-            {
-                //var count = incidentList.Count();
-                //incidentList = incidentList.Skip((incidentOpts.PageNumber - 1) * incidentOpts.PageSize).Take(incidentOpts.PageSize);
-            }
-            return null;
-        }*/
-
-        /*private IQueryable<Incident> GetIncidentsByCondition(Expression<Func<Incident, bool>> expression)
-        {
-            return _context.Set<Incident>().Where(expression).AsNoTracking();
-        }*/
+            return _count;
+        }
 
         private Incident GetIncidentForUpdateById(Guid id)
         {

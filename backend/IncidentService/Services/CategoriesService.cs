@@ -15,11 +15,13 @@ namespace IncidentService.Services
     {
         private readonly DataContext _context;
         private readonly CategoryValidator _categoryValidator = new CategoryValidator();
+        private int _count = 0;
 
         public CategoriesService(DataContext context)
         {
             _context = context;
         }
+
         public CategoryDto CreateCategory(CategoryDto categoryDto)
         {
             Category category = categoryDto.DtoToCategory();
@@ -61,18 +63,37 @@ namespace IncidentService.Services
             return categoryWithIdDto;
         }
 
-        public PagedList<CategoryDto> GetCategories(CategoryOpts categoryOpts)
+        public List<CategoryDto> GetCategories(CategoryOpts categoryOpts)
         {
-            List<Category> categories = _context.Categories.ToList();
+            var filteredCategories = FilterCategories(categoryOpts);
 
-            if (categories == null || categories.Count == 0)
+            List<Category> categories = filteredCategories.ToList();
+
+            if (categories == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NoContent);
             }
 
-            IQueryable<CategoryDto> queryable = categories.Select(cateogry => cateogry.CategoryToDto()).AsQueryable();
+            List<CategoryDto> categoryDtos = categories.Select(category => category.CategoryToDto()).ToList();
 
-            return PagedList<CategoryDto>.ToPagedList(queryable, categoryOpts.PageNumber, categoryOpts.PageSize);
+            return categoryDtos;
+        }
+
+        private IQueryable<Category> FilterCategories(CategoryOpts categoryOpts)
+        {
+
+            IQueryable<Category> categoryList = _context.Categories;
+
+            _count = categoryList.Count();
+
+            categoryList = categoryList.Skip((categoryOpts.PageNumber - 1) * categoryOpts.PageSize).Take(categoryOpts.PageSize).AsQueryable();
+
+            return categoryList;
+        }
+
+        public int GetCategoryCount()
+        {
+            return _count;
         }
 
         private Category GetCategoryForUpdateById (Guid id)

@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using IncidentService.Attributes;
 
 namespace IncidentService.Controllers
 {
-    [Authorize]
     [ApiController]
-    [Route("api/category")]
+    [Route("api/categories")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoriesService _categoriesService;
@@ -23,6 +23,7 @@ namespace IncidentService.Controllers
             _categoriesService = categoriesService;
         }
 
+        [MicroserviceAuth]
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -41,6 +42,26 @@ namespace IncidentService.Controllers
             }
         }
 
+        [MicroserviceAuth]
+        [Route("count")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<int> GetCategoryCount()
+        {
+            try
+            {
+                var count = _categoriesService.GetCategoryCount();
+
+                return Ok(count);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [MicroserviceAuth]
         [HttpGet("{CategoryId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -58,6 +79,7 @@ namespace IncidentService.Controllers
             }
         }
 
+        [MicroserviceAuth]
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -81,6 +103,7 @@ namespace IncidentService.Controllers
             }
         }
 
+        [MicroserviceAuth]
         [HttpPut("{CategoryId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -104,7 +127,7 @@ namespace IncidentService.Controllers
             }
         }
 
-
+        [MicroserviceAuth]
         [HttpDelete("{CategoryId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using IncidentService.Attributes;
 
 namespace IncidentService.Controllers
 {
-    //[Authorize]
     [ApiController]
-    [Route("api/incident")]
+    [Route("api/incidents")]
     public class IncidentController : ControllerBase
     {
         private readonly IIncidentsService _incidentsService;
@@ -24,12 +24,13 @@ namespace IncidentService.Controllers
             _incidentsService = incidentsService;
         }
 
+        [MicroserviceAuth]
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<IncidentDto>> GetIncidents([FromQuery] IncidentOpts incidentOpts)
-        { 
+        {
             try
             {
                 var incidentDtos = _incidentsService.GetIncidents(incidentOpts);
@@ -42,6 +43,26 @@ namespace IncidentService.Controllers
             }
         }
 
+        [MicroserviceAuth]
+        [Route("count")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<int> GetIncidentCount()
+        {
+            try
+            {
+                var count = _incidentsService.GetIncidentCount();
+
+                return Ok(count);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [MicroserviceAuth]
         [HttpGet("{IncidentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -60,6 +81,7 @@ namespace IncidentService.Controllers
 
         }
 
+        [MicroserviceAuth]
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -85,6 +107,7 @@ namespace IncidentService.Controllers
             }
         }
 
+        [MicroserviceAuth]
         [HttpPut("{IncidentId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -108,10 +131,11 @@ namespace IncidentService.Controllers
             }
         }
 
+        [MicroserviceAuth]
+        [HttpDelete("{IncidentId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpDelete("{IncidentId}")]
         public IActionResult DeleteIncident(Guid IncidentId)
         {
             try
