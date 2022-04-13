@@ -10,9 +10,9 @@ using UserService.Attributes;
 
 namespace UserService.Controllers
 {
-    [Authorize]
+    
     [ApiController]
-    [Route("api/role")]
+    [Route("api/roles")]
     [Produces("application/json")]
     [Consumes("application/json")]
     public class RoleController : ControllerBase
@@ -24,7 +24,6 @@ namespace UserService.Controllers
         }
         [MicroserviceAuth]
         [HttpGet]
-        [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<List<RoleDto>> GetAllRoles()

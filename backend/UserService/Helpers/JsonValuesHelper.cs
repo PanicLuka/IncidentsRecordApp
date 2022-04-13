@@ -1,5 +1,4 @@
-﻿
-namespace UserService.Helpers
+﻿namespace UserService.Helpers
 {
     public class JsonValuesHelper
     {

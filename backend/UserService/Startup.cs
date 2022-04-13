@@ -51,8 +51,21 @@ namespace UserService
                         Id = "Bearer"
                     }
                 };
-               
+
+                var apiKeyParam = new OpenApiParameter()
+                {
+                    Name = "apiKey",
+                    In = ParameterLocation.Header,
+                    Required = true,
+                    Schema = new OpenApiSchema { Type = "string" }
+
+                };
+
+
+                setup.OperationFilter<AddCommonParameOperationFilter>();
+
                 setup.AddSecurityDefinition("Bearer", securitySchema);
+               
 
                 var securityRequirement = new OpenApiSecurityRequirement
                 {
@@ -60,6 +73,8 @@ namespace UserService
                 };
         
                 setup.AddSecurityRequirement(securityRequirement);
+
+                
                 
                 setup.SwaggerDoc("v1",
                     new OpenApiInfo()
@@ -84,7 +99,6 @@ namespace UserService
                      ValidateAudience = true,
                      ValidateLifetime = true,
                      ValidateIssuerSigningKey = true,
-
                      ValidIssuer = Configuration.GetValue<string>("JWT:Issuer"),
                      ValidAudience = Configuration.GetValue<string>("JWT:Audience"),
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JWT:JWTkey")))
