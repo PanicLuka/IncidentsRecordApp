@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
 using IncidentService.Attributes;
 
 namespace IncidentService.Controllers

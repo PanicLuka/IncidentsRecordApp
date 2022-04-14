@@ -15,7 +15,7 @@ namespace IncidentService.Services
     {
         private readonly DataContext _context;
         private readonly CategoryValidator _categoryValidator = new CategoryValidator();
-        private int _count = 0;
+        private static int _count;
 
         public CategoriesService(DataContext context)
         {
