@@ -6,15 +6,14 @@ using IncidentService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using System.Security.Claims;
-using System.Linq;
 using IncidentService.Attributes;
+using IncidentService.Helpers;
 
 namespace IncidentService.Controllers
 {
     [ApiController]
     [Route("api/incidents")]
-    public class IncidentController : ControllerBase
+    public class IncidentController : AbstractController
     {
         private readonly IIncidentsService _incidentsService;
 
@@ -90,9 +89,7 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var userId = GetUserId();
-
-                var createdIncident = _incidentsService.CreateIncident(incidentDto, userId);
+                var createdIncident = _incidentsService.CreateIncident(incidentDto, UserId);
 
                 return Ok(createdIncident);
             }
@@ -156,17 +153,6 @@ namespace IncidentService.Controllers
         {
             Response.Headers.Add("Allow", "GET, POST, PUT, DELETE");
             return Ok();
-        }
-
-        private Guid GetUserId()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-            IEnumerable<Claim> claim = identity.Claims;
-
-            var userIdClaim = claim.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().ToString();
-
-            return Guid.Parse(userIdClaim);
         }
     }
 }

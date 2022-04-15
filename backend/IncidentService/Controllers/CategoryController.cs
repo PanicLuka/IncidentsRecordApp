@@ -12,7 +12,7 @@ namespace IncidentService.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    public class CategoryController : ControllerBase
+    public class CategoryController : AbstractController
     {
         private readonly ICategoriesService _categoriesService;
 
@@ -21,7 +21,7 @@ namespace IncidentService.Controllers
             _categoriesService = categoriesService;
         }
 
-        //[MicroserviceAuth]
+        [MicroserviceAuth]
         [HttpGet]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -40,7 +40,7 @@ namespace IncidentService.Controllers
             }
         }
 
-        //[MicroserviceAuth]
+        [MicroserviceAuth]
         [Route("count")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -59,7 +59,7 @@ namespace IncidentService.Controllers
             }
         }
 
-        //[MicroserviceAuth]
+        [MicroserviceAuth]
         [HttpGet("{CategoryId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -77,7 +77,7 @@ namespace IncidentService.Controllers
             }
         }
 
-        //[MicroserviceAuth]
+        [MicroserviceAuth]
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -101,7 +101,7 @@ namespace IncidentService.Controllers
             }
         }
 
-        //[MicroserviceAuth]
+        [MicroserviceAuth]
         [HttpPut("{CategoryId}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -125,7 +125,7 @@ namespace IncidentService.Controllers
             }
         }
 
-        //[MicroserviceAuth]
+        [MicroserviceAuth]
         [HttpDelete("{CategoryId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
