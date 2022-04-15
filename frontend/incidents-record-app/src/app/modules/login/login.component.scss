@@ -1,0 +1,48 @@
+.form {
+
+}
+
+.container {
+  display: grid;
+  height: 100vh;
+  place-items: center;
+}
+
+
+.login {
+  width: 500px;
+  margin: auto;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 20px 0px rgba(50, 50, 50, 0.52);
+  background-color: white;
+}
+
+.login h1 {
+  text-align: center;
+}
+
+.login label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.login input[type="text"],
+.login input[type="email"],
+.login input[type="password"] {
+  display: block;
+  width: 97%;
+  height: 40px;
+  padding: 5px;
+  font-size: 18px;
+}
+
+.login input[type="submit"] {
+  margin-top: 20px;
+  width: 100%;
+  font-size: 17px;
+}
+
+.login div {
+  margin-bottom: 20px;
+}
