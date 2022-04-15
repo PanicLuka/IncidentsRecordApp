@@ -102,6 +102,7 @@ namespace UserService
                      ValidIssuer = Configuration.GetValue<string>("JWT:Issuer"),
                      ValidAudience = Configuration.GetValue<string>("JWT:Audience"),
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JWT:JWTkey")))
+                     
 
                  };
              });

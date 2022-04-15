@@ -17,8 +17,8 @@ namespace UserService.Attributes
         {
             var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             var ApiKeyValue = configuration.GetValue<string>("APIkey:Key");
-            var headers = context.HttpContext.Request.Headers;
-
+            var headers = context.HttpContext.Request.Headers
+;
             if (headers["apiKey"] == ApiKeyValue)
             {
                 return;
