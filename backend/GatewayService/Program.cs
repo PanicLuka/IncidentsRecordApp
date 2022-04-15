@@ -20,9 +20,9 @@ namespace GatewayService
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                        .ConfigureAppConfiguration(config => 
-                            config.AddJsonFile($"ocelot.json"));
+                    webBuilder.UseStartup<Startup>();
+                        /*.ConfigureAppConfiguration(config => 
+                            config.AddJsonFile($"ocelot.json"));*/
                 });
     }
 }

@@ -4,13 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-using Ocelot.Cache.CacheManager;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Http;
+using GatewayService.Helpers;
 
 namespace GatewayService
 {
@@ -27,7 +24,6 @@ namespace GatewayService
         {
 
             services.AddControllers();
-            services.AddSwaggerForOcelot(Configuration);
 
             var secret = Configuration["ApplicationSettings:JWT_Secret"].ToString();
             var key = Encoding.ASCII.GetBytes(secret);
@@ -48,14 +44,43 @@ namespace GatewayService
                     ValidateAudience = false
                 };
             });
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(setup =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GatewayService", Version = "v1" });
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                };
+
+                setup.AddSecurityDefinition("Bearer", securitySchema);
+
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    { securitySchema, new[] { "Bearer" } }
+                };
+
+                setup.AddSecurityRequirement(securityRequirement);
+
+                setup.SwaggerDoc("v1",
+                    new OpenApiInfo()
+                    {
+                        Title = "Gateway Service",
+                        Version = "v1",
+                    });
             });
-            services.AddOcelot().AddCacheManager(settings => settings.WithDictionaryHandle());
+
+            services.AddScoped<Config>();
+            services.AddHttpClient();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -63,7 +88,9 @@ namespace GatewayService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwaggerForOcelotUI();
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
 
@@ -71,15 +98,12 @@ namespace GatewayService
 
             app.UseAuthentication();
 
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Ocelot Api Gateway");
-                });
+                endpoints.MapControllers();
             });
-
-            app.UseOcelot().Wait();
         }
     }
 }

@@ -19,24 +19,6 @@
       "SwaggerKey": "incident"
     },
     {
-      "DownstreamPathTemplate": "/weatherforecast",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44200
-        }
-      ],
-      "UpstreamPathTemplate": "/weather",
-      "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 30 },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "SwaggerKey": "weather"
-    },
-    {
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -70,16 +52,6 @@
           "Name": "User API",
           "Version": "v1",
           "Url": "http://192.168.179.150:5002/swagger/v1/swagger.json"
-        }
-      ]
-    },
-    {
-      "Key": "weather",
-      "Config": [
-        {
-          "Name": "Weather API",
-          "Version": "v1",
-          "Url": "http://localhost:44200/swagger/v1/swagger.json"
         }
       ]
     }
