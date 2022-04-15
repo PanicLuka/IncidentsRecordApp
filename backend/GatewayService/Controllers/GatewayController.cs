@@ -27,7 +27,6 @@ namespace GatewayService.Controllers
             _config = config;
         }
 
-
         [Authorize]
         [HttpGet("get/{path}")]
         public ActionResult Get([FromRoute] string path){
@@ -39,23 +38,23 @@ namespace GatewayService.Controllers
                 switch (path)
                 {
                     case "categories":                    
-                        var categories = _httpClient.GetStringAsync(_config.GetIncidentsPath() + path).Result;
+                        var categories = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{Request.QueryString}").Result;
                         return new ContentResult { Content = categories, ContentType = "application/json" };
 
                     case "incidents":
-                        var incidents = _httpClient.GetStringAsync(_config.GetIncidentsPath() + path).Result;
+                        var incidents = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{Request.QueryString}").Result;
                         return new ContentResult { Content = incidents, ContentType = "application/json" };
 
                     case "users":
-                        var users = _httpClient.GetStringAsync(_config.GetUsersPath() + path).Result;
+                        var users = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}").Result;
                         return new ContentResult { Content = users, ContentType = "application/json" };
 
                     case "roles":
-                        var roles = _httpClient.GetStringAsync(_config.GetUsersPath() + path).Result;
+                        var roles = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}").Result;
                         return new ContentResult { Content = roles, ContentType = "application/json" };
 
                     case "permissions":
-                        var permissions = _httpClient.GetStringAsync(_config.GetUsersPath() + path).Result;
+                        var permissions = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}").Result;
                         return new ContentResult { Content = permissions, ContentType = "application/json" };
 
                     default:
@@ -68,6 +67,7 @@ namespace GatewayService.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("get/{path}/{id}")]
         public ActionResult Get([FromRoute] string path, Guid id)
         {
@@ -80,23 +80,23 @@ namespace GatewayService.Controllers
                 {
                     case "categories":
 
-                        var category = _httpClient.GetStringAsync(_config.GetIncidentsPath() + path + backslash + id).Result;
+                        var category = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{backslash}{id}").Result;
                         return new ContentResult { Content = category, ContentType = "application/json" };
 
                     case "incidents":
-                        var incident = _httpClient.GetStringAsync(_config.GetIncidentsPath() + path + backslash + id).Result;
+                        var incident = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{backslash}{id}").Result;
                         return new ContentResult { Content = incident, ContentType = "application/json" };
 
                     case "users":
-                        var user = _httpClient.GetStringAsync(_config.GetUsersPath() + path + backslash + id).Result;
+                        var user = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}{backslash}{id}").Result;
                         return new ContentResult { Content = user, ContentType = "application/json" };
 
                     case "roles":
-                        var role = _httpClient.GetStringAsync(_config.GetUsersPath() + path + backslash + id).Result;
+                        var role = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}{backslash}{id}").Result;
                         return new ContentResult { Content = role, ContentType = "application/json" };
 
                     case "permissions":
-                        var permission = _httpClient.GetStringAsync(_config.GetUsersPath() + path + backslash + id).Result;
+                        var permission = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}{backslash}{id}").Result;
                         return new ContentResult { Content = permission, ContentType = "application/json" };
 
                     default:
@@ -110,6 +110,7 @@ namespace GatewayService.Controllers
 
         }
 
+        [Authorize]
         [HttpDelete("delete/{path}/{id}")]
         public ActionResult Delete([FromRoute] string path, Guid id)
         {
@@ -121,7 +122,7 @@ namespace GatewayService.Controllers
                 switch (path)
                 {
                     case "categories":
-                        var category = _httpClient.DeleteAsync(_config.GetIncidentsPath() + path + backslash + id).Result;
+                        var category = _httpClient.DeleteAsync($"{_config.GetIncidentsPath()}{path}{backslash}{id}").Result;
                         if(category.IsSuccessStatusCode)
                         {
                             return Ok(category);
@@ -129,14 +130,14 @@ namespace GatewayService.Controllers
                         return NotFound();
 
                     case "incidents":
-                        var incident = _httpClient.DeleteAsync(_config.GetIncidentsPath() + path + backslash + id).Result;
+                        var incident = _httpClient.DeleteAsync($"{_config.GetIncidentsPath()}{path}{backslash}{id}").Result;
                         if(incident.IsSuccessStatusCode)
                         {
                             return Ok(incident);
                         }
                         return NotFound();
                     case "users":
-                        var user = _httpClient.DeleteAsync(_config.GetUsersPath() + path + backslash + id).Result;
+                        var user = _httpClient.DeleteAsync($"{_config.GetUsersPath()}{path}{backslash}{id}").Result;
                         if(user.IsSuccessStatusCode)
                         {
                             return Ok(user);
@@ -144,7 +145,7 @@ namespace GatewayService.Controllers
                         return NotFound();
 
                     case "roles":
-                        var role = _httpClient.DeleteAsync(_config.GetUsersPath() + path + backslash + id).Result;
+                        var role = _httpClient.DeleteAsync($"{_config.GetUsersPath()}{path}{backslash}{id}").Result;
                         if (role.IsSuccessStatusCode)
                         {
                             return Ok(role);
@@ -152,7 +153,7 @@ namespace GatewayService.Controllers
                         return NotFound();
 
                     case "permissions":
-                        var permission = _httpClient.DeleteAsync(_config.GetUsersPath() + path + backslash + id).Result;
+                        var permission = _httpClient.DeleteAsync($"{_config.GetUsersPath()}{path}{backslash}{id}").Result;
                         if (permission.IsSuccessStatusCode)
                         {
                             return Ok(permission);
@@ -170,7 +171,7 @@ namespace GatewayService.Controllers
 
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("post/{path}")]
         public ActionResult Post([FromRoute] string path, [FromBody] object jsonObject)
         {
@@ -183,7 +184,7 @@ namespace GatewayService.Controllers
                 {
                     case "categories":
                         var categoriesContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var categoriesResult = _httpClient.PostAsync(_config.GetIncidentsPath() + path, categoriesContent).Result;
+                        var categoriesResult = _httpClient.PostAsync($"{_config.GetIncidentsPath()}{path}", categoriesContent).Result;
                         if (categoriesResult.IsSuccessStatusCode)
                         {
                             var jsonString = categoriesResult.Content.ReadAsStringAsync().Result;
@@ -193,7 +194,7 @@ namespace GatewayService.Controllers
 
                     case "incidents":
                         var incidentsContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var incidentsResult = _httpClient.PostAsync(_config.GetIncidentsPath() + path, incidentsContent).Result;
+                        var incidentsResult = _httpClient.PostAsync($"{_config.GetIncidentsPath()}{path}", incidentsContent).Result;
                         if (incidentsResult.IsSuccessStatusCode)
                         {
                             var jsonString = incidentsResult.Content.ReadAsStringAsync().Result;
@@ -203,7 +204,7 @@ namespace GatewayService.Controllers
 
                     case "users":
                         var usersContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var usersResult = _httpClient.PostAsync(_config.GetUsersPath() + path, usersContent).Result;
+                        var usersResult = _httpClient.PostAsync($"{_config.GetUsersPath()}{path}", usersContent).Result;
                         if (usersResult.IsSuccessStatusCode)
                         {
                             var jsonString = usersResult.Content.ReadAsStringAsync().Result;
@@ -213,7 +214,7 @@ namespace GatewayService.Controllers
 
                     case "roles":
                         var rolesContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var rolesResult = _httpClient.PostAsync(_config.GetUsersPath() + path, rolesContent).Result;
+                        var rolesResult = _httpClient.PostAsync($"{_config.GetUsersPath()}{path}", rolesContent).Result;
                         if (rolesResult.IsSuccessStatusCode)
                         {
                             var jsonString = rolesResult.Content.ReadAsStringAsync().Result;
@@ -223,7 +224,7 @@ namespace GatewayService.Controllers
 
                     case "permissions":
                         var permissionsContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var permissionsResult = _httpClient.PostAsync(_config.GetUsersPath() + path, permissionsContent).Result;
+                        var permissionsResult = _httpClient.PostAsync($"{_config.GetUsersPath()}{path}", permissionsContent).Result;
                         if (permissionsResult.IsSuccessStatusCode)
                         {
                             var jsonString = permissionsResult.Content.ReadAsStringAsync().Result;
@@ -241,6 +242,7 @@ namespace GatewayService.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("put/{path}/{id}")]
         public ActionResult Put([FromRoute] string path, [FromBody] object jsonObject, Guid id)
         {
@@ -253,7 +255,7 @@ namespace GatewayService.Controllers
                 {
                     case "categories":
                         var categoriesContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var categoriesResult = _httpClient.PutAsync(_config.GetIncidentsPath() + path + backslash + id, categoriesContent).Result;
+                        var categoriesResult = _httpClient.PutAsync($"{_config.GetIncidentsPath()}{path}{backslash}{id}", categoriesContent).Result;
                         if (categoriesResult.IsSuccessStatusCode)
                         {
                             var jsonString = categoriesResult.Content.ReadAsStringAsync().Result;
@@ -263,7 +265,7 @@ namespace GatewayService.Controllers
 
                     case "incidents":
                         var incidentsContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var incidentsResult = _httpClient.PutAsync(_config.GetIncidentsPath() + path + backslash + id, incidentsContent).Result;
+                        var incidentsResult = _httpClient.PutAsync($"{_config.GetIncidentsPath()}{path}{backslash}{id}", incidentsContent).Result;
                         if (incidentsResult.IsSuccessStatusCode)
                         {
                             var jsonString = incidentsResult.Content.ReadAsStringAsync().Result;
@@ -273,7 +275,7 @@ namespace GatewayService.Controllers
 
                     case "users":
                         var usersContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var usersResult = _httpClient.PutAsync(_config.GetUsersPath() + path + backslash + id, usersContent).Result;
+                        var usersResult = _httpClient.PutAsync($"{_config.GetUsersPath()}{path}{backslash}{id}", usersContent).Result;
                         if (usersResult.IsSuccessStatusCode)
                         {
                             var jsonString = usersResult.Content.ReadAsStringAsync().Result;
@@ -283,7 +285,7 @@ namespace GatewayService.Controllers
 
                     case "roles":
                         var rolesContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var rolesResult = _httpClient.PutAsync(_config.GetUsersPath() + path + backslash + id, rolesContent).Result;
+                        var rolesResult = _httpClient.PutAsync($"{_config.GetUsersPath()}{path}{backslash}{id}", rolesContent).Result;
                         if (rolesResult.IsSuccessStatusCode)
                         {
                             var jsonString = rolesResult.Content.ReadAsStringAsync().Result;
@@ -293,7 +295,7 @@ namespace GatewayService.Controllers
 
                     case "permissions":
                         var permissionsContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-                        var permissionsResult = _httpClient.PutAsync(_config.GetUsersPath() + path + backslash + id, permissionsContent).Result;
+                        var permissionsResult = _httpClient.PutAsync($"{_config.GetUsersPath()}{path}{backslash}{id}", permissionsContent).Result;
                         if (permissionsResult.IsSuccessStatusCode)
                         {
                             var jsonString = permissionsResult.Content.ReadAsStringAsync().Result;
