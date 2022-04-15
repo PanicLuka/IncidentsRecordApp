@@ -16,41 +16,43 @@ namespace UserService.Tests.ControllersTests
     public class PermissionControllerTests
     {
         private readonly PermissionController _permissionController;
-        private readonly Mock<IPermissionService> mockPermissionService = new Mock<IPermissionService>();
+        private readonly Mock<IPermissionService> _mockPermissionService = new Mock<IPermissionService>();
         private Guid testGuid = Guid.NewGuid();
 
         
         public PermissionControllerTests()
         {
-            _permissionController = new PermissionController(mockPermissionService.Object);
+            _permissionController = new PermissionController(_mockPermissionService.Object);
         }
 
         [Fact]
         public void GetPermissions_ReturnsListOfPermissions_PermissionsExist()
         {
             // Arrange
-            var permissionParameters = new PermissionParameters();
-            var permissionDto = GetSamplePermissionDto(permissionParameters);
-            mockPermissionService.Setup(x => x.GetAllPermissions(permissionParameters)).Returns(GetSamplePermissionDto(permissionParameters));
+            var permOpts = new PermissionParameters();
+            var permissionDto = GetSamplePermissionDto(permOpts);
+            _mockPermissionService.Setup(x => x.GetAllPermissions(permOpts)).Returns(GetSamplePermissionDto(permOpts));
 
             // Act
-            var actionResult = _permissionController.GetAllPermissions(permissionParameters);
+            var actionResult = _permissionController.GetAllPermissions(permOpts);
             var result = actionResult.Result as OkObjectResult;
             var actual = result.Value as IEnumerable<PermissionDto>;
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSamplePermissionDto(permissionParameters).Count(), actual.Count());
+            Assert.Equal(GetSamplePermissionDto(permOpts).Count(), actual.Count());
         }
 
         [Fact]
         public void GetPermissionById_ReturnsPermissionDto_PermissionWithSpecifiedIdExists()
         {
             // Arrange
-            var permissions = GetSamplePermission();
+            var permOpts = new PermissionParameters();
+
+            var permissions = GetSamplePermission(permOpts);
             var firstPermission = permissions[0];
             
-            mockPermissionService.Setup(x => x.GetPermissionById(testGuid)).Returns(firstPermission.PermissionToDto());
+            _mockPermissionService.Setup(x => x.GetPermissionById(testGuid)).Returns(firstPermission.PermissionToDto());
 
             // Act
             var actionResult = _permissionController.GetPermissionById(testGuid);
@@ -63,24 +65,27 @@ namespace UserService.Tests.ControllersTests
         }
 
         [Fact]
-        public void GetPermissionById_ReturnsPermissionDto_PermissionWithSpecifiedIdDoesNotExists()
+        public void UpdatePermission_ReturnsUpdatedPermission_PermissionWithSpecifiedIdExists()
         {
             // Arrange
-            var permissions = GetSamplePermission();
+            var permissionOpts = new QueryStringParameters();
+            var permissions = GetSamplePermission(permissionOpts);
             var firstPermission = permissions[0];
-            mockPermissionService.Setup(x => x.GetPermissionById(testGuid)).Returns(firstPermission.PermissionToDto());
+            var testPermission = firstPermission.PermissionToDto();
+            testPermission.AccessPermission = "testName";
+            _mockPermissionService.Setup(x => x.UpdatePermission(firstPermission.PermissionId, testPermission)).Returns(testPermission);
 
             // Act
-            var actionResult = _permissionController.GetPermissionById(Guid.NewGuid());
-            var result = actionResult.Result;
+            var actionResult = _permissionController.UpdatePermission(firstPermission.PermissionId, testPermission);
+            var result = actionResult.Result as OkObjectResult;
 
             // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            result.Value.Should().BeEquivalentTo(testPermission);
         }
-
-
-
-        private List<Permission> GetSamplePermission()
+        
+        private List<Permission> GetSamplePermission(QueryStringParameters permissionOpts)
         {
             List<Permission> output = new List<Permission>
             {

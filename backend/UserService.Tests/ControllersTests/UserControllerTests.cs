@@ -16,12 +16,12 @@ namespace UserService.Tests.ControllersTests
     public class UserControllerTests
     {
         private readonly UserController _userController;
-        private readonly Mock<IUsersService> mockUsersService = new Mock<IUsersService>();
+        private readonly Mock<IUsersService> _mockUsersService = new Mock<IUsersService>();
         private Guid testGuid = Guid.NewGuid();
 
         public UserControllerTests()
         {
-            _userController = new UserController(mockUsersService.Object);
+            _userController = new UserController(_mockUsersService.Object);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace UserService.Tests.ControllersTests
             // Arrange
             var userParameters = new UserParameters();
             var usersDto = GetSampleUserDto(userParameters);
-            mockUsersService.Setup(x => x.GetAllUsers(userParameters)).Returns(GetSampleUserDto(userParameters));
+            _mockUsersService.Setup(x => x.GetAllUsers(userParameters)).Returns(GetSampleUserDto(userParameters));
 
             // Act
             var actionResult = _userController.GetUsers(userParameters);
@@ -46,9 +46,10 @@ namespace UserService.Tests.ControllersTests
         public void GetUserById_ReturnsUserDto_UserWithSpecifiedIdExists()
         {
             // Arrange
-            var users = GetSampleUser();
+            var userOpts = new QueryStringParameters();
+            var users = GetSampleUser(userOpts);
             var firstUser = users[0];
-            mockUsersService.Setup(x => x.GetUserById(testGuid)).Returns(firstUser.UserToDto());
+            _mockUsersService.Setup(x => x.GetUserById(testGuid)).Returns(firstUser.UserToDto());
 
             // Act
             var actionResult = _userController.GetUserById(testGuid);
@@ -59,26 +60,29 @@ namespace UserService.Tests.ControllersTests
 
             result.Value.Should().BeEquivalentTo(secondUser);
         }
-
         [Fact]
-        public void GetUserById_ReturnsUserDto_UserWithSpecifiedIdDoesNotExists()
+        public void UpdateUser_ReturnsUpdatedUser_UserWithSpecifiedIdExists()
         {
             // Arrange
-            var users = GetSampleUser();
+            var userOpts = new QueryStringParameters();
+            var users = GetSampleUser(userOpts);
             var firstUser = users[0];
-            mockUsersService.Setup(x => x.GetUserById(testGuid)).Returns(firstUser.UserToDto());
+            var testUser = firstUser.UserToDto();
+            testUser.FirstName = "testName";
+            _mockUsersService.Setup(x => x.UpdateUser(firstUser.UserId, testUser)).Returns(testUser);
 
             // Act
-            var actionResult = _userController.GetUserById(Guid.NewGuid());
-            var result = actionResult.Result;
+            var actionResult = _userController.UpdateUser(firstUser.UserId, testUser);
+            var result = actionResult.Result as OkObjectResult;
 
             // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            result.Value.Should().BeEquivalentTo(testUser);
         }
+        
 
-
-
-        private List<User> GetSampleUser()
+        private List<User> GetSampleUser(QueryStringParameters userOpts)
         {
             List<User> output = new List<User>
             {

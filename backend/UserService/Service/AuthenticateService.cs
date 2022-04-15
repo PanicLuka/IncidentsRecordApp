@@ -37,7 +37,7 @@ namespace UserService.Service
             
             List<Claim> claims = new List<Claim>
                 {
-                    new Claim("UserID", userId.ToString()),
+                    new Claim("userId", userId.ToString()),
                     new Claim(ClaimTypes.Name, user.Email),
                     new Claim(ClaimTypes.Role, roleType),
 

@@ -16,19 +16,20 @@ namespace UserService.Tests.ControllersTests
     public class RoleControllerTests
     {
         private readonly RoleController _roleController;
-        private readonly Mock<IRoleService> mockRoleService = new Mock<IRoleService>();
+        private readonly Mock<IRoleService> _mockRoleService = new Mock<IRoleService>();
         private Guid testGuid = Guid.NewGuid();
         public RoleControllerTests()
         {
-            _roleController = new RoleController(mockRoleService.Object);
+            _roleController = new RoleController(_mockRoleService.Object);
         }
 
         [Fact]
         public void GetRoles_ReturnsListOfRoles_RolesExist()
         {
             // Arrange
-            var rolesDto = GetSampleRoleDto();
-            mockRoleService.Setup(x => x.GetAllRoles()).Returns(GetSampleRoleDto);
+            var roleOpts = new QueryStringParameters();
+            var rolesDto = GetSampleRoleDto(roleOpts);
+            _mockRoleService.Setup(x => x.GetAllRoles()).Returns(GetSampleRoleDto(roleOpts));
 
             // Act
             var actionResult = _roleController.GetAllRoles();
@@ -37,16 +38,17 @@ namespace UserService.Tests.ControllersTests
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleRoleDto().Count(), actual.Count());
+            Assert.Equal(GetSampleRoleDto(roleOpts).Count(), actual.Count());
         }
 
         [Fact]
         public void GetRoleById_ReturnsRoleDto_RoleWithSpecifiedIdExists()
         {
             // Arrange
-            var roles = GetSampleRole();
+            var roleOpts = new QueryStringParameters();
+            var roles = GetSampleRole(roleOpts);
             var firstRole = roles[0];
-            mockRoleService.Setup(x => x.GetRoleById(testGuid)).Returns(firstRole.RoleToDto());
+            _mockRoleService.Setup(x => x.GetRoleById(testGuid)).Returns(firstRole.RoleToDto());
 
             // Act
             var actionResult = _roleController.GetRoleById(testGuid);
@@ -59,24 +61,27 @@ namespace UserService.Tests.ControllersTests
         }
 
         [Fact]
-        public void GetRoleById_ReturnsRoleDto_RoleWithSpecifiedIdDoesNotExists()
+        public void UpdateRole_ReturnsUpdatedRole_RoleWithSpecifiedIdExists()
         {
             // Arrange
-            var roles = GetSampleRole();
+            var roleOpts = new QueryStringParameters();
+            var roles = GetSampleRole(roleOpts);
             var firstRole = roles[0];
-            mockRoleService.Setup(x => x.GetRoleById(testGuid)).Returns(firstRole.RoleToDto());
+            var testRole = firstRole.RoleToDto();
+            testRole.UserType = "testName";
+            _mockRoleService.Setup(x => x.UpdateRole(firstRole.RoleId, testRole)).Returns(testRole);
 
             // Act
-            var actionResult = _roleController.GetRoleById(Guid.NewGuid());
-            var result = actionResult.Result;
+            var actionResult = _roleController.UpdateRole(firstRole.RoleId, testRole);
+            var result = actionResult.Result as OkObjectResult;
 
             // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            result.Value.Should().BeEquivalentTo(testRole);
         }
-
-
-
-        private List<Role> GetSampleRole()
+       
+        private List<Role> GetSampleRole(QueryStringParameters roleOpts)
         {
             List<Role> output = new List<Role>
             {
@@ -94,7 +99,7 @@ namespace UserService.Tests.ControllersTests
             return output;
         }
 
-        private List<RoleDto> GetSampleRoleDto()
+        private List<RoleDto> GetSampleRoleDto(QueryStringParameters roleOpts)
         {
             List<RoleDto> output = new List<RoleDto>
             {
