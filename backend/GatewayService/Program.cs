@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GatewayService
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -21,6 +21,8 @@ namespace GatewayService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                        /*.ConfigureAppConfiguration(config => 
+                            config.AddJsonFile($"ocelot.json"));*/
                 });
     }
 }
