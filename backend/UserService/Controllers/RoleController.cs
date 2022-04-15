@@ -71,7 +71,7 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateRole(Guid roleId, [FromBody] RoleDto roleDto)
+        public ActionResult<RoleDto> UpdateRole(Guid roleId, [FromBody] RoleDto roleDto)
         {
             try
             {

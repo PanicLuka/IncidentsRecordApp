@@ -74,7 +74,7 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdatePermission(Guid permissionId, [FromBody] PermissionDto permissionDto)
+        public ActionResult<PermissionDto> UpdatePermission(Guid permissionId, [FromBody] PermissionDto permissionDto)
         {
             try
             {

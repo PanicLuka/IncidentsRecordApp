@@ -88,7 +88,7 @@ namespace UserService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateUser(Guid userId,[FromBody] UserDto userDto)
+        public ActionResult<UserDto> UpdateUser(Guid userId,[FromBody] UserDto userDto)
         {
             try
             {
