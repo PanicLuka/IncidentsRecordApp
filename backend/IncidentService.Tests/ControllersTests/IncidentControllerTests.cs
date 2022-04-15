@@ -15,7 +15,7 @@ namespace IncidentService.Tests.ControllersTests
 {
     public class IncidentControllerTests
     {
-        private readonly IncidentController _incidentController;
+        /*private readonly IncidentController _incidentController;
         private readonly Mock<IIncidentsService> _mockIncidentsService = new Mock<IIncidentsService>();
 
         Guid FirstIncidentGuid = Guid.NewGuid();
@@ -417,6 +417,6 @@ namespace IncidentService.Tests.ControllersTests
                 }
             };
             return output;
-        }
+        }*/
     }
 }

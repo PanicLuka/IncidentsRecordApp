@@ -6,11 +6,11 @@ namespace IncidentService.Services
 {
     public interface IIncidentsService
     {
-        List<IncidentDto> GetIncidents(IncidentOpts incidentOpts);
+        List<IncidentWithIdDto> GetIncidents(IncidentOpts incidentOpts);
         IncidentWithIdDto GetIncidentById(Guid id);
         IncidentDto UpdateIncident(Guid id, IncidentDto incidentDto);
         void DeleteIncident(Guid id);
-        IncidentDto CreateIncident(IncidentDto incidentDto, Guid userId);
+        IncidentWithIdDto CreateIncident(IncidentDto incidentDto, Guid userId);
         int GetIncidentCount();
         bool SaveChanges();
 

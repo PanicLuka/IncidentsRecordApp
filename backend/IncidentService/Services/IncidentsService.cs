@@ -20,7 +20,7 @@ namespace IncidentService.Services
         {
             _context = context;
         }
-        public IncidentDto CreateIncident(IncidentDto incidentDto, Guid userId)
+        public IncidentWithIdDto CreateIncident(IncidentDto incidentDto, Guid userId)
         {
             Incident incident = incidentDto.DtoToIncident();
 
@@ -32,7 +32,7 @@ namespace IncidentService.Services
 
             SaveChanges();
 
-            return incident.IncidentToDto();
+            return incident.IncidentToIncidentWithIdDto();
         }
 
         public void DeleteIncident(Guid id)
@@ -63,7 +63,7 @@ namespace IncidentService.Services
             return incidentWithIdDto;
         }
 
-        public List<IncidentDto> GetIncidents(IncidentOpts incidentOpts)
+        public List<IncidentWithIdDto> GetIncidents(IncidentOpts incidentOpts)
         {
             var filteredIncidents = FilterIncidents(incidentOpts);
 
@@ -74,7 +74,7 @@ namespace IncidentService.Services
                 throw new HttpResponseException(HttpStatusCode.NoContent);
             }
 
-            List<IncidentDto> incidentDtos = incidents.Select(incident => incident.IncidentToDto()).ToList();
+            List<IncidentWithIdDto> incidentDtos = incidents.Select(incident => incident.IncidentToIncidentWithIdDto()).ToList();
 
             return incidentDtos;
         }
