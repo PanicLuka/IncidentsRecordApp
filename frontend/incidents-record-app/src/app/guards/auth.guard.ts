@@ -11,12 +11,10 @@ export class AuthGuard implements CanActivate {
 
   }
   canActivate(): boolean {
-    if(!this.auth.isAuthenticated()){
-      console.log("ne moze")
+    if(this.auth.getToken()==''){
       this.router.navigate(['/login']);
       return false;
     }
-    console.log("moze");
     return true;
   }
   

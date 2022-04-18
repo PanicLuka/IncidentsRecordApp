@@ -12,6 +12,11 @@ export const JWT_NAME = 'token';
 @Injectable()
 export class UserService {
 
+    public get token(): string {
+
+        return this.getToken();
+    }
+
     private GATEWAY_URL = environment.gateway;
 
     constructor(private httpClient: HttpClient, private jwtHelper: JwtHelperService) {
@@ -40,8 +45,15 @@ export class UserService {
         return this.httpClient.delete<User>(`${this.GATEWAY_URL}gateway/delete/users/${userId}`);
     }
     
-    public isAuthenticated(): boolean {
+    public getToken(): string {
         const token = localStorage.getItem("JWT_NAME");
-        return !this.jwtHelper.isTokenExpired(token!);
+        if(!this.jwtHelper.isTokenExpired(token!))
+        {
+            return token!;
+        }
+        else
+        {
+            return '';
+        }
       }
 }
