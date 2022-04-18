@@ -1,0 +1,20 @@
+<div class="container">
+    <h3 mat-dialog-title *ngIf="flag == 1">Create category</h3>
+    <h3 mat-dialog-title *ngIf="flag == 2">Update category</h3>
+    <h3 mat-dialog-title *ngIf="flag == 3">Delete category</h3>
+    <form class="mat-dialog-content" #formControl="ngForm">
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="Name" [(ngModel)]="data.categoryName" name="categoryName" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+      
+      <div mat-dialog-actions>
+        <button mat-button *ngIf="flag == 1" type="submit" [mat-dialog-close]="1" (click)="createCategory()" [disabled]="!formControl.valid">Save</button>
+        <button mat-button *ngIf="flag == 2" type="submit" [mat-dialog-close]="1" (click)="updateCategory()" [disabled]="!formControl.valid">Save</button>
+        <button mat-button *ngIf="flag == 3" type="submit" [mat-dialog-close]="1" (click)="deleteCategory()">Delete</button>
+        <button mat-button (click)="cancel()">Close</button>
+      </div>
+    </form>
+  </div>

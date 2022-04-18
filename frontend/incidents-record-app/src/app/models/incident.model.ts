@@ -1,6 +1,5 @@
 import { Time } from "@angular/common";
 import { Category } from "./category.model";
-import { User } from "./user.model";
 
 export interface Incident {
     incidentId: string;
@@ -19,6 +18,6 @@ export interface Incident {
     remarks: string;
     verifies: string;
     reportedBy: string;
-    user: User;
+    userId: string;
     category: Category;
 }

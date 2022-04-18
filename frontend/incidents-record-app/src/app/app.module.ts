@@ -1,25 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from './modules/shared/material/material.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent,  } from './modules/shared/components/navbar/navbar.component';
-import { FooterComponent } from './modules/shared/components/footer/footer.component';
-import { IncidentService } from './modules/shared/services/incident.service';
+import { MaterialModule } from './modules/shared/material/material.module';
+
+import { IncidentService, CategoryService } from './modules/shared';
+import { NavbarComponent, FooterComponent } from './modules/shared';
+import { CategoryDialogComponent } from './dialogs/category-dialog/category-dialog.component';
+
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    FooterComponent,
+    CategoryDialogComponent
+  ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    FormsModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    MaterialModule
   ],
-  providers: [IncidentService],
+  providers: [IncidentService, CategoryService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

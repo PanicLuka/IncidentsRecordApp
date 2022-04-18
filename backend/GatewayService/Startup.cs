@@ -48,7 +48,7 @@ namespace GatewayService
             {
                 var securitySchema = new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: {token}\"",
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
@@ -60,7 +60,7 @@ namespace GatewayService
                     }
                 };
 
-                setup.AddSecurityDefinition("Bearer", securitySchema);
+               setup.AddSecurityDefinition("Bearer", securitySchema);
 
                 var securityRequirement = new OpenApiSecurityRequirement
                 {
@@ -95,6 +95,11 @@ namespace GatewayService
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+            });
 
             app.UseAuthentication();
 

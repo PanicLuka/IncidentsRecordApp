@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { IncidentRoutingModule } from './incident-routing.module';
 import { IncidentComponent } from './incident.component';
+import { MaterialModule } from '../shared/material/material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { IncidentComponent } from './incident.component';
   ],
   imports: [
     CommonModule,
-    IncidentRoutingModule
+    IncidentRoutingModule,
+    MaterialModule
   ]
 })
 export class IncidentModule { }
