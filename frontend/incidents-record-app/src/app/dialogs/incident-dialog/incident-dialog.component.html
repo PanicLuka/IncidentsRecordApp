@@ -1,0 +1,122 @@
+<div class="container">
+    <h3 mat-dialog-title *ngIf="flag == 1">Adding incident</h3>
+    <h3 mat-dialog-title *ngIf="flag == 2">incident modification: {{data.significance}</h3>
+    <h3 mat-dialog-title *ngIf="flag == 3">Incident deletion: {{data.significance}}</h3>
+    <form class="mat-dialog-content" #formControl="ngForm">
+        <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="designation" [(ngModel)]="data.designation" name="designation" [disabled]="flag == 3" required>
+        </mat-form-field>
+        </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="significance" [(ngModel)]="data.significance" name="significance" [disabled]="flag == 3" required>
+        </mat-form-field>
+        </div>
+
+
+         <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="workspace" [(ngModel)]="data.workspace" name="workspace" [disabled]="flag == 3" required>
+        </mat-form-field>
+        </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="date" [(ngModel)]="data.date" name="date" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="time" [(ngModel)]="data.time" name="time" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="description" [(ngModel)]="data.description" name="description" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="thirdPartyHelp" [(ngModel)]="data.thirdPartyHelp" name="thirdPartyHelp" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="problemSolved" [(ngModel)]="data.problemSolved" name="problemSolved" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="furtherAction" [(ngModel)]="data.furtherAction" name="furtherAction" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="furtherActionPerson" [(ngModel)]="data.furtherActionPerson" name="furtherActionPerson" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="actionDescription" [(ngModel)]="data.actionDescription" name="actionDescription" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="solvingDate" [(ngModel)]="data.solvingDate" name="solvingDate" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="remarks" [(ngModel)]="data.remarks" name="remarks" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="verifies" [(ngModel)]="data.verifies" name="verifies" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="reportedBy" [(ngModel)]="data.reportedBy" name="reportedBy" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="categoryId" [(ngModel)]="data.categoryId" name="categoryId" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+      <!-- <div class="form">
+        <mat-form-field>
+          <mat-select [(ngModel)]="data.category" placeholder="category" name="category" [compareWith]="compareTo" [disabled]="flag == 3">
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category.categoryName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+     <div mat-dialog-actions>
+        <button mat-button *ngIf="flag == 1" type="submit"  [mat-dialog-close]="1" [disabled]="!formControl.valid" (click) = "add()" >Save</button>
+        <button mat-button *ngIf="flag == 2" type="submit" [mat-dialog-close]="1" (click)="update()" >Save</button>
+        <button mat-button *ngIf="flag == 3" type="submit" [mat-dialog-close]="1" (click)="delete()">Delete</button>
+        <button mat-button (click)="cancel()">Cancel</button>
+      </div>
+
+    </form>
+
+</div>
