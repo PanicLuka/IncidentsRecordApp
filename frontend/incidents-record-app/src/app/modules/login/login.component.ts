@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Login } from 'src/app/models/login.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from '../shared/services/user.service';
 
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   invalidLoginMess!: boolean;
   user!: User;
+  loginCredentials: Login = { email: "", password: "" };
 
   constructor(public userService: UserService, private router: Router) { }
 
@@ -25,24 +27,18 @@ export class LoginComponent implements OnInit {
   }
 
   public login(form: NgForm) {
-    this.email = form.value.email;
-    this.password = form.value.password;
+    this.loginCredentials.email = form.value.email;
+    this.loginCredentials.password = form.value.password;
 
-    const credentials = {
-      "email": this.email,
-      "password": this.password
-    }
-
-    this.user.email=credentials.email;
-    this.user.password=credentials.password;
-
-    this.userService.loginUser(this.user)
+    this.userService.loginUser(this.loginCredentials)
       .subscribe(response => {
 
-        const token = (<any>response).token;
+        const token = response;
 
 
-        localStorage.setItem("JWT ", token);
+        localStorage.setItem("JWT_NAME", token);
+
+        console.log(token);
 
         this.invalidLogin = false;
         this.invalidLoginMess = false;
@@ -50,7 +46,7 @@ export class LoginComponent implements OnInit {
         form.reset();
 
         setTimeout(() => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/']);
         },
           2500);
 
