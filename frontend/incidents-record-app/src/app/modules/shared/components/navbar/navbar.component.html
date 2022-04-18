@@ -13,6 +13,6 @@
   <div class="buttons-wrapper">
     <a routerLink="/login"><button *ngIf="!userService.isAuthenticated()">Login</button></a>
     <a routerLink="/register"><button *ngIf="!userService.isAuthenticated()">Register</button></a>
-    <a routerLink="/"><button *ngIf="userService.isAuthenticated()" (click)="logout()">Logout</button></a>
+    <a routerLink="/login"><button *ngIf="userService.isAuthenticated()" (click)="logout()">Logout</button></a>
   </div>
 </div>

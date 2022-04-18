@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/']);
         },
-          2500);
+          1000);
 
       }), (error: Error) => {
         this.invalidLogin = true;

@@ -21,6 +21,5 @@ export class NavbarComponent implements OnInit {
 
   public logout() {
     localStorage.removeItem("JWT_NAME");
-    this.router.navigate(['/login']);
   }
 }
