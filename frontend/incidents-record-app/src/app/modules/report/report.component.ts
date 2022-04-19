@@ -8,14 +8,16 @@ import { IncidentService } from '../shared';
 })
 export class ReportComponent implements OnInit {
 
-  constructor( private incidentService : IncidentService ) { }
+  constructor(private incidentService: IncidentService) { }
 
   ngOnInit(): void {
-    this.incidentService
-      .getIncidents()
-      .subscribe((incidents) => {
-        console.log(incidents)
-      })
+    //   this.incidentService
+    //     .getIncidents()
+    //     .subscribe((incidents) => {
+    //       console.log(incidents)
+    //     })
+    console.log();
+
 
   }
 

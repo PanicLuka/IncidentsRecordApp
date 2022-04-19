@@ -66,7 +66,10 @@ export class HomeComponent implements OnInit {
   ];
   dataSource = this.ELEMENT_DATA;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log();
+
+  }
 }
