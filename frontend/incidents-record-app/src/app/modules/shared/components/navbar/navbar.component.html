@@ -4,8 +4,9 @@
     <nav>
       <ul class="nav-links">
         <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/incident" *ngIf="userService.getToken() != ''">Incident</a></li>
-        <li><a routerLink="/report" *ngIf="userService.getToken() != ''">Report</a></li>
+        <li><a routerLink="/incident" *ngIf="userService.getToken() != ''">Incidents</a></li>
+        <li><a routerLink="/report" *ngIf="userService.getToken() != ''">Reports</a></li>
+        <li><a routerLink="/user" *ngIf="userService.getToken() != ''">Users</a></li>
         <li><a routerLink="/about">About</a></li>
       </ul>
     </nav>
