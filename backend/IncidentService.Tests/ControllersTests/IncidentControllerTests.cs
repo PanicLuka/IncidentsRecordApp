@@ -15,7 +15,7 @@ namespace IncidentService.Tests.ControllersTests
 {
     public class IncidentControllerTests
     {
-        /*private readonly IncidentController _incidentController;
+        private readonly IncidentController _incidentController;
         private readonly Mock<IIncidentsService> _mockIncidentsService = new Mock<IIncidentsService>();
 
         Guid FirstIncidentGuid = Guid.NewGuid();
@@ -55,13 +55,13 @@ namespace IncidentService.Tests.ControllersTests
             _incidentController = new IncidentController(_mockIncidentsService.Object);
         }
 
-        [Fact]
+        /*[Fact]
         public void GetIncidents_ReturnsAllIncidents_IncidentsExist()
         {
             // Arrange
             var incidentOpts = new IncidentOpts();
             var incidentsDto = GetSampleIncidentDto(incidentOpts);
-            _mockIncidentsService.Setup(x => x.GetIncidents(incidentOpts)).Returns(GetSampleIncidentDto(incidentOpts));
+            _mockIncidentsService.Setup(x => x.GetIncidents(incidentOpts)).Returns(GetSampleIncidentWithIdDto(incidentOpts));
 
             // Act
             var actionResult = _incidentController.GetIncidents(incidentOpts);
@@ -70,7 +70,7 @@ namespace IncidentService.Tests.ControllersTests
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleIncidentDto(incidentOpts).Count(), actual.Count());
+            Assert.Equal(GetSampleIncidentWithIdDto(incidentOpts).Count(), actual.Count());
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace IncidentService.Tests.ControllersTests
         {
             // Arrange
             var incidentsDto = GetSampleIncidentDto(_pagedParameters);
-            _mockIncidentsService.Setup(x => x.GetIncidents(_pagedParameters)).Returns(GetSampleIncidentDto(_pagedParameters));
+            _mockIncidentsService.Setup(x => x.GetIncidents(_pagedParameters)).Returns(GetSampleIncidentWithIdDto(_pagedParameters));
 
             // Act
             var actionResult = _incidentController.GetIncidents(_pagedParameters);
@@ -87,7 +87,7 @@ namespace IncidentService.Tests.ControllersTests
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleIncidentDto(_pagedParameters).Count(), actual.Count());
+            Assert.Equal(GetSampleIncidentWithIdDto(_pagedParameters).Count(), actual.Count());
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace IncidentService.Tests.ControllersTests
         {
             // Arrange
             var incidentsDto = GetSampleIncidentDto(_filterParameters);
-            _mockIncidentsService.Setup(x => x.GetIncidents(_filterParameters)).Returns(GetSampleIncidentDto(_filterParameters));
+            _mockIncidentsService.Setup(x => x.GetIncidents(_filterParameters)).Returns(GetSampleIncidentWithIdDto(_filterParameters));
 
             // Act
             var actionResult = _incidentController.GetIncidents(_filterParameters);
@@ -104,8 +104,8 @@ namespace IncidentService.Tests.ControllersTests
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleIncidentDto(_filterParameters).Count(), actual.Count());
-        }
+            Assert.Equal(GetSampleIncidentWithIdDto(_filterParameters).Count(), actual.Count());
+        }*/
 
         [Fact]
         public void GetIncidentById_ReturnsIncidentWithIdDto_IncidentWithSpecifiedIdExists()
@@ -139,7 +139,7 @@ namespace IncidentService.Tests.ControllersTests
             var actionResult = _incidentController.CreateIncident(firstIncident);
 
             // Assert
-            Assert.IsType<ObjectResult>(actionResult);
+            Assert.IsType<OkObjectResult>(actionResult);
         }
 
         [Fact]
@@ -417,6 +417,134 @@ namespace IncidentService.Tests.ControllersTests
                 }
             };
             return output;
-        }*/
+        }
+
+        private List<IncidentWithIdDto> GetSampleIncidentWithIdDto(IncidentOpts incidentOpts)
+        {
+            List<IncidentWithIdDto> output = new List<IncidentWithIdDto>
+            {
+                new IncidentWithIdDto
+                {
+                    IncidentId = FirstIncidentGuid,
+                    Designation = "sample1",
+                    Significance = 1,
+                    Workspace = "sample1",
+                    Date = DateTime.Parse("2022-03-30T00:00:00"),
+                    Time = DateTime.Parse("2022-03-30T00:00:00"),
+                    Description = "sample1",
+                    ThirdPartyHelp = true,
+                    ProblemSolved = "sample1",
+                    FurtherAction = true,
+                    FurtherActionPerson = "sample1",
+                    ActionDescription = "sample1",
+                    SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
+                    Remarks = "sample1",
+                    Verifies = "sample1",
+                    UserId = UserGuid,
+                    CategoryId = CategoryGuid
+                },
+                new IncidentWithIdDto
+                {
+                    IncidentId = SecondIncidentGuid,
+                    Designation = "sample2",
+                    Significance = 1,
+                    Workspace = "sample2",
+                    Date = DateTime.Parse("2022-03-30T00:00:00"),
+                    Time = DateTime.Parse("2022-03-30T00:00:00"),
+                    Description = "sample2",
+                    ThirdPartyHelp = true,
+                    ProblemSolved = "sample2",
+                    FurtherAction = true,
+                    FurtherActionPerson = "sample2",
+                    ActionDescription = "sample2",
+                    SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
+                    Remarks = "sample2",
+                    Verifies = "sample2",
+                    UserId = UserGuid,
+                    CategoryId = CategoryGuid
+                },
+                new IncidentWithIdDto
+                {
+                    IncidentId = ThirdIncidentGuid,
+                    Designation = "sample3",
+                    Significance = 1,
+                    Workspace = "sample3",
+                    Date = DateTime.Parse("2022-03-30T00:00:00"),
+                    Time = DateTime.Parse("2022-03-30T00:00:00"),
+                    Description = "sample3",
+                    ThirdPartyHelp = true,
+                    ProblemSolved = "sample3",
+                    FurtherAction = true,
+                    FurtherActionPerson = "sample3",
+                    ActionDescription = "sample3",
+                    SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
+                    Remarks = "sample3",
+                    Verifies = "sample3",
+                    UserId = UserGuid,
+                    CategoryId = CategoryGuid
+                },
+                new IncidentWithIdDto
+                {
+                    IncidentId = FourthIncidentGuid,
+                    Designation = "sample4",
+                    Significance = 1,
+                    Workspace = "sample4",
+                    Date = DateTime.Parse("2022-03-30T00:00:00"),
+                    Time = DateTime.Parse("2022-03-30T00:00:00"),
+                    Description = "sample4",
+                    ThirdPartyHelp = true,
+                    ProblemSolved = "sample4",
+                    FurtherAction = true,
+                    FurtherActionPerson = "sample4",
+                    ActionDescription = "sample4",
+                    SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
+                    Remarks = "sample4",
+                    Verifies = "sample4",
+                    UserId = UserGuid,
+                    CategoryId = CategoryGuid
+                },
+                new IncidentWithIdDto
+                {
+                    IncidentId = FifthIncidentGuid,
+                    Designation = "sample5",
+                    Significance = 1,
+                    Workspace = "sample5",
+                    Date = DateTime.Parse("2022-03-30T00:00:00"),
+                    Time = DateTime.Parse("2022-03-30T00:00:00"),
+                    Description = "sample5",
+                    ThirdPartyHelp = true,
+                    ProblemSolved = "sample5",
+                    FurtherAction = true,
+                    FurtherActionPerson = "sample5",
+                    ActionDescription = "sample5",
+                    SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
+                    Remarks = "sample5",
+                    Verifies = "sample5",
+                    UserId = UserGuid,
+                    CategoryId = CategoryGuid
+                },
+                new IncidentWithIdDto
+                {
+                    IncidentId = SixthIncidentGuid,
+                    Designation = "sample6",
+                    Significance = 1,
+                    Workspace = "sample6",
+                    Date = DateTime.Parse("2022-03-30T00:00:00"),
+                    Time = DateTime.Parse("2022-03-30T00:00:00"),
+                    Description = "sample6",
+                    ThirdPartyHelp = true,
+                    ProblemSolved = "sample6",
+                    FurtherAction = true,
+                    FurtherActionPerson = "sample6",
+                    ActionDescription = "sample6",
+                    SolvingDate = DateTime.Parse("2022-03-30T00:00:00"),
+                    Remarks = "sample6",
+                    Verifies = "sample6",
+                    UserId = UserGuid,
+                    CategoryId = CategoryGuid
+                }
+            };
+            return output;
+        }
     }
 }
