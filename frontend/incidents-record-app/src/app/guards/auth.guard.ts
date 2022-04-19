@@ -7,11 +7,11 @@ import { UserService } from '../modules/shared/services/user.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private auth: UserService, private router: Router){
+  constructor(private userService: UserService, private router: Router){
 
   }
   canActivate(): boolean {
-    if(this.auth.getToken()==''){
+    if(this.userService.getToken()==''){
       this.router.navigate(['/login']);
       return false;
     }
