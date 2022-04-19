@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from './modules/shared/material/material.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -12,15 +11,24 @@ import { IncidentService } from './modules/shared/services/incident.service';
 import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { UserService } from './modules/shared/services/user.service';
+import { UserDialogComponent } from './dialogs/user-dialog/user-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent],
+  declarations: [AppComponent, NavbarComponent, FooterComponent, UserDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [
     IncidentService,
