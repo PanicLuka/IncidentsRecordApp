@@ -3,7 +3,7 @@
 	public class PaginationQueryStringOpts
 	{
 		private int _pageSize = 10;
-		private const int _maxPageSize = 50;
+		private const int _maxPageSize = 100;
 		public int PageNumber { get; set; } = 1;
 		public int PageSize
 		{
