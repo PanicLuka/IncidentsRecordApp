@@ -38,8 +38,6 @@ export class LoginComponent implements OnInit {
 
         localStorage.setItem("JWT_NAME", token);
 
-        console.log(token);
-
         this.invalidLogin = false;
         this.invalidLoginMess = false;
 
