@@ -1,0 +1,40 @@
+<div class="container">
+    <h3 mat-dialog-title *ngIf="flag == 1">Adding user</h3>
+    <h3 mat-dialog-title *ngIf="flag == 2">user modification: {{userBindingObject.firstName}</h3>
+    <h3 mat-dialog-title *ngIf="flag == 3">User deletion: {{userBindingObject.firstName}}</h3>
+    <form class="mat-dialog-content" #formControl="ngForm">
+        <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="firstName" [(ngModel)]="userBindingObject.firstName" name="firstName" [disabled]="flag == 3" required>
+        </mat-form-field>
+        </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="lastName" [(ngModel)]="userBindingObject.lastName" name="lastName" [disabled]="flag == 3" required>
+        </mat-form-field>
+        </div>
+
+
+         <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="email" [(ngModel)]="userBindingObject.email" name="email" [disabled]="flag == 3" required>
+        </mat-form-field>
+        </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="password" [(ngModel)]="userBindingObject.password" name="password" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div>
+
+     <div mat-dialog-actions>
+        <button mat-button *ngIf="flag == 1" type="submit"  [mat-dialog-close]="1" (click) = "add()" >Save</button>
+        <button mat-button *ngIf="flag == 2" type="submit" [mat-dialog-close]="1" (click)="update()" >Save</button>
+        <button mat-button *ngIf="flag == 3" type="submit" [mat-dialog-close]="1" (click)="delete()">Delete</button>
+        <button mat-button (click)="cancel()">Cancel</button>
+      </div>
+
+    </form>
+
+</div>
