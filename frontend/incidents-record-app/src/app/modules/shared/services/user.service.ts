@@ -23,26 +23,26 @@ export class UserService {
     }
 
     public getUsers(): Observable<User[]> {
-        return this.httpClient.get<User[]>(`${this.GATEWAY_URL}gateway/get/users`);
+        return this.httpClient.get<User[]>(`${this.GATEWAY_URL}/gateway/get/users`);
     }
 
     public getUserById(userId: string): Observable<User[]> {
-        return this.httpClient.get<User[]>(`${this.GATEWAY_URL}gateway/get/users/${userId}`);
+        return this.httpClient.get<User[]>(`${this.GATEWAY_URL}/gateway/get/users/${userId}`);
     }
 
     public loginUser(login: Login): Observable<any> {
-        return this.httpClient.post<Login>(`${this.GATEWAY_URL}gateway/login/login`, login);
+        return this.httpClient.post<Login>(`${this.GATEWAY_URL}/gateway/login/login`, login);
     }
     public createUser(user: User): Observable<User> {
-        return this.httpClient.post<User>(`${this.GATEWAY_URL}gateway/post/users`, user);
+        return this.httpClient.post<User>(`${this.GATEWAY_URL}/gateway/post/users`, user);
     }
 
     public updateUser(user: User): Observable<User> {
-        return this.httpClient.put<User>(`${this.GATEWAY_URL}gateway/put/users`, user);
+        return this.httpClient.put<User>(`${this.GATEWAY_URL}/gateway/put/users`, user);
     }
 
     public deleteUser(userId: string): Observable<User> {
-        return this.httpClient.delete<User>(`${this.GATEWAY_URL}gateway/delete/users/${userId}`);
+        return this.httpClient.delete<User>(`${this.GATEWAY_URL}/gateway/delete/users/${userId}`);
     }
     
     public getToken(): string {
