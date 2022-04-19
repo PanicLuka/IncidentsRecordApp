@@ -89,9 +89,18 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var createdIncident = _incidentsService.CreateIncident(incidentDto, UserId);
+                if (ModelState.IsValid)
+                {
+                    var UserId = Guid.NewGuid();
+                    //var createdIncident = _incidentsService.CreateIncident(incidentDto, UserId);
+                    var createdIncident = _incidentsService.CreateIncident(incidentDto, UserId);
 
-                return Ok(createdIncident);
+                    return Ok(createdIncident);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             catch (ValidationException v)
             {
@@ -113,9 +122,16 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var newIncident = _incidentsService.UpdateIncident(IncidentId, incidentDto);
+                if (ModelState.IsValid)
+                {
+                    var newIncident = _incidentsService.UpdateIncident(IncidentId, incidentDto);
 
-                return Ok(newIncident);
+                    return Ok(newIncident);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             catch (ValidationException v)
             {
