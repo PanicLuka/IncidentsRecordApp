@@ -31,6 +31,7 @@ export class UserDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log();
   }
 
   public add(): void {

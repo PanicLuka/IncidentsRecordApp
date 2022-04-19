@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
   constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
+    console.log();
   }
 
   isLoggedIn() {
