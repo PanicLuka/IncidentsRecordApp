@@ -1,3 +1,6 @@
+<mat-toolbar style="background-color: #C50D01;color: white;">
+  <span class="title-center">Incidents</span>
+</mat-toolbar>
 <div>
 <!-- <mat-toolbar color="primary">
     <span class="title-center">Incidents</span>
@@ -103,10 +106,10 @@
                 </mat-header-cell>
 
                 <mat-cell *matCellDef="let row; let i = index">
-                <button (click)="openDialog(2, row.incidentId ,row.designation, row.significance, row.date, row.time, row.workspace, row.description, row.thirdPartyHelp, row.problemSolved, row.furtherAction, row.furtherActionPerson, row.actionDescription, row.solvingDate, row.remarks, row.verifies, row.reportedBy, row.categoryId)" mat-icon-button color="warn">
+                <button (click)="openDialog(2 , row)" mat-icon-button color="warn">
                     <mat-icon aria-label="Edit">edit</mat-icon>
                 </button>
-                <button (click)="openDialog(3, row.incidentId, row.designation, row.significance, row.date, row.time, row.workspace, row.description, row.thirdPartyHelp, row.problemSolved, row.furtherAction, row.furtherActionPerson, row.actionDescription, row.solvingDate, row.remarks, row.verifies, row.reportedBy, row.categoryId)" mat-icon-button color="warn">
+                <button (click)="openDialog(3, row)" mat-icon-button color="warn">
                     <mat-icon aria-label="Delete">delete</mat-icon>
                 </button>
                 </mat-cell>
@@ -119,5 +122,14 @@
                         *matRowDef="let row; columns: displayedColumns">
                     </mat-row> 
         </mat-table>
+
+        <mat-paginator
+        showFirstLastButtons
+  [length]="incidentsCount"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  (page)="onPageChange($event)"
+>
+</mat-paginator>
     </div>
 
