@@ -37,8 +37,8 @@ export class UserService {
         return this.httpClient.post<User>(`${this.GATEWAY_URL}/gateway/post/users`, user);
     }
 
-    public updateUser(user: User): Observable<User> {
-        return this.httpClient.put<User>(`${this.GATEWAY_URL}/gateway/put/users`, user);
+    public updateUser(userId: string, user: User): Observable<User> {
+        return this.httpClient.put<User>(`${this.GATEWAY_URL}/gateway/put/users/${userId}`, user);
     }
 
     public deleteUser(userId: string): Observable<User> {
