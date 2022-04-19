@@ -5,14 +5,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent,  } from './modules/shared/components/navbar/navbar.component';
+import { NavbarComponent, } from './modules/shared/components/navbar/navbar.component';
 import { FooterComponent } from './modules/shared/components/footer/footer.component';
 import { IncidentService } from './modules/shared/services/incident.service';
 import { IncidentDialogComponent } from './dialogs/incident-dialog/incident-dialog.component';
-import {  MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
-import {  MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, FooterComponent, IncidentDialogComponent],
@@ -26,9 +29,12 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatOptionModule
 
   ],
   providers: [IncidentService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
