@@ -39,7 +39,7 @@ namespace GatewayService.Controllers
                 {
                     case "categories":                    
                         var categories = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{Request.QueryString}").Result;
-                        return new ContentResult { Content = categories, ContentType = "application/json" };
+                        return new ContentResult { Content = categories, ContentType = "application/json" };    
 
                     case "incidents":
                         var incidents = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{Request.QueryString}").Result;
@@ -64,6 +64,35 @@ namespace GatewayService.Controllers
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        //[Authorize]
+        [HttpGet("get/{path}/count")]
+        public int GetCount([FromRoute] string path)
+        {
+            try
+            {
+                _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
+                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+
+                switch (path)
+                {
+                    case "categories":
+                        var categories = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}/count").Result;
+                        return Convert.ToInt32(categories);
+
+                    case "incidents":
+                        var incidents = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}/count").Result;
+                        return Convert.ToInt32(incidents);
+
+                    default:
+                        return 0;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

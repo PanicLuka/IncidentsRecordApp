@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 const materialModules = [
   MatButtonModule,
@@ -38,7 +39,9 @@ const materialModules = [
   MatNativeDateModule,
   MatSortModule,
   MatPaginatorModule,
-  MatSliderModule
+  MatSliderModule,
+  MatProgressSpinnerModule
+
 ];
 
 @NgModule({

@@ -17,6 +17,10 @@ export class CategoryService {
         })
     }
 
+    public getCategoriesCount(): Observable<number> {
+        return this.http.get<number>(`${environment.gateway}/gateway/get/categories/count`)
+    }
+
     public getCategoryById(categoryId: string): Observable<Category> {
         return this.http.get<Category>(`${environment.gateway}/gateway/get/${categoryId}`)
     }

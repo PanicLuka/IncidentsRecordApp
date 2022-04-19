@@ -22,6 +22,7 @@ export class CategoryDialogComponent implements OnInit {
               public categoryService: CategoryService) { }
 
   ngOnInit(): void {
+    console.log('category dialog')
   }
 
   public createCategory(): void {
