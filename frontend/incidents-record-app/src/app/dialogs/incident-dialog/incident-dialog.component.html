@@ -114,7 +114,7 @@
       </div> -->
       <div class="form">
         <mat-form-field>
-          <mat-select [(ngModel)]="incidentBindingObject.category" placeholder="category" name="category" [compareWith]="compareTo" [disabled]="flag == 3">
+          <mat-select [(ngModel)]="incidentBindingObject.category" placeholder="category" name="category" [compareWith]="compareTo" [disabled]="flag === 3">
             <mat-option *ngFor="let category of categories" [value]="category">
               {{ category.categoryName }}
             </mat-option>

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { CategoryService } from 'src/app/modules/shared/services/category.servic
   templateUrl: './incident-dialog.component.html',
   styleUrls: ['./incident-dialog.component.scss']
 })
-export class IncidentDialogComponent implements OnInit {
+export class IncidentDialogComponent implements OnInit, OnDestroy {
   public get incidentBindingObject(): Partial<Incident> {
     return this._incident
   }
