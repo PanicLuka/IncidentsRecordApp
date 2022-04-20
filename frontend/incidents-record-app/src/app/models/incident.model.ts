@@ -18,5 +18,5 @@ export interface Incident {
     remarks?: string;
     verifies: string;
     reportedBy: string;
-    categoryId: string,
+    category: Category,
 }
