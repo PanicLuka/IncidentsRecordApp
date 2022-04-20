@@ -32,7 +32,7 @@ export class CategoryComponent implements OnInit {
     setTimeout(() => {
       this.showSpinner = false
       this.loadData();
-    }, 3500)
+    }, 1500)
   }
 
   public loadData() {
