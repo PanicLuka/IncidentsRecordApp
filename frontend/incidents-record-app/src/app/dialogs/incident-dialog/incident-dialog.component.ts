@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
+import { Category } from 'src/app/models/category.model';
 import { Incident } from 'src/app/models/incident.model';
 import { IncidentService } from 'src/app/modules/shared';
+import { CategoryService } from 'src/app/modules/shared/services/category.service';
 
 @Component({
   selector: 'app-incident-dialog',
@@ -14,43 +17,56 @@ export class IncidentDialogComponent implements OnInit {
     return this._incident
   }
 
-  //categories!: Category[];
+
+
+  categorySubscription!: Subscription
+  categories!: Category[];
   public flag!: number;
-  //categorySubscription!: Subscription;
   private _incident: Partial<Incident> = {}
+
 
   constructor(public snackBar: MatSnackBar, public dialogRef: MatDialogRef<IncidentDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { incident?: Incident; dialogMode: number },
     public incidentService: IncidentService,
+    public categoryService: CategoryService
   ) {
     this.flag = this.data.dialogMode
 
     if (!!this.data.incident) {
       this._incident = { ...this.data.incident }
     }
+
   }
 
 
 
   ngOnInit(): void {
-    // this.categorySubscription = this.categoryService.getAllCategories()
-    //   .subscribe(categories => {
-    //     this.categories = categories
-    //   }),
-    //   (error: Error) => {
-    //     console.log(error.name + ' ' + error.message)
-    //   }
-    console.log();
+    this.categorySubscription = this.incidentService.getCategories()
+      .subscribe(data => {
+        this.categories = data
+      }),
+      (error: Error) => {
+        console.log(error.name + ' ' + error.message)
+      }
+
+    //console.log();
+    // .subscribe(categories => {
+    //   this.categories = categories
+    // }),
+    // (error: Error) => {
+    //   console.log(error.name + ' ' + error.message);
+
+    // }
 
   }
 
-  // ngOnDestroy(): void {
-  //   this.categorySubscription.unsubscribe;
-  // }
+  ngOnDestroy(): void {
+    this.categorySubscription.unsubscribe;
+  }
 
-  // compareTo(a: any, b: any) {
-  //   return a.categoryId == b.categoryId;
-  // }
+  compareTo(a: any, b: any) {
+    return a.categoryId == b.categoryId;
+  }
 
   public add(): void {
     this.incidentService.createIncident(this._incident as Incident)

@@ -101,26 +101,26 @@
       </div>
 
 
-      <div class="form">
+      <!-- <div class="form">
         <mat-form-field>
           <input matInput placeholder="categoryId" [(ngModel)]="incidentBindingObject.categoryId" name="categoryId" [disabled]="flag === 3" required>
         </mat-form-field>
-      </div>
+      </div> -->
 
        <!-- <div class="form">
         <mat-form-field>
           <input matInput placeholder="userId" [(ngModel)]="incidentBindingObject.userId" name="userId" [disabled]="flag == 3" required>
         </mat-form-field>
       </div> -->
-      <!-- <div class="form">
+      <div class="form">
         <mat-form-field>
-          <mat-select [(ngModel)]="data.category" placeholder="category" name="category" [compareWith]="compareTo" [disabled]="flag == 3">
+          <mat-select [(ngModel)]="incidentBindingObject.category" placeholder="category" name="category" [compareWith]="compareTo" [disabled]="flag == 3">
             <mat-option *ngFor="let category of categories" [value]="category">
               {{ category.categoryName }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </div> -->
+      </div>
 
      <div mat-dialog-actions>
         <button mat-button *ngIf="flag === 1" type="submit"  [mat-dialog-close]="1" (click) = "add()" >Save</button>
