@@ -27,19 +27,19 @@ namespace GatewayService.Controllers
             _config = config;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("get/{path}")]
         public ActionResult Get([FromRoute] string path){
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
                     case "categories":                    
                         var categories = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{Request.QueryString}").Result;
-                        return new ContentResult { Content = categories, ContentType = "application/json" };
+                        return new ContentResult { Content = categories, ContentType = "application/json" };    
 
                     case "incidents":
                         var incidents = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}{Request.QueryString}").Result;
@@ -67,14 +67,43 @@ namespace GatewayService.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
+        [HttpGet("get/{path}/count")]
+        public int GetCount([FromRoute] string path)
+        {
+            try
+            {
+                _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
+                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+
+                switch (path)
+                {
+                    case "categories":
+                        var categories = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}/count").Result;
+                        return Convert.ToInt32(categories);
+
+                    case "incidents":
+                        var incidents = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}/count").Result;
+                        return Convert.ToInt32(incidents);
+
+                    default:
+                        return 0;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        //[Authorize]
         [HttpGet("get/{path}/{id}")]
         public ActionResult Get([FromRoute] string path, Guid id)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
@@ -110,14 +139,14 @@ namespace GatewayService.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("delete/{path}/{id}")]
         public ActionResult Delete([FromRoute] string path, Guid id)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
@@ -171,14 +200,14 @@ namespace GatewayService.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("post/{path}")]
         public ActionResult Post([FromRoute] string path, [FromBody] object jsonObject)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
@@ -242,14 +271,14 @@ namespace GatewayService.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut("put/{path}/{id}")]
         public ActionResult Put([FromRoute] string path, [FromBody] object jsonObject, Guid id)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
