@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Incident } from "../../../models/incident.model";
 import { environment } from "src/environments/environment";
+import { Category } from "src/app/models/category.model";
 
 
 @Injectable()
@@ -24,6 +25,11 @@ export class IncidentService {
 
     }
 
+    public getCategories(): Observable<Category[]> {
+        return this.httpClient.get<Category[]>(`${environment.gateway}/gateway/get/categories`);
+    }
+
+
     public getIncidentsCount(): Observable<number> {
         return this.httpClient.get<number>(`${environment.gateway}/gateway/get/incidents/count`)
     }
@@ -39,6 +45,7 @@ export class IncidentService {
         incident.furtherAction = Boolean(incident.furtherAction);
         incident.thirdPartyHelp = Boolean(incident.thirdPartyHelp);
         incident.significance = Number(incident.significance);
+
 
         return this.httpClient.post<Incident>(`${environment.gateway}/gateway/post/incidents`, incident);
     }
