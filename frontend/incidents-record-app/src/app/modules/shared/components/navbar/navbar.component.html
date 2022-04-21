@@ -13,7 +13,6 @@
   </div>
   <div class="buttons-wrapper">
     <a routerLink="/login"><button *ngIf="userService.getToken() === ''">Login</button></a>
-    <a routerLink="/register"><button *ngIf="userService.getToken() === ''">Register</button></a>
     <a routerLink="/login"><button *ngIf="userService.getToken() !== ''" (click)="logout()">Logout</button></a>
   </div>
 </div>
