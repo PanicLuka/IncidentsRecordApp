@@ -1,20 +1,42 @@
-<div class="container">
-    <div class="login">
-      <h1>LOGIN</h1>
-
-      <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-        <div>
-          <label>Email Address</label>
-          <input type="email" id="email" ngModel class="form-control" placeholder="Email" name="email" required autofocus/>
-        </div>
-        <div>
-          <label>Password</label>
-          <input type="password" id="password" ngModel class="form-control" placeholder="Password" name="password" required autofocus/>
+<div *ngIf="showSpinner" id="preloader" class="loader-wrapper">
+  <span class="loader"><span class="loader-inner"></span></span>
+</div>
+  <mat-card *ngIf="!showSpinner">
+    <mat-card-content>
+      <div class="header">
+        <h1>LOGIN</h1>
+      </div>
+      <form (ngSubmit)="onLogin(loginForm)" name="loginForm" [formGroup]="loginForm">
+        <div class="emailInput">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input
+              formControlName="email"
+              matInput
+              placeholder="Enter email address" required
+            />
+            <mat-error *ngIf="!loginForm.controls['email'].valid">
+                Email is required
+              </mat-error>
+          </mat-form-field>
         </div>
   
-        <input type="submit" value="Login" class="btn" />
+        <div>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" required />
+            <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>
+                {{hide ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+        </button>
+        <mat-error *ngIf="!loginForm.controls['password'].valid">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+        </div>
+        <button mat-flat-button>Login</button>
       </form>
-  
-      <p>Don't have an account? <a routerLink="/register">Register</a></p>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>

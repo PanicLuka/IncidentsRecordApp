@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../shared/services/user.service';
+import { MaterialModule } from '../shared/material/material.module';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -14,7 +16,10 @@ import { UserService } from '../shared/services/user.service';
   imports: [
     CommonModule,
     LoginRoutingModule,
-    FormsModule
+    FormsModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    MatCardModule
   ],
   providers: [
     UserService 
