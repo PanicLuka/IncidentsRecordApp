@@ -25,9 +25,9 @@ namespace IncidentService.Helpers
                     SolvingDate = incident.SolvingDate,
                     Remarks = incident.Remarks,
                     Verifies = incident.Verifies,
+                    ReportedBy = incident.ReportedBy,
                     UserId = incident.UserId,
-                    CategoryId = incident.CategoryId,
-                    Category = incident.Category
+                    CategoryId = incident.CategoryId
                 };
             }
             return null;
@@ -52,9 +52,9 @@ namespace IncidentService.Helpers
                     SolvingDate = incidentDto.SolvingDate,
                     Remarks = incidentDto.Remarks,
                     Verifies = incidentDto.Verifies,
+                    ReportedBy = incidentDto.ReportedBy,
                     UserId = incidentDto.UserId,
-                    CategoryId = incidentDto.CategoryId,
-                    Category = incidentDto.Category
+                    CategoryId = incidentDto.CategoryId
                 };
             }
             return null;
@@ -80,9 +80,9 @@ namespace IncidentService.Helpers
                     SolvingDate = incidentWithIdDto.SolvingDate,
                     Remarks = incidentWithIdDto.Remarks,
                     Verifies = incidentWithIdDto.Verifies,
+                    ReportedBy = incidentWithIdDto.ReportedBy,
                     UserId = incidentWithIdDto.UserId,
-                    CategoryId = incidentWithIdDto.CategoryId,
-                    Category = incidentWithIdDto.Category
+                    CategoryId = incidentWithIdDto.CategoryId
                 };
             }
             return null;
@@ -108,9 +108,9 @@ namespace IncidentService.Helpers
                     SolvingDate = incidentDto.SolvingDate,
                     Remarks = incidentDto.Remarks,
                     Verifies = incidentDto.Verifies,
+                    ReportedBy = incidentDto.ReportedBy,
                     UserId = incidentDto.UserId,
-                    CategoryId = incidentDto.CategoryId,
-                    Category = incidentDto.Category
+                    CategoryId = incidentDto.CategoryId
                 };
             }
             return null;
@@ -137,9 +137,9 @@ namespace IncidentService.Helpers
                     SolvingDate = incident.SolvingDate,
                     Remarks = incident.Remarks,
                     Verifies = incident.Verifies,
+                    ReportedBy = incident.ReportedBy,
                     UserId = incident.UserId,
-                    CategoryId = incident.CategoryId,
-                    Category = incident.Category
+                    CategoryId = incident.CategoryId
                 };
             }
             return null;
@@ -166,9 +166,9 @@ namespace IncidentService.Helpers
                     SolvingDate = incidentWithIdDto.SolvingDate,
                     Remarks = incidentWithIdDto.Remarks,
                     Verifies = incidentWithIdDto.Verifies,
+                    ReportedBy =incidentWithIdDto.ReportedBy,
                     UserId = incidentWithIdDto.UserId,
-                    CategoryId = incidentWithIdDto.CategoryId,
-                    Category = incidentWithIdDto.Category
+                    CategoryId = incidentWithIdDto.CategoryId
                 };
             }
             return null;

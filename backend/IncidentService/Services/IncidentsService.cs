@@ -8,6 +8,7 @@ using IncidentService.Entities;
 using IncidentService.Helpers;
 using IncidentService.Models;
 using IncidentService.Validators;
+using Microsoft.EntityFrameworkCore;
 
 namespace IncidentService.Services
 {
@@ -172,7 +173,6 @@ namespace IncidentService.Services
                 oldIncident.Verifies = incidentDto.Verifies;
                 oldIncident.UserId = incidentDto.UserId;
                 oldIncident.CategoryId = incidentDto.CategoryId;
-                oldIncident.Category = incidentDto.Category;
 
                 _incidentValidator.ValidateAndThrow(incidentDto);
 

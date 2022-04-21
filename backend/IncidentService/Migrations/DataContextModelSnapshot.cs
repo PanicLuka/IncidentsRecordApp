@@ -35,7 +35,7 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("94385e47-dddc-4113-8975-28ddb2dce389"),
+                            CategoryId = new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"),
                             CategoryName = "testName"
                         });
                 });
@@ -99,16 +99,14 @@ namespace IncidentService.Migrations
 
                     b.HasKey("IncidentId");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Incidents");
 
                     b.HasData(
                         new
                         {
-                            IncidentId = new Guid("c34fde92-5c1a-4390-93d1-3a7751067af3"),
+                            IncidentId = new Guid("98d1749a-af21-4883-a272-0906ee901fcf"),
                             ActionDescription = "test",
-                            CategoryId = new Guid("94385e47-dddc-4113-8975-28ddb2dce389"),
+                            CategoryId = new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"),
                             Date = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "test",
                             Designation = "test01",
@@ -121,21 +119,10 @@ namespace IncidentService.Migrations
                             SolvingDate = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ThirdPartyHelp = true,
                             Time = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("1f0a3f5e-023f-433f-9f32-95283224cb93"),
+                            UserId = new Guid("47c7aa3d-8e7e-4290-8158-7dfcf00ff376"),
                             Verifies = "test",
                             Workspace = "test"
                         });
-                });
-
-            modelBuilder.Entity("IncidentService.Entities.Incident", b =>
-                {
-                    b.HasOne("IncidentService.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

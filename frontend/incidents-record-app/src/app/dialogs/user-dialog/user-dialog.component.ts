@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Data } from '@angular/router';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/modules/shared/services/user.service';
 
@@ -16,7 +17,6 @@ export class UserDialogComponent implements OnInit {
   }
 
   public flag!: number;
-
   private _user: Partial<User> = {}
 
   constructor(public snackBar: MatSnackBar, public dialogRef: MatDialogRef<UserDialogComponent>,
@@ -37,7 +37,7 @@ export class UserDialogComponent implements OnInit {
   public add(): void {
     this.userService.createUser(this._user as User)
       .subscribe(data => {
-        this.snackBar.open('Successfully added user: ' + this.data.user?.userId, 'Okay', {
+        this.snackBar.open('Successfully added user!', 'Okay', {
           duration: 2500
         });
       }),
@@ -50,7 +50,6 @@ export class UserDialogComponent implements OnInit {
   }
 
   public update(): void {
-    debugger
     this.userService.updateUser(this._user.userId as string, this._user as User)
       .subscribe(data => {
         this.snackBar.open('Successfully updated auction' + data.userId, 'Okay', {

@@ -26,7 +26,6 @@ namespace IncidentService.Entities
         public Guid UserId { get; set; }
         [ForeignKey("FK_CategoryId")]
         public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
 
     }
 }

@@ -1,6 +1,6 @@
 <div class="container">
     <h3 mat-dialog-title *ngIf="flag === 1">Adding user</h3>
-    <h3 mat-dialog-title *ngIf="flag === 2">user modification: {{userBindingObject.firstName}</h3>
+    <h3 mat-dialog-title *ngIf="flag === 2">user modification: {{userBindingObject.firstName}}</h3>
     <h3 mat-dialog-title *ngIf="flag === 3">User deletion: {{userBindingObject.firstName}}</h3>
     <form class="mat-dialog-content" #formControl="ngForm">
         <div class="form">
@@ -23,8 +23,8 @@
         </div>
 
        <div class="form">
-        <mat-form-field>
-          <input matInput placeholder="password" [(ngModel)]="userBindingObject.password" name="password" [disabled]="flag === 3" required>
+        <mat-form-field *ngIf="flag === 1">
+          <input matInput placeholder="password" [(ngModel)]="userBindingObject.password" name="password" type="password" required>
         </mat-form-field>
       </div>
 
