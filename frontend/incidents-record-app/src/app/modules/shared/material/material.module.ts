@@ -19,6 +19,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatCardModule } from '@angular/material/card';
+
 
 const materialModules = [
   MatButtonModule,
@@ -40,8 +42,8 @@ const materialModules = [
   MatSortModule,
   MatPaginatorModule,
   MatSliderModule,
-  MatProgressSpinnerModule
-
+  MatProgressSpinnerModule,
+  MatCardModule
 ];
 
 @NgModule({
