@@ -1,5 +1,4 @@
-import { Category } from "./category.model";
-
+import { Time } from "@angular/common";
 
 export interface Incident {
     incidentId: string;
@@ -7,7 +6,7 @@ export interface Incident {
     significance: number;
     workspace: string;
     date: Date;
-    time: Date;
+    time: Time;
     description: string;
     thirdPartyHelp?: boolean;
     problemSolved: string;
@@ -18,5 +17,5 @@ export interface Incident {
     remarks?: string;
     verifies: string;
     reportedBy: string;
-    category: Category,
+    categoryId: string;
 }

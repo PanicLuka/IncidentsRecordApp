@@ -18,7 +18,7 @@ export class IncidentDialogComponent implements OnInit, OnDestroy {
   }
 
 
-
+  significances: number[] = [1, 2, 3]
   categorySubscription!: Subscription
   categories!: Category[];
   public flag!: number;
@@ -41,31 +41,35 @@ export class IncidentDialogComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.categorySubscription = this.incidentService.getCategories()
+    this.categorySubscription = this.categoryService.getCategories()
       .subscribe(data => {
         this.categories = data
       }),
       (error: Error) => {
         console.log(error.name + ' ' + error.message)
       }
-
-    //console.log();
-    // .subscribe(categories => {
-    //   this.categories = categories
-    // }),
-    // (error: Error) => {
-    //   console.log(error.name + ' ' + error.message);
-
-    // }
-
   }
 
   ngOnDestroy(): void {
-    this.categorySubscription.unsubscribe;
+    this.categorySubscription.unsubscribe();
   }
 
   compareTo(a: any, b: any) {
     return a.categoryId == b.categoryId;
+  }
+
+  onCheckboxChangeHelp($event: any) {
+    if ($event.target.value) {
+      this._incident.thirdPartyHelp = !this._incident.thirdPartyHelp;
+
+    }
+  }
+  onCheckBoxChangeAction($event: any) {
+    if ($event.target.value) {
+      this._incident.furtherAction = !this._incident.furtherAction;
+
+    }
+
   }
 
   public add(): void {
@@ -84,7 +88,7 @@ export class IncidentDialogComponent implements OnInit, OnDestroy {
   }
 
   public update(): void {
-    debugger
+
     this.incidentService.updateIncident(this._incident.incidentId as string, this._incident as Incident)
       .subscribe(data => {
         this.snackBar.open('Successfully updated auction' + data.incidentId, 'Okay', {

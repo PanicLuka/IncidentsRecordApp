@@ -4,6 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { IncidentDialogComponent } from 'src/app/dialogs/incident-dialog/incident-dialog.component';
+import { IncidentUi } from 'src/app/models/incident-ui';
 import { Incident } from 'src/app/models/incident.model';
 import { IncidentService } from '../shared';
 
@@ -23,11 +24,11 @@ export class IncidentComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['designation', 'significance', 'workspace', 'date', 'time', 'description', 'thirdPartyHelp',
     'problemSolved', 'furtherAction', 'furtherActionPerson', 'actionDescription', 'solvingDate', 'remarks', 'verifies',
-    'reportedBy', 'actions']
+    'reportedBy', 'category', 'actions',]
 
-  selectedIncident!: Incident;
+  selectedIncident!: IncidentUi;
   incidentSubscription!: Subscription;
-  dataSource!: MatTableDataSource<Incident>;
+  dataSource!: MatTableDataSource<IncidentUi>;
 
   constructor(public incidentService: IncidentService, public dialog: MatDialog
 
@@ -40,12 +41,6 @@ export class IncidentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this._incidentService
-    //   .getIncidents()
-    //   .subscribe((incidents) => {
-    //     console.log(incidents)
-
-    //   })
     this.loadData();
   }
 
@@ -58,16 +53,10 @@ export class IncidentComponent implements OnInit, OnDestroy {
       this._incidentsCount = count
     })
 
-    this.incidentSubscription = this.incidentService.getIncidents(this.pageSize, this.pageNumber)
+    this.incidentService.getIncidents(this.pageSize, this.pageNumber)
       .subscribe((data) => {
         this.dataSource = new MatTableDataSource(data);
-      }),
-      (error: Error) => {
-        console.log(error.name + ' ' + error.message);
-
-      }
-
-
+      })
   }
 
   public openDialog(dialogMode: number, incident?: Incident) {

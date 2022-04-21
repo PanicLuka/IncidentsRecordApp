@@ -1,7 +1,7 @@
 <div class="container">
     <h3 mat-dialog-title *ngIf="flag === 1">Adding incident</h3>
-    <h3 mat-dialog-title *ngIf="flag === 2">incident modification: {{incidentBindingObject.significance}</h3>
-    <h3 mat-dialog-title *ngIf="flag === 3">Incident deletion: {{incidentBindingObject.significance}}</h3>
+    <h3 mat-dialog-title *ngIf="flag === 2">incident modification: {{incidentBindingObject.description}}</h3>
+    <h3 mat-dialog-title *ngIf="flag === 3">Incident deletion: {{incidentBindingObject.description}}</h3>
     <form class="mat-dialog-content" #formControl="ngForm">
         <div class="form">
         <mat-form-field>
@@ -9,11 +9,15 @@
         </mat-form-field>
         </div>
 
-       <div class="form">
+        <div class="form">
         <mat-form-field>
-          <input matInput placeholder="significance" [(ngModel)]="incidentBindingObject.significance" name="significance" [disabled]="flag === 3" required>
+          <mat-select [(ngModel)]="incidentBindingObject.significance" placeholder="significance" name="significance"  [disabled]="flag === 3">
+            <mat-option *ngFor="let significance of significances" [value]="significance">
+              {{ significance }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
-        </div>
+      </div>
 
 
          <div class="form">
@@ -44,10 +48,12 @@
       </div>
 
       <div class="form">
-        <mat-form-field>
-          <input matInput placeholder="thirdPartyHelp" [(ngModel)]="incidentBindingObject.thirdPartyHelp" name="thirdPartyHelp" [disabled]="flag === 3" required>
-        </mat-form-field>
-      </div>
+          <!-- <input matInput placeholder="thirdPartyHelp" [(ngModel)]="incidentBindingObject.thirdPartyHelp" name="thirdPartyHelp" [disabled]="flag === 3" required> -->
+          <input type="checkbox"  [value]="incidentBindingObject.thirdPartyHelp" (change)="onCheckboxChangeHelp($event)" 
+      [disabled]="flag === 3"/>  thirdPartyHelp
+            </div>
+
+       <hr/>     
 
       <div class="form">
         <mat-form-field>
@@ -56,10 +62,11 @@
       </div>
 
       <div class="form">
-        <mat-form-field>
-          <input matInput placeholder="furtherAction" [(ngModel)]="incidentBindingObject.furtherAction" name="furtherAction" [disabled]="flag === 3" required>
-        </mat-form-field>
-      </div>
+        <input type="checkbox"  [value]="incidentBindingObject.furtherAction" (change)="onCheckBoxChangeAction($event)" 
+      [disabled]="flag === 3"/>  furtherAction      
+    </div>
+
+    <hr/>
 
       <div class="form">
         <mat-form-field>
@@ -114,8 +121,8 @@
       </div> -->
       <div class="form">
         <mat-form-field>
-          <mat-select [(ngModel)]="incidentBindingObject.category" placeholder="category" name="category" [compareWith]="compareTo" [disabled]="flag === 3">
-            <mat-option *ngFor="let category of categories" [value]="category">
+          <mat-select [(ngModel)]="incidentBindingObject.categoryId" placeholder="categoryId" name="categoryId" [compareWith]="compareTo" [disabled]="flag === 3">
+            <mat-option *ngFor="let category of categories" [value]="category.categoryId">
               {{ category.categoryName }}
             </mat-option>
           </mat-select>
@@ -124,7 +131,7 @@
 
      <div mat-dialog-actions>
         <button mat-button *ngIf="flag === 1" type="submit"  [mat-dialog-close]="1" (click) = "add()" >Save</button>
-        <button mat-button *ngIf="flag === 2" type="submit" [mat-dialog-close]="1" (click)="update()" >Save</button>
+        <button mat-button *ngIf="flag === 2" type="submit" [mat-dialog-close]="1"  (click)="update()" >Save</button>
         <button mat-button *ngIf="flag === 3" type="submit" [mat-dialog-close]="1" (click)="delete()">Delete</button>
         <button mat-button (click)="cancel()">Cancel</button>
       </div>
