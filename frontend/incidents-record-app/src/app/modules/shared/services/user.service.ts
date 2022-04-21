@@ -22,12 +22,19 @@ export class UserService {
     constructor(private httpClient: HttpClient, private jwtHelper: JwtHelperService) {
     }
 
-    public getUsers(): Observable<User[]> {
-        return this.httpClient.get<User[]>(`${this.GATEWAY_URL}/gateway/get/users`);
+    public getUsers(pageSize: number, pageNumber: number): Observable<User[]> {
+        return this.httpClient.get<User[]>(`${this.GATEWAY_URL}/gateway/get/users`, {params: {
+            pageSize: pageSize,
+            pageNumber: pageNumber
+        }});
     }
 
-    public getUserById(userId: string): Observable<User[]> {
-        return this.httpClient.get<User[]>(`${this.GATEWAY_URL}/gateway/get/users/${userId}`);
+    public getUserById(userId: string): Observable<User> {
+        return this.httpClient.get<User>(`${this.GATEWAY_URL}/gateway/get/users/${userId}`);
+    }
+
+    public getUsersCount(): Observable<number> {
+        return this.httpClient.get<number>(`${environment.gateway}/gateway/get/users/count`)
     }
 
     public loginUser(login: Login): Observable<any> {

@@ -1,3 +1,7 @@
+<div *ngIf="showSpinner" id="preloader" class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+  </div>
+<div *ngIf="!showSpinner">
 <mat-toolbar style="background-color: #C50D01;color: white;">
     <span class="title-center">Users</span>
   </mat-toolbar>
@@ -23,11 +27,6 @@
             <ng-container matColumnDef="email">
                 <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
                 <mat-cell *matCellDef="let row">{{ row.email }}</mat-cell>
-            </ng-container>
-            <!-- password -->
-            <ng-container matColumnDef="password">
-                <mat-header-cell *matHeaderCellDef>Password</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{ row.password }}</mat-cell>
             </ng-container>
 
 
@@ -57,7 +56,10 @@
         </mat-table>
 
         <mat-paginator showFirstLastButtons 
-            [length]="100" 
-            [pageSize]="5"
-            [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            [length]="usersCount" 
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="onPageChange($event)">
+        </mat-paginator>
     </div>
+</div>
