@@ -87,9 +87,16 @@ namespace IncidentService.Controllers
         {
             try
             { 
-                var createdCategory = _categoriesService.CreateCategory(categoryDto);
+                if (ModelState.IsValid)
+                {
+                    var createdCategory = _categoriesService.CreateCategory(categoryDto);
 
-                return Ok(createdCategory);
+                    return Ok(createdCategory);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             catch (ValidationException v)
             {
@@ -111,9 +118,16 @@ namespace IncidentService.Controllers
         {
             try
             {
-                var newCategory = _categoriesService.UpdateCategory(CategoryId, categoryDto);
+                if (ModelState.IsValid)
+                {
+                    var newCategory = _categoriesService.UpdateCategory(CategoryId, categoryDto);
 
-                return Ok(newCategory);
+                    return Ok(newCategory);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             catch (ValidationException v)
             {

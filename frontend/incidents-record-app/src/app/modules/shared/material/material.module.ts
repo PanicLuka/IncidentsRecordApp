@@ -49,7 +49,8 @@ import { BrowserModule } from '@angular/platform-browser';
     MatSliderModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
 })
 export class MaterialModule { }

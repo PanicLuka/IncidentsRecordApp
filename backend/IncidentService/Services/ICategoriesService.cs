@@ -6,7 +6,7 @@ namespace IncidentService.Services
 {
     public interface ICategoriesService
     {
-        List<CategoryDto> GetCategories(CategoryOpts categoryOpts);
+        List<CategoryWithIdDto> GetCategories(CategoryOpts categoryOpts);
         CategoryWithIdDto GetCategoryById(Guid id);
         CategoryDto UpdateCategory(Guid CategoryId, CategoryDto categoryDto);
         void DeleteCategory(Guid id);

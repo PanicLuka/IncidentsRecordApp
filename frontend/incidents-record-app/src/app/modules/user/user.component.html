@@ -1,0 +1,65 @@
+<div *ngIf="showSpinner" id="preloader" class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+  </div>
+<div *ngIf="!showSpinner">
+<mat-toolbar style="background-color: #C50D01;color: white;">
+    <span class="title-center">Users</span>
+  </mat-toolbar>
+<div>
+    <!-- <mat-toolbar color="primary">
+        <span class="title-center">Incidents</span>
+      </mat-toolbar> -->
+
+    <div class="container-mat-elavation-z8">
+        <mat-table #table [dataSource]="dataSource" class="mat-cell">
+
+            <!-- firstName -->
+            <ng-container matColumnDef="firstName">
+                <mat-header-cell *matHeaderCellDef>First name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.firstName }}</mat-cell>
+            </ng-container>
+            <!-- lastName -->
+            <ng-container matColumnDef="lastName">
+                <mat-header-cell *matHeaderCellDef>Last name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.lastName }}</mat-cell>
+            </ng-container>
+            <!-- email -->
+            <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.email }}</mat-cell>
+            </ng-container>
+
+
+            <!-- actions -->
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    <button (click)="openDialog(1)" mat-icon-button color="warn">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let row; let i = index">
+                    <button (click)="openDialog(2 , row)" mat-icon-button color="warn">
+                        <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button>
+                    <button (click)="openDialog(3, row)" mat-icon-button color="warn">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayedColumns">
+            </mat-row>
+        </mat-table>
+
+        <mat-paginator showFirstLastButtons 
+            [length]="usersCount" 
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+</div>

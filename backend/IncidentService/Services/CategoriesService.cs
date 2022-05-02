@@ -63,7 +63,7 @@ namespace IncidentService.Services
             return categoryWithIdDto;
         }
 
-        public List<CategoryDto> GetCategories(CategoryOpts categoryOpts)
+        public List<CategoryWithIdDto> GetCategories(CategoryOpts categoryOpts)
         {
             var filteredCategories = FilterCategories(categoryOpts);
 
@@ -74,7 +74,7 @@ namespace IncidentService.Services
                 throw new HttpResponseException(HttpStatusCode.NoContent);
             }
 
-            List<CategoryDto> categoryDtos = categories.Select(category => category.CategoryToDto()).ToList();
+            List<CategoryWithIdDto> categoryDtos = categories.Select(category => category.CategoryToCategoryWithIdDto()).ToList();
 
             return categoryDtos;
         }

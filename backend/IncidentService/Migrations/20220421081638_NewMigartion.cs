@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IncidentService.Migrations
 {
-    public partial class NewMigration : Migration
+    public partial class NewMigartion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,37 +45,26 @@ namespace IncidentService.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Incidents", x => x.IncidentId);
-                    table.ForeignKey(
-                        name: "FK_Incidents_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { new Guid("94385e47-dddc-4113-8975-28ddb2dce389"), "testName" });
+                values: new object[] { new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"), "testName" });
 
             migrationBuilder.InsertData(
                 table: "Incidents",
                 columns: new[] { "IncidentId", "ActionDescription", "CategoryId", "Date", "Description", "Designation", "FurtherAction", "FurtherActionPerson", "ProblemSolved", "Remarks", "ReportedBy", "Significance", "SolvingDate", "ThirdPartyHelp", "Time", "UserId", "Verifies", "Workspace" },
-                values: new object[] { new Guid("c34fde92-5c1a-4390-93d1-3a7751067af3"), "test", new Guid("94385e47-dddc-4113-8975-28ddb2dce389"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", "test01", true, "test", "test", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("1f0a3f5e-023f-433f-9f32-95283224cb93"), "test", "test" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Incidents_CategoryId",
-                table: "Incidents",
-                column: "CategoryId");
+                values: new object[] { new Guid("98d1749a-af21-4883-a272-0906ee901fcf"), "test", new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", "test01", true, "test", "test", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("47c7aa3d-8e7e-4290-8158-7dfcf00ff376"), "test", "test" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Incidents");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Incidents");
         }
     }
 }

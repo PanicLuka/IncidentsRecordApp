@@ -2,12 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent, } from './modules/shared/components/navbar/navbar.component';
 import { FooterComponent } from './modules/shared/components/footer/footer.component';
 import { IncidentService } from './modules/shared/services/incident.service';
+import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { UserService } from './modules/shared/services/user.service';
+import { UserDialogComponent } from './dialogs/user-dialog/user-dialog.component';
 import { IncidentDialogComponent } from './dialogs/incident-dialog/incident-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -29,9 +33,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { CategoryDialogComponent } from './dialogs/category-dialog/category-dialog.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent, IncidentDialogComponent, CategoryDialogComponent],
+  declarations: [AppComponent, NavbarComponent, FooterComponent, IncidentDialogComponent, CategoryDialogComponent, UserDialogComponent],
   imports: [
     FormsModule,
     BrowserAnimationsModule,
@@ -68,13 +73,20 @@ import { CategoryDialogComponent } from './dialogs/category-dialog/category-dial
     MatFormFieldModule,
     MatDialogModule,
     MatInputModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    MatCardModule
 
 
   ],
   providers: [IncidentService,
-    { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions }],
+    { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, 
+      useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions },
+      IncidentService,
+      JwtHelperService,
+      UserService,
+      {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+      {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
