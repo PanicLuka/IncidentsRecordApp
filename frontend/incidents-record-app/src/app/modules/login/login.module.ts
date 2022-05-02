@@ -30,7 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ],
   providers: [
-    UserService 
+    UserService
   ]
 })
 export class LoginModule { }

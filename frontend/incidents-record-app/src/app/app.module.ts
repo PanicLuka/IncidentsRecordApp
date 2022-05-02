@@ -56,7 +56,6 @@ import { MatCardModule } from '@angular/material/card';
     HttpClientModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
     MatSelectModule,
@@ -99,4 +98,4 @@ import { MatCardModule } from '@angular/material/card';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
