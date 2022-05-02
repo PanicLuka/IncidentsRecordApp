@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IncidentService } from '../shared';
 
 @Component({
   selector: 'app-report',
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportComponent implements OnInit {
 
-  constructor() { }
+  constructor(private incidentService: IncidentService) { }
 
   ngOnInit(): void {
-    console.log('ReportComponent')
+    //   this.incidentService
+    //     .getIncidents()
+    //     .subscribe((incidents) => {
+    //       console.log(incidents)
+    //     })
+    console.log();
+
 
   }
 

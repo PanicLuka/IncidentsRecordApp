@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable} from "rxjs";
+import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Category } from "../../../models/category.model";
 
@@ -8,7 +8,7 @@ import { Category } from "../../../models/category.model";
 export class CategoryService {
     constructor(private http: HttpClient) { }
 
-    public getCategories(pageSize: number, pageNumber: number): Observable<Category[]> {
+    public getCategoriesWithPagination(pageSize: number, pageNumber: number): Observable<Category[]> {
         return this.http.get<Category[]>(`${environment.gateway}/gateway/get/categories`, {
             params: {
                 pageSize: pageSize,
@@ -35,5 +35,14 @@ export class CategoryService {
 
     public deleteCategory(categoryId: string): Observable<Category> {
         return this.http.delete<Category>(`${environment.gateway}/gateway/delete/categories/${categoryId}`)
+    }
+
+    public getCategories(): Observable<Category[]> {
+        return (this.http.get<Category[]>(`${environment.gateway}/gateway/get/categories`));
+
+    }
+
+    public getCategory(id: string): Observable<Category> {
+        return this.http.get<Category>(`${environment.gateway}/gateway/get/categories/${id}`)
     }
 }

@@ -17,13 +17,17 @@ namespace UserService.Service
     {
         private readonly DataContext _context;
         private readonly UserValidator _userValidator;
-
+        private static int _count;
         public UsersService(DataContext context, UserValidator userValidator)
         {
             _context = context;
             _userValidator = userValidator;
         }
 
+        public int GetUsersCount()
+        {
+            return _count;
+        }
         public void CreateUser(UserDto userDto)
         {
             _userValidator.ValidateAndThrow(userDto);
@@ -51,26 +55,28 @@ namespace UserService.Service
             SaveChanges();
         }
 
-        public PagedList<UserDto> GetAllUsers(UserParameters userParameters)
+        public PagedList<UserWithIdDto> GetAllUsers(UserParameters userParameters)
         {
             var users  = _context.Users.ToList();
 
-            if(users == null || users.Count == 0)
+            _count = users.Count();
+
+            if (users == null || users.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            List<UserDto> userDtos = new List<UserDto>();
+            List<UserWithIdDto> userDtos = new List<UserWithIdDto>();
 
             foreach (var user in users)
             {     
-                UserDto userDto = user.UserToDto();
+                UserWithIdDto userDto = user.UserToUserWithIdDto();
 
                 userDtos.Add(userDto);
             }
-            IQueryable<UserDto> queryable = userDtos.AsQueryable();
+            IQueryable<UserWithIdDto> queryable = userDtos.AsQueryable();
 
-            return PagedList<UserDto>.ToPagedList(queryable, userParameters.PageNumber, userParameters.PageSize);
+            return PagedList<UserWithIdDto>.ToPagedList(queryable, userParameters.PageNumber, userParameters.PageSize);
         }
 
        

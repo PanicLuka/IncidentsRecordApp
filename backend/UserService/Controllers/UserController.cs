@@ -24,10 +24,30 @@ namespace UserService.Controllers
         }
 
         [MicroserviceAuth]
+        [Route("count")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<List<UserDto>> GetUsers([FromQuery] UserParameters userParameters)
+        public ActionResult<int> GetIncidentCount()
+        {
+            try
+            {
+                var count = _userService.GetUsersCount();
+
+                return Ok(count);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+
+        [MicroserviceAuth]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<List<UserWithIdDto>> GetUsers([FromQuery] UserParameters userParameters)
         {
             var userDtos =  _userService.GetAllUsers(userParameters);
         

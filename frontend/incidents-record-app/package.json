@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "buildJenkins": "ng build --prod --base-href --output-path=C:/Users/Administrator/Desktop/publishapps/Frontend"
+    "buildJenkins": "ng build --prod --base-href --output-path=C:/Users/Administrator/Desktop/publishapps/Frontend",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {

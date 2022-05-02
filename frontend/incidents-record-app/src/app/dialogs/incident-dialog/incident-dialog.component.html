@@ -1,0 +1,141 @@
+<div class="container">
+    <h3 mat-dialog-title *ngIf="flag === 1">Adding incident</h3>
+    <h3 mat-dialog-title *ngIf="flag === 2">incident modification: {{incidentBindingObject.description}}</h3>
+    <h3 mat-dialog-title *ngIf="flag === 3">Incident deletion: {{incidentBindingObject.description}}</h3>
+    <form class="mat-dialog-content" #formControl="ngForm">
+        <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="designation" [(ngModel)]="incidentBindingObject.designation" name="designation" [disabled]="flag === 3" required>
+        </mat-form-field>
+        </div>
+
+        <div class="form">
+        <mat-form-field>
+          <mat-select [(ngModel)]="incidentBindingObject.significance" placeholder="significance" name="significance"  [disabled]="flag === 3">
+            <mat-option *ngFor="let significance of significances" [value]="significance">
+              {{ significance }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+         <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="workspace" [(ngModel)]="incidentBindingObject.workspace" name="workspace" [disabled]="flag === 3" required>
+        </mat-form-field>
+        </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput [matDatepicker]="date" placeholder="date" [(ngModel)]="incidentBindingObject.date" name="date" [disabled]="flag === 3" required>
+                    <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+
+          <mat-datepicker #date></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="time" [(ngModel)]="incidentBindingObject.time" name="time" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+       <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="description" [(ngModel)]="incidentBindingObject.description" name="description" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+          <!-- <input matInput placeholder="thirdPartyHelp" [(ngModel)]="incidentBindingObject.thirdPartyHelp" name="thirdPartyHelp" [disabled]="flag === 3" required> -->
+          <input type="checkbox"  [value]="incidentBindingObject.thirdPartyHelp" (change)="onCheckboxChangeHelp($event)" 
+      [disabled]="flag === 3"/>  thirdPartyHelp
+            </div>
+
+       <hr/>     
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="problemSolved" [(ngModel)]="incidentBindingObject.problemSolved" name="problemSolved" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <input type="checkbox"  [value]="incidentBindingObject.furtherAction" (change)="onCheckBoxChangeAction($event)" 
+      [disabled]="flag === 3"/>  furtherAction      
+    </div>
+
+    <hr/>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="furtherActionPerson" [(ngModel)]="incidentBindingObject.furtherActionPerson" name="furtherActionPerson" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="actionDescription" [(ngModel)]="incidentBindingObject.actionDescription" name="actionDescription" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput [matDatepicker]="solvingDate" placeholder="solvingDate" [(ngModel)]="incidentBindingObject.solvingDate" name="solvingDate" [disabled]="flag === 3" required>
+                    <mat-datepicker-toggle matSuffix [for]="solvingDate"></mat-datepicker-toggle>
+
+          <mat-datepicker #solvingDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="remarks" [(ngModel)]="incidentBindingObject.remarks" name="remarks" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="verifies" [(ngModel)]="incidentBindingObject.verifies" name="verifies" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="reportedBy" [(ngModel)]="incidentBindingObject.reportedBy" name="reportedBy" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div>
+
+
+      <!-- <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="categoryId" [(ngModel)]="incidentBindingObject.categoryId" name="categoryId" [disabled]="flag === 3" required>
+        </mat-form-field>
+      </div> -->
+
+       <!-- <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="userId" [(ngModel)]="incidentBindingObject.userId" name="userId" [disabled]="flag == 3" required>
+        </mat-form-field>
+      </div> -->
+      <div class="form">
+        <mat-form-field>
+          <mat-select [(ngModel)]="incidentBindingObject.categoryId" placeholder="categoryId" name="categoryId" [compareWith]="compareTo" [disabled]="flag === 3">
+            <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+              {{ category.categoryName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+     <div mat-dialog-actions>
+        <button mat-button *ngIf="flag === 1" type="submit"  [mat-dialog-close]="1" (click) = "add()" >Save</button>
+        <button mat-button *ngIf="flag === 2" type="submit" [mat-dialog-close]="1"  (click)="update()" >Save</button>
+        <button mat-button *ngIf="flag === 3" type="submit" [mat-dialog-close]="1" (click)="delete()">Delete</button>
+        <button mat-button (click)="cancel()">Cancel</button>
+      </div>
+
+    </form>
+
+</div>

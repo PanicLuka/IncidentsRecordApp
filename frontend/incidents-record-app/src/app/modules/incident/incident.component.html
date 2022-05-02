@@ -1,0 +1,121 @@
+<mat-toolbar style="background-color: #C50D01;color: white;">
+  <span class="title-center">Incidents</span>
+</mat-toolbar>
+<div>
+    <div class="container-mat-elavation-z8">
+        <mat-table #table  [dataSource]="dataSource" class="mat-cell">
+
+            <ng-container matColumnDef="designation">
+                <mat-header-cell *matHeaderCellDef>designation</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.designation }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="significance">
+                <mat-header-cell *matHeaderCellDef >significance</mat-header-cell>
+                <mat-cell *matCellDef="let row" >{{ row.significance }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="workspace">
+                <mat-header-cell *matHeaderCellDef>workspace</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.workspace }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef>date</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.date }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="time">
+                <mat-header-cell *matHeaderCellDef >time</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.time }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef>description</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="thirdPartyHelp">
+                <mat-header-cell *matHeaderCellDef>thirdPartyHelp</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.thirdPartyHelp }}</mat-cell>
+            </ng-container>      
+            
+              <ng-container matColumnDef="problemSolved">
+                <mat-header-cell *matHeaderCellDef>problemSolved</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.problemSolved }}</mat-cell>
+            </ng-container> 
+
+              <ng-container matColumnDef="furtherAction">
+                <mat-header-cell *matHeaderCellDef>furtherAction</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.furtherAction }}</mat-cell>
+            </ng-container> 
+
+              <ng-container matColumnDef="furtherActionPerson">
+                <mat-header-cell *matHeaderCellDef>furtherActionPerson</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.furtherActionPerson }}</mat-cell>
+            </ng-container> 
+
+              <ng-container matColumnDef="actionDescription">
+                <mat-header-cell *matHeaderCellDef>actionDescription</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.actionDescription }}</mat-cell>
+            </ng-container> 
+
+            <ng-container matColumnDef="solvingDate">
+                <mat-header-cell *matHeaderCellDef>solvingDate</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.solvingDate }}</mat-cell>
+            </ng-container> 
+
+            <ng-container matColumnDef="remarks">
+                <mat-header-cell *matHeaderCellDef>remarks</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.remarks }}</mat-cell>
+            </ng-container> 
+
+            <ng-container matColumnDef="verifies">
+                <mat-header-cell *matHeaderCellDef>verifies</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.verifies }}</mat-cell>
+            </ng-container> 
+
+            <ng-container matColumnDef="reportedBy">
+                <mat-header-cell *matHeaderCellDef>reportedBy</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.reportedBy }}</mat-cell>
+            </ng-container> 
+
+            <ng-container matColumnDef="category">
+                <mat-header-cell *matHeaderCellDef>category</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.category.categoryName }}</mat-cell>
+            </ng-container> 
+
+            <!-- actions -->
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                <button (click)="openDialog(1)" mat-icon-button color="warn">
+                    <mat-icon>add</mat-icon>
+                </button>
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let row; let i = index">
+                <button (click)="openDialog(2 , row)" mat-icon-button color="warn">
+                    <mat-icon aria-label="Edit">edit</mat-icon>
+                </button>
+                <button (click)="openDialog(3, row)" mat-icon-button color="warn">
+                    <mat-icon aria-label="Delete">delete</mat-icon>
+                </button>
+                </mat-cell>
+            </ng-container>    
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row
+                        style="cursor: pointer;"
+                        *matRowDef="let row; columns: displayedColumns">
+                    </mat-row> 
+        </mat-table>
+
+        <mat-paginator
+        showFirstLastButtons
+  [length]="incidentsCount"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  (page)="onPageChange($event)"
+>
+</mat-paginator>
+    </div>
+

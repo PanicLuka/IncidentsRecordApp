@@ -55,9 +55,16 @@ namespace UserService.Controllers
         {
             try
             {
-
-                _permissionService.CreatePermission(permissionDto);
-                return Ok();
+                if(ModelState.IsValid)
+                {
+                    _permissionService.CreatePermission(permissionDto);
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+                
             }
             catch (ValidationException v)
             {
@@ -78,9 +85,15 @@ namespace UserService.Controllers
         {
             try
             {
-                var newPermission = _permissionService.UpdatePermission(permissionId, permissionDto);
-
-                return Ok(newPermission);
+                if(ModelState.IsValid)
+                {
+                    var newPermission = _permissionService.UpdatePermission(permissionId, permissionDto);
+                    return Ok(newPermission);
+                }
+                else
+                {
+                    return BadRequest();
+                }
     
             }
             catch (ValidationException v)

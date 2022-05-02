@@ -19,34 +19,38 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-
-const materialModules = [
-  MatButtonModule,
-  MatGridListModule,
-  MatIconModule,
-  MatSidenavModule,
-  MatListModule,
-  MatExpansionModule,
-  MatTableModule,
-  MatToolbarModule,
-  MatSnackBarModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatDatepickerModule,
-  MatSelectModule,
-  MatCheckboxModule,
-  MatNativeDateModule,
-  MatSortModule,
-  MatPaginatorModule,
-  MatSliderModule,
-  MatProgressSpinnerModule
-
-];
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [],
-  imports: materialModules,
-  exports: materialModules,
+  imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatNativeDateModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSliderModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatInputModule
+  ],
 })
-export class MaterialModule {}
+export class MaterialModule { }
+

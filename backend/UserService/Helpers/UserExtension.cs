@@ -11,6 +11,39 @@ namespace UserService.Helpers
             {
                 return new UserDto
                 {
+
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Password = user.Password
+                };
+            }
+            return null;
+        }
+
+        public static UserWithIdDto UserToUserWithIdDto(this User user)
+        {
+            if (user != null)
+            {
+                return new UserWithIdDto
+                {
+                    UserId = user.UserId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Password = user.Password
+                };
+            }
+            return null;
+        }
+
+        public static User UserWithIdDtoToUser(this User user)
+        {
+            if (user != null)
+            {
+                return new User
+                {
+                    UserId = user.UserId,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,

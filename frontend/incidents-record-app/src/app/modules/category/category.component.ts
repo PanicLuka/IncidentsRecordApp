@@ -25,7 +25,7 @@ export class CategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.showSpinner = true
@@ -54,7 +54,7 @@ export class CategoryComponent implements OnInit {
       this._categoriesCount = count;
     });
     this.categoryService
-      .getCategories(this.pageSize, this.pageNumber)
+      .getCategoriesWithPagination(this.pageSize, this.pageNumber)
       .subscribe((data) => {
         this.dataSource = new MatTableDataSource(data);
       }),
