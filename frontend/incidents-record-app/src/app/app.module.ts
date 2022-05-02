@@ -81,7 +81,6 @@ import { MatCardModule } from '@angular/material/card';
     MatSliderModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatInputModule,
     ReactiveFormsModule,
     MatCardModule,
   ],
