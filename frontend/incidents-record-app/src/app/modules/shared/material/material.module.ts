@@ -20,14 +20,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
+import { MatCardModule } from '@angular/material/card';
+
 
 @NgModule({
   declarations: [],
   imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatGridListModule,
@@ -39,7 +37,6 @@ import { BrowserModule } from '@angular/platform-browser';
     MatToolbarModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatInputModule,
     MatDatepickerModule,
     MatSelectModule,
     MatCheckboxModule,
@@ -50,7 +47,8 @@ import { BrowserModule } from '@angular/platform-browser';
     MatFormFieldModule,
     MatDialogModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
 })
 export class MaterialModule { }
