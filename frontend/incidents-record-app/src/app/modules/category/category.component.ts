@@ -1,3 +1,4 @@
+import { DataSource } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -12,9 +13,11 @@ import { CategoryService } from '../shared/services';
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
+  
+
   pageSize = 5;
   pageNumber = 1;
-  showSpinner = false
+  showSpinner = false;
   categories!: Category[];
   displayedColumns = ['categoryName', 'actions'];
   dataSource!: MatTableDataSource<Category>;
@@ -28,11 +31,11 @@ export class CategoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.showSpinner = true
+    this.showSpinner = true;
     setTimeout(() => {
-      this.showSpinner = false
+      this.showSpinner = false;
       this.loadData();
-    }, 1500)
+    }, 1500);
   }
 
   public loadData() {
@@ -57,6 +60,10 @@ export class CategoryComponent implements OnInit {
       .getCategoriesWithPagination(this.pageSize, this.pageNumber)
       .subscribe((data) => {
         this.dataSource = new MatTableDataSource(data);
+
+        this.dataSource.filterPredicate = function customFilter(data , filter:string ): boolean {
+          return data.categoryName.toLocaleLowerCase().includes(filter.toLowerCase())
+      }
       }),
       (error: Error) => {
         console.log(error.name + ' ' + error.message);
@@ -83,5 +90,10 @@ export class CategoryComponent implements OnInit {
 
   public get categoriesCount(): number {
     return this._categoriesCount;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

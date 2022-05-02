@@ -46,7 +46,7 @@ namespace GatewayService.Controllers
                         return new ContentResult { Content = incidents, ContentType = "application/json" };
 
                     case "users":
-                        var users = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}").Result;
+                        var users = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}{Request.QueryString}").Result;
                         return new ContentResult { Content = users, ContentType = "application/json" };
 
                     case "roles":
@@ -85,6 +85,10 @@ namespace GatewayService.Controllers
                     case "incidents":
                         var incidents = _httpClient.GetStringAsync($"{_config.GetIncidentsPath()}{path}/count").Result;
                         return Convert.ToInt32(incidents);
+
+                    case "users":
+                        var users = _httpClient.GetStringAsync($"{_config.GetUsersPath()}{path}/count").Result;
+                        return Convert.ToInt32(users);
 
                     default:
                         return 0;
@@ -136,7 +140,6 @@ namespace GatewayService.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
-
         }
 
         //[Authorize]

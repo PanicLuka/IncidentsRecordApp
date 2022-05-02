@@ -2,12 +2,22 @@
     <span class="loader"><span class="loader-inner"></span></span>
   </div>
 
-<div *ngIf="!showSpinner">
+
   <mat-toolbar style="background-color: #c50d01; color: white">
     <span class="title-center">Categories</span>
   </mat-toolbar>
-
+  <div *ngIf="!showSpinner">
+    <mat-form-field  style="background-color: white; color: black; font-size: 16px; text-align: center;">
+      <input
+      matInput
+      placeholder="Search..."
+      (keyup)="applyFilter($event)"
+      />
+  </mat-form-field>
   <div class="container mat-elevation-z8">
+
+
+
     <mat-table #table [dataSource]="dataSource" class="mat-cell">
       <ng-container matColumnDef="categoryName">
         <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
@@ -17,7 +27,7 @@
       <!-- Actions -->
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef>
-          <button (click)="openDialog(1)" mat-icon-button color="primary">
+          <button (click)="openDialog(1)" mat-icon-button color="success">
             <mat-icon>add</mat-icon>
           </button>
         </mat-header-cell>

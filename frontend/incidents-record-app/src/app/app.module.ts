@@ -5,10 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent, } from './modules/shared/components/navbar/navbar.component';
+import { NavbarComponent } from './modules/shared/components/navbar/navbar.component';
 import { FooterComponent } from './modules/shared/components/footer/footer.component';
 import { IncidentService } from './modules/shared/services/incident.service';
-import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { UserService } from './modules/shared/services/user.service';
 import { UserDialogComponent } from './dialogs/user-dialog/user-dialog.component';
@@ -20,7 +20,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { MatCheckboxDefaultOptions, MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
+import {
+  MatCheckboxDefaultOptions,
+  MatCheckboxModule,
+  MAT_CHECKBOX_DEFAULT_OPTIONS,
+} from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -36,7 +40,14 @@ import { CategoryDialogComponent } from './dialogs/category-dialog/category-dial
 import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent, IncidentDialogComponent, CategoryDialogComponent, UserDialogComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    FooterComponent,
+    IncidentDialogComponent,
+    CategoryDialogComponent,
+    UserDialogComponent,
+  ],
   imports: [
     FormsModule,
     BrowserAnimationsModule,
@@ -74,19 +85,20 @@ import { MatCardModule } from '@angular/material/card';
     MatDialogModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatCardModule
-
-
+    MatCardModule,
   ],
-  providers: [IncidentService,
-    { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, 
-      useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions },
-      IncidentService,
-      JwtHelperService,
-      UserService,
-      {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
-      {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
-    ],
+  providers: [
+    IncidentService,
+    {
+      provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
+      useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
+    },
+    IncidentService,
+    JwtHelperService,
+    UserService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
