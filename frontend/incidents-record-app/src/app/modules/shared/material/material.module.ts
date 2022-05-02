@@ -20,14 +20,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [],
   imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatGridListModule,

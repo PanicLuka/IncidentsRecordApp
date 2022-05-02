@@ -9,6 +9,8 @@ import { MaterialModule } from '../shared/material/material.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -23,10 +25,12 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [
-    UserService 
+    UserService
   ]
 })
 export class LoginModule { }
