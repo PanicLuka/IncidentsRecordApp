@@ -9,7 +9,7 @@ namespace IncidentService.Models
         public int Significance { get; set; }
         public string Workspace { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
+        public String Time { get; set; }
         public string Description { get; set; }
         public bool ThirdPartyHelp { get; set; }
         public string ProblemSolved { get; set; }

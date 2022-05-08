@@ -4,8 +4,7 @@
     <nav>
       <ul class="nav-links">
         <li><a routerLink="/incident" *ngIf="userService.getToken() !== ''">Incidents</a></li>
-        <li><a routerLink="/report" *ngIf="userService.getToken() !== ''">Reports</a></li>
-        <li><a routerLink="/user" *ngIf="userService.getToken() !== ''">Users</a></li>
+        <li><a routerLink="/user" *ngIf="userService.getToken() !== '' && userService.getCurrentUserRole() === 'Admin'">Users</a></li>
         <li><a routerLink="/category" *ngIf="userService.getToken() !== ''">Category</a></li>
       </ul>
     </nav>

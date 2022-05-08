@@ -226,7 +226,7 @@ namespace UserService.Entities
                     FirstName = "Marko",
                     LastName = "Milic",
                     Email = "marko@gmail.com",
-                    Password = "123456",
+                    Password = "Test12345",
                     RoleId = defaultGuidUser
                 });
 
@@ -236,8 +236,8 @@ namespace UserService.Entities
                     UserId = defaultUserTwoGuid,
                     FirstName = "Nikola",
                     LastName = "Milic",
-                    Email = "Nikola@gmail.com",
-                    Password = "123456",
+                    Email = "nikola@gmail.com",
+                    Password = "Test12345",
                     RoleId = defaultGuidAdmin
                 });
 

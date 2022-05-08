@@ -6,7 +6,7 @@ export interface Incident {
     significance: number;
     workspace: string;
     date: Date;
-    time: Time;
+    time: string;
     description: string;
     thirdPartyHelp?: boolean;
     problemSolved: string;

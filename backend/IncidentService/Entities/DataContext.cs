@@ -48,7 +48,7 @@ namespace IncidentService.Entities
                     Significance = 1,
                     Workspace = "test",
                     Date = DateTime.Parse("2022-03-30T00:00:00"),
-                    Time = DateTime.Parse("2022-03-30T00:00:00"),
+                    Time = "00:00",
                     Description = "test",
                     ThirdPartyHelp = true,
                     ProblemSolved = "test",

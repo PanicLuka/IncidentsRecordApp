@@ -17,6 +17,11 @@ export class UserService {
         return this.getToken();
     }
 
+    public get currentUserRole(): string {
+
+        return this.getCurrentUserRole();
+    }
+
     private GATEWAY_URL = environment.gateway;
 
     constructor(private httpClient: HttpClient, private jwtHelper: JwtHelperService) {
@@ -62,5 +67,16 @@ export class UserService {
         {
             return '';
         }
+      }
+    
+    public getCurrentUserRole(): string {
+        let token = localStorage.getItem('JWT_NAME');
+        let decodedJWT = JSON.parse(window.atob(token!.split('.')[1]));
+
+        console.log(decodedJWT);
+        console.log('role: ' + decodedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
+
+        let role = decodedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        return role;
       }
 }

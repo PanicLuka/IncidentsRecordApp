@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IncidentService.Migrations
 {
-    public partial class NewMigartion : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,7 @@ namespace IncidentService.Migrations
                     Significance = table.Column<int>(type: "int", nullable: false),
                     Workspace = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ThirdPartyHelp = table.Column<bool>(type: "bit", nullable: false),
                     ProblemSolved = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -50,12 +50,12 @@ namespace IncidentService.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"), "testName" });
+                values: new object[] { new Guid("30162bc9-76c7-4e4e-be4f-53dcf49be02f"), "testName" });
 
             migrationBuilder.InsertData(
                 table: "Incidents",
                 columns: new[] { "IncidentId", "ActionDescription", "CategoryId", "Date", "Description", "Designation", "FurtherAction", "FurtherActionPerson", "ProblemSolved", "Remarks", "ReportedBy", "Significance", "SolvingDate", "ThirdPartyHelp", "Time", "UserId", "Verifies", "Workspace" },
-                values: new object[] { new Guid("98d1749a-af21-4883-a272-0906ee901fcf"), "test", new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", "test01", true, "test", "test", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("47c7aa3d-8e7e-4290-8158-7dfcf00ff376"), "test", "test" });
+                values: new object[] { new Guid("6a406ff1-f3a2-4b6f-9cc4-a5ed93f6fefc"), "test", new Guid("30162bc9-76c7-4e4e-be4f-53dcf49be02f"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", "test01", true, "test", "test", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "00:00", new Guid("afa69a32-934e-4ce0-9d52-88d5f5734e43"), "test", "test" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

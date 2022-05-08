@@ -35,7 +35,7 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"),
+                            CategoryId = new Guid("30162bc9-76c7-4e4e-be4f-53dcf49be02f"),
                             CategoryName = "testName"
                         });
                 });
@@ -85,8 +85,8 @@ namespace IncidentService.Migrations
                     b.Property<bool>("ThirdPartyHelp")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -104,9 +104,9 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            IncidentId = new Guid("98d1749a-af21-4883-a272-0906ee901fcf"),
+                            IncidentId = new Guid("6a406ff1-f3a2-4b6f-9cc4-a5ed93f6fefc"),
                             ActionDescription = "test",
-                            CategoryId = new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"),
+                            CategoryId = new Guid("30162bc9-76c7-4e4e-be4f-53dcf49be02f"),
                             Date = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "test",
                             Designation = "test01",
@@ -118,8 +118,8 @@ namespace IncidentService.Migrations
                             Significance = 1,
                             SolvingDate = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ThirdPartyHelp = true,
-                            Time = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("47c7aa3d-8e7e-4290-8158-7dfcf00ff376"),
+                            Time = "00:00",
+                            UserId = new Guid("afa69a32-934e-4ce0-9d52-88d5f5734e43"),
                             Verifies = "test",
                             Workspace = "test"
                         });

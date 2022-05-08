@@ -38,6 +38,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { CategoryDialogComponent } from './dialogs/category-dialog/category-dialog.component';
 import { MatCardModule } from '@angular/material/card';
+import { CategoryService } from './modules/shared';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { MatCardModule } from '@angular/material/card';
     MatDialogModule,
     ReactiveFormsModule,
     MatCardModule,
+    MatInputModule
   ],
   providers: [
     IncidentService,
@@ -91,6 +93,7 @@ import { MatCardModule } from '@angular/material/card';
       useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
     },
     IncidentService,
+    CategoryService,
     JwtHelperService,
     UserService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
