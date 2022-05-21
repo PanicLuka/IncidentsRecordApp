@@ -2,6 +2,13 @@
   <span class="title-center">Incidents</span>
 </mat-toolbar>
 <div>
+    <mat-form-field  style="background-color: white; color: black; font-size: 16px; text-align: center;">
+      <input
+      matInput
+      placeholder="Search..."
+      (keyup)="applyFilter($event)"
+      />
+  </mat-form-field>
     <div class="container-mat-elavation-z8">
         <mat-table #table  [dataSource]="dataSource" class="mat-cell">
 

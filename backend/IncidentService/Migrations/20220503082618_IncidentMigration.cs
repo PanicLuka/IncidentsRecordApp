@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IncidentService.Migrations
 {
-    public partial class NewMigartion : Migration
+    public partial class IncidentMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,12 +50,12 @@ namespace IncidentService.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"), "testName" });
+                values: new object[] { new Guid("5e6bb3b0-4662-4536-8ce2-d12068c7fd7c"), "testName" });
 
             migrationBuilder.InsertData(
                 table: "Incidents",
                 columns: new[] { "IncidentId", "ActionDescription", "CategoryId", "Date", "Description", "Designation", "FurtherAction", "FurtherActionPerson", "ProblemSolved", "Remarks", "ReportedBy", "Significance", "SolvingDate", "ThirdPartyHelp", "Time", "UserId", "Verifies", "Workspace" },
-                values: new object[] { new Guid("98d1749a-af21-4883-a272-0906ee901fcf"), "test", new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", "test01", true, "test", "test", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("47c7aa3d-8e7e-4290-8158-7dfcf00ff376"), "test", "test" });
+                values: new object[] { new Guid("50b646d5-91c3-43e9-b470-f0e7d3614302"), "test", new Guid("5e6bb3b0-4662-4536-8ce2-d12068c7fd7c"), new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", "test01", true, "test", "test", "test", "test", 1, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), true, new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("d4de8118-d006-4b8b-b322-638213f17f79"), "test", "test" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

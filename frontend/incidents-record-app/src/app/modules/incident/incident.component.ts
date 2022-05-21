@@ -56,7 +56,14 @@ export class IncidentComponent implements OnInit, OnDestroy {
     this.incidentService.getIncidents(this.pageSize, this.pageNumber)
       .subscribe((data) => {
         this.dataSource = new MatTableDataSource(data);
-      })
+
+        this.dataSource.filterPredicate = function customFilter(data, filter: string): boolean {
+          return data.description.toLocaleLowerCase().includes(filter.toLowerCase())
+        }
+      }),
+      (error: Error) => {
+        console.log(error.name + ' ' + error.message);
+      };
   }
 
   public openDialog(dialogMode: number, incident?: Incident) {
@@ -83,6 +90,11 @@ export class IncidentComponent implements OnInit, OnDestroy {
 
   public get incidentsCount(): number {
     return this._incidentsCount;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 

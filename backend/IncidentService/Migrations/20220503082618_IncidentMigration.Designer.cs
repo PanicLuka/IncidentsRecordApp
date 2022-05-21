@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IncidentService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220421081638_NewMigartion")]
-    partial class NewMigartion
+    [Migration("20220503082618_IncidentMigration")]
+    partial class IncidentMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"),
+                            CategoryId = new Guid("5e6bb3b0-4662-4536-8ce2-d12068c7fd7c"),
                             CategoryName = "testName"
                         });
                 });
@@ -106,9 +106,9 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            IncidentId = new Guid("98d1749a-af21-4883-a272-0906ee901fcf"),
+                            IncidentId = new Guid("50b646d5-91c3-43e9-b470-f0e7d3614302"),
                             ActionDescription = "test",
-                            CategoryId = new Guid("fcd2fe08-7910-4a65-a8bd-72d447704d79"),
+                            CategoryId = new Guid("5e6bb3b0-4662-4536-8ce2-d12068c7fd7c"),
                             Date = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "test",
                             Designation = "test01",
@@ -121,7 +121,7 @@ namespace IncidentService.Migrations
                             SolvingDate = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ThirdPartyHelp = true,
                             Time = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("47c7aa3d-8e7e-4290-8158-7dfcf00ff376"),
+                            UserId = new Guid("d4de8118-d006-4b8b-b322-638213f17f79"),
                             Verifies = "test",
                             Workspace = "test"
                         });

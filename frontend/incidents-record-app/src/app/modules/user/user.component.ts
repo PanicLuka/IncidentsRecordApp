@@ -22,7 +22,7 @@ export class UserComponent implements OnInit, OnDestroy {
   dataSource!: MatTableDataSource<User>;
   showSpinner = false;
   pageSize = 5;
-  pageNumber =1;
+  pageNumber = 1;
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
@@ -32,7 +32,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.showSpinner=true;
+    this.showSpinner = true;
     setTimeout(() => {
       this.showSpinner = false
       this.loadData();
@@ -60,7 +60,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
-    this.pageNumber = event.pageIndex +1;
+    this.pageNumber = event.pageIndex + 1;
     this.loadData();
   }
 
@@ -74,7 +74,6 @@ export class UserComponent implements OnInit, OnDestroy {
         dialogMode,
       }
     }
-
 
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig)
 
