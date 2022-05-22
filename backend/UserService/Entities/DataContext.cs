@@ -5,6 +5,7 @@ using EnumClassLibrary;
 using System.Collections.Generic;
 using UserService.Helpers;
 using UserService.Enitites;
+using BC = BCrypt.Net.BCrypt;
 
 namespace UserService.Entities
 {
@@ -226,7 +227,7 @@ namespace UserService.Entities
                     FirstName = "Marko",
                     LastName = "Milic",
                     Email = "marko@gmail.com",
-                    Password = "Test12345",
+                    Password = BC.HashPassword("Test12345"),
                     RoleId = defaultGuidUser
                 });
 
@@ -237,7 +238,7 @@ namespace UserService.Entities
                     FirstName = "Nikola",
                     LastName = "Milic",
                     Email = "nikola@gmail.com",
-                    Password = "Test12345",
+                    Password = BC.HashPassword("Test12345"),
                     RoleId = defaultGuidAdmin
                 });
 

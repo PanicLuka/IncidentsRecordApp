@@ -90,4 +90,9 @@ export class UserComponent implements OnInit, OnDestroy {
     return this._usersCount;
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
 }

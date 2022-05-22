@@ -91,8 +91,6 @@ namespace IncidentService.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var UserId = Guid.NewGuid();
-                    //var createdIncident = _incidentsService.CreateIncident(incidentDto, UserId);
                     var createdIncident = _incidentsService.CreateIncident(incidentDto, UserId);
 
                     return Ok(createdIncident);

@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -68,13 +68,10 @@ export class UserService {
             return '';
         }
       }
-    
+
     public getCurrentUserRole(): string {
         let token = localStorage.getItem('JWT_NAME');
         let decodedJWT = JSON.parse(window.atob(token!.split('.')[1]));
-
-        console.log(decodedJWT);
-        console.log('role: ' + decodedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
 
         let role = decodedJWT['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
         return role;

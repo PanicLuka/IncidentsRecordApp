@@ -55,58 +55,6 @@ namespace IncidentService.Tests.ControllersTests
             _incidentController = new IncidentController(_mockIncidentsService.Object);
         }
 
-        /*[Fact]
-        public void GetIncidents_ReturnsAllIncidents_IncidentsExist()
-        {
-            // Arrange
-            var incidentOpts = new IncidentOpts();
-            var incidentsDto = GetSampleIncidentDto(incidentOpts);
-            _mockIncidentsService.Setup(x => x.GetIncidents(incidentOpts)).Returns(GetSampleIncidentWithIdDto(incidentOpts));
-
-            // Act
-            var actionResult = _incidentController.GetIncidents(incidentOpts);
-            var result = actionResult.Result as OkObjectResult;
-            var actual = result.Value as IEnumerable<IncidentDto>;
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleIncidentWithIdDto(incidentOpts).Count(), actual.Count());
-        }
-
-        [Fact]
-        public void GetIncidents_ReturnsPagedListOfIncidents_IncidentsExist()
-        {
-            // Arrange
-            var incidentsDto = GetSampleIncidentDto(_pagedParameters);
-            _mockIncidentsService.Setup(x => x.GetIncidents(_pagedParameters)).Returns(GetSampleIncidentWithIdDto(_pagedParameters));
-
-            // Act
-            var actionResult = _incidentController.GetIncidents(_pagedParameters);
-            var result = actionResult.Result as OkObjectResult;
-            var actual = result.Value as IEnumerable<IncidentDto>;
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleIncidentWithIdDto(_pagedParameters).Count(), actual.Count());
-        }
-
-        [Fact]
-        public void GetIncidents_ReturnsFilteredPagedListOfIncidents_IncidentsExist()
-        {
-            // Arrange
-            var incidentsDto = GetSampleIncidentDto(_filterParameters);
-            _mockIncidentsService.Setup(x => x.GetIncidents(_filterParameters)).Returns(GetSampleIncidentWithIdDto(_filterParameters));
-
-            // Act
-            var actionResult = _incidentController.GetIncidents(_filterParameters);
-            var result = actionResult.Result as OkObjectResult;
-            var actual = result.Value as IEnumerable<IncidentDto>;
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleIncidentWithIdDto(_filterParameters).Count(), actual.Count());
-        }*/
-
         [Fact]
         public void GetIncidentById_ReturnsIncidentWithIdDto_IncidentWithSpecifiedIdExists()
         {

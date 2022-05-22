@@ -38,40 +38,6 @@ namespace IncidentService.Tests.ControllersTests
             _categoryController = new CategoryController(_mockCategoriesService.Object);
         }
 
-        /*[Fact]
-        public void GetCategories_ReturnsAllOfCategories_CategoriesExist()
-        {
-            // Arrange
-            var categoryOpts = new CategoryOpts();
-            var categoriesDto = GetSampleCategoryDto(categoryOpts);
-            _mockCategoriesService.Setup(x => x.GetCategories(categoryOpts)).Returns(GetSampleCategoryWithIdDto(categoryOpts));
-
-            // Act
-            var actionResult = _categoryController.GetCategories(categoryOpts);
-            var result = actionResult.Result as OkObjectResult;
-            var actual = result.Value as IEnumerable<CategoryDto>;
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleCategoryWithIdDto(categoryOpts).Count(), actual.Count());
-        }
-
-        [Fact]
-        public void GetCategories_ReturnsListOfCategories_CategoriesExist()
-        {
-            // Arrange
-            var categoriesDto = GetSampleCategoryDto(_parameters);
-            _mockCategoriesService.Setup(x => x.GetCategories(_parameters)).Returns(GetSampleCategoryWithIdDto(_parameters));
-
-            // Act
-            var actionResult = _categoryController.GetCategories(_parameters);
-            var result = actionResult.Result as OkObjectResult;
-            var actual = result.Value as IEnumerable<CategoryDto>;
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(GetSampleCategoryWithIdDto(_parameters).Count(), actual.Count());
-        }*/
 
         [Fact]
         public void GetCategoryById_ReturnsCategoryWithIdDto_CategoryWithSpecifiedIdExists()

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using IncidentService.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IncidentService.Controllers
@@ -12,7 +11,7 @@ namespace IncidentService.Controllers
         {
             get
             {
-                var token = Request.Headers["Authorization"];
+                var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
                 var handler = new JwtSecurityTokenHandler();
                 var jwtSecurityToken = handler.ReadJwtToken(token);
