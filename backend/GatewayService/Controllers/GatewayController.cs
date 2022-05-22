@@ -67,14 +67,14 @@ namespace GatewayService.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("get/{path}/count")]
         public int GetCount([FromRoute] string path)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
@@ -100,14 +100,14 @@ namespace GatewayService.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("get/{path}/{id}")]
         public ActionResult Get([FromRoute] string path, Guid id)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
@@ -142,14 +142,14 @@ namespace GatewayService.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("delete/{path}/{id}")]
         public ActionResult Delete([FromRoute] string path, Guid id)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
@@ -203,14 +203,14 @@ namespace GatewayService.Controllers
 
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("post/{path}")]
         public ActionResult Post([FromRoute] string path, [FromBody] object jsonObject)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
@@ -274,14 +274,14 @@ namespace GatewayService.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("put/{path}/{id}")]
         public ActionResult Put([FromRoute] string path, [FromBody] object jsonObject, Guid id)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
