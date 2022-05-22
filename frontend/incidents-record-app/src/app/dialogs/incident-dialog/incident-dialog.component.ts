@@ -32,8 +32,13 @@ export class IncidentDialogComponent implements OnInit, OnDestroy {
   ) {
     this.flag = this.data.dialogMode
 
+
     if (!!this.data.incident) {
       this._incident = { ...this.data.incident }
+      // console.log(this._incident);
+      // this._incident.categoryId = "5e6bb3b0-4662-4536-8ce2-d12068c7fd7c"
+      // console.log(this.data.incident.description);
+
     }
 
   }
@@ -91,7 +96,7 @@ export class IncidentDialogComponent implements OnInit, OnDestroy {
 
     this.incidentService.updateIncident(this._incident.incidentId as string, this._incident as Incident)
       .subscribe(data => {
-        this.snackBar.open('Successfully updated auction' + data.incidentId, 'Okay', {
+        this.snackBar.open('Successfully updated auction' + data.description, 'Okay', {
           duration: 2500
         });
       });

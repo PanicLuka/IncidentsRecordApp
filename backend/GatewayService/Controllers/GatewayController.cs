@@ -27,13 +27,13 @@ namespace GatewayService.Controllers
             _config = config;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("get/{path}")]
         public ActionResult Get([FromRoute] string path){
             try
             {
                 _httpClient.DefaultRequestHeaders.Add(_config.GetApiKeyHeaderName(), _config.GetApiKey());
-                //_httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
+                _httpClient.DefaultRequestHeaders.Add(_config.GetAuthorization(), Request.Headers[_config.GetAuthorization()].ToString());
 
                 switch (path)
                 {
