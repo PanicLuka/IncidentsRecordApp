@@ -13,8 +13,8 @@ import { UserService } from '../shared/services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  hide: boolean = true; 
-  invalidLogin!:boolean;
+  hide: boolean = true;
+  invalidLogin!: boolean;
   email!: string;
   password!: string;
   isLoading = false;
@@ -55,11 +55,11 @@ export class LoginComponent implements OnInit {
 
         form.reset();
 
-          this.showSpinner=true;
-          setTimeout(() => {
-            this.showSpinner = false
-            this.router.navigate(['/']);
-          }, 1500)
+        this.showSpinner = true;
+        setTimeout(() => {
+          this.showSpinner = false
+          // this.router.navigate(['/incident']);
+        }, 1500)
 
       }), (error: Error) => {
         this.invalidLogin = true;

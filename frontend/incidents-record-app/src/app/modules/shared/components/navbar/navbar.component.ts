@@ -17,17 +17,17 @@ export class NavbarComponent implements OnInit {
   }
 
   isLoggedIn() {
-    if(this.userService.getToken() != '')
-    {
+    if (this.userService.getToken() != '') {
       this.isAuthenticated = true;
     }
-    else
-    {
+    else {
       this.isAuthenticated = false;
     }
   }
 
   public logout() {
     localStorage.removeItem("JWT_NAME");
+    // this.router.navigate(['/login'])
+
   }
 }

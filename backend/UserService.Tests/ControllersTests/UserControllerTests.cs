@@ -24,24 +24,7 @@ namespace UserService.Tests.ControllersTests
             _userController = new UserController(_mockUsersService.Object);
         }
 
-        //[Fact]
-        //public void GetUsers_ReturnsListOfUsers_UsersExist()
-        //{
-        //    // Arrange
-        //    var userParameters = new UserParameters();
-        //    var usersDto = GetSampleUserDto(userParameters);
-        //    _mockUsersService.Setup(x => x.GetAllUsers(userParameters)).Returns(GetSampleUserWihtIdDto(userParameters));
-
-        //    // Act
-        //    var actionResult = _userController.GetUsers(userParameters);
-        //    var result = actionResult.Result as OkObjectResult;
-        //    var actual = result.Value as IEnumerable<UserDto>;
-
-        //    // Assert
-        //    Assert.IsType<OkObjectResult>(result);
-        //    Assert.Equal(GetSampleUserWihtIdDto(userParameters).Count(), actual.Count());
-        //}
-
+      
         [Fact]
         public void GetUserById_ReturnsUserDto_UserWithSpecifiedIdExists()
         {
