@@ -13,7 +13,7 @@ import { CategoryService } from '../shared/services';
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-  
+
 
   pageSize = 5;
   pageNumber = 1;
@@ -39,20 +39,20 @@ export class CategoryComponent implements OnInit {
   }
 
   public loadData() {
-    /*this.categoryService.getCategoriesCount().subscribe((count: number) => {
-      this._categoriesCount = count;
+    // this.categoryService.getCategoriesCount().subscribe((count: number) => {
+    //   this._categoriesCount = count;
 
-      this.categoryService
-        .getCategories(this.pageSize, this.pageNumber)
-        .subscribe(
-          (categories) => {
-            this.categories = categories;
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-    });*/
+    //   this.categoryService
+    //     .getCategories(this.pageSize, this.pageNumber)
+    //     .subscribe(
+    //       (categories) => {
+    //         this.categories = categories;
+    //       },
+    //       (err) => {
+    //         console.log(err);
+    //       }
+    //     );
+    // });
     this.categoryService.getCategoriesCount().subscribe((count: number) => {
       this._categoriesCount = count;
     });
@@ -61,9 +61,9 @@ export class CategoryComponent implements OnInit {
       .subscribe((data) => {
         this.dataSource = new MatTableDataSource(data);
 
-        this.dataSource.filterPredicate = function customFilter(data , filter:string ): boolean {
+        this.dataSource.filterPredicate = function customFilter(data, filter: string): boolean {
           return data.categoryName.toLocaleLowerCase().includes(filter.toLowerCase())
-      }
+        }
       }),
       (error: Error) => {
         console.log(error.name + ' ' + error.message);

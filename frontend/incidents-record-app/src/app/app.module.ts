@@ -96,6 +96,7 @@ import { CategoryService } from './modules/shared';
     CategoryService,
     JwtHelperService,
     UserService,
+    CategoryService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

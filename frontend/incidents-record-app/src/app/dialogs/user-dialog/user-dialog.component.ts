@@ -26,7 +26,8 @@ export class UserDialogComponent implements OnInit {
     this.flag = this.data.dialogMode
 
     if (!!this.data.user) {
-      this._user = { ...this.data.user }
+      this._user = { ...this.data.user },
+        this._user.password = ""
     }
   }
 

@@ -122,7 +122,7 @@
       <div class="form">
         <mat-form-field>
           <mat-select [(ngModel)]="incidentBindingObject.categoryId" placeholder="categoryId" name="categoryId" [compareWith]="compareTo" [disabled]="flag === 3">
-            <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+            <mat-option *ngFor="let category of categories" [value]="category.categoryName">
               {{ category.categoryName }}
             </mat-option>
           </mat-select>

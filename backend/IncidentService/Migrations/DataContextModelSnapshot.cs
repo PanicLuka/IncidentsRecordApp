@@ -35,7 +35,7 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("30162bc9-76c7-4e4e-be4f-53dcf49be02f"),
+                            CategoryId = new Guid("c582a6b6-afb3-4a33-9d3d-870037bd629f"),
                             CategoryName = "testName"
                         });
                 });
@@ -104,9 +104,9 @@ namespace IncidentService.Migrations
                     b.HasData(
                         new
                         {
-                            IncidentId = new Guid("6a406ff1-f3a2-4b6f-9cc4-a5ed93f6fefc"),
+                            IncidentId = new Guid("8b1003e0-79fa-44ba-8f58-665f490477f1"),
                             ActionDescription = "test",
-                            CategoryId = new Guid("30162bc9-76c7-4e4e-be4f-53dcf49be02f"),
+                            CategoryId = new Guid("c582a6b6-afb3-4a33-9d3d-870037bd629f"),
                             Date = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "test",
                             Designation = "test01",
@@ -119,7 +119,7 @@ namespace IncidentService.Migrations
                             SolvingDate = new DateTime(2022, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ThirdPartyHelp = true,
                             Time = "00:00",
-                            UserId = new Guid("afa69a32-934e-4ce0-9d52-88d5f5734e43"),
+                            UserId = new Guid("bf59a03d-da1e-4613-8df2-203b013fde09"),
                             Verifies = "test",
                             Workspace = "test"
                         });
